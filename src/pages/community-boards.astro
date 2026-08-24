@@ -2,10 +2,14 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import BoardVisual from '@/components/community-boards/BoardVisual.astro';
-import InventoryGrid from '@/components/community-boards/InventoryGrid.astro';
 import LeadForm from '@/components/community-boards/LeadForm.astro';
 import heroImage from '@/images/community-boards/board-restaurant-hero.png';
-import referenceImage from '@/images/community-boards/board-reference.jpg';
+import periBrothersBoard from '@/images/community-boards/venue-concepts/peri-brothers.png';
+import twoRoostersBoard from '@/images/community-boards/venue-concepts/two-roosters.png';
+import noraCafeBoard from '@/images/community-boards/venue-concepts/nora-cafe.png';
+import fit4LifeBoard from '@/images/community-boards/venue-concepts/fit4life.png';
+import bombayCurryBoard from '@/images/community-boards/venue-concepts/bombay-curry.png';
+import gonzaTacosBoard from '@/images/community-boards/venue-concepts/gonza-tacos.png';
 
 const steps = [
   ['01', 'Tell me about your space', 'Share the venue, audience, brand, and where a daily board would be useful.'],
@@ -18,6 +22,14 @@ const benefits = [
   ['Lasting visibility', 'Stay present in a familiar place after a digital ad has disappeared.'],
   ['Category protection', 'The goal is one sponsor per business category on each board.'],
   ['Trackable response', 'A unique QR code and campaign destination can be built into your placement.'],
+];
+const boardConcepts = [
+  [periBrothersBoard, 'Peri Brothers Pizza & Pasta'],
+  [twoRoostersBoard, 'Two Roosters Ice Cream'],
+  [noraCafeBoard, 'NoRa Cafe'],
+  [fit4LifeBoard, 'Fit4Life Health Clubs'],
+  [bombayCurryBoard, 'Bombay Curry'],
+  [gonzaTacosBoard, 'Gonza Tacos y Tequila'],
 ];
 const faqs = [
   ['How is the board free?', 'A small group of local businesses sponsors the placements along the bottom. Their sponsorship covers design, production, and installation.'],
@@ -81,12 +93,16 @@ const schema = {
     </div></section>
 
     <section id="samples" class="py-22 md:py-30"><div class="site-shell">
-      <div class="grid gap-6 lg:grid-cols-[1fr_.7fr] lg:items-end"><div><p class="site-eyebrow">Sample boards</p><h2 class="cb-heading">Made for the room.</h2></div><p class="text-sm leading-6 text-[var(--brand-muted)]">These examples show the concept—not current customers. You’ll help choose the real Raleigh businesses featured next.</p></div>
-      <div class="mt-12 grid gap-6 md:grid-cols-3"><div class="cb-sample bg-[var(--brand-orange)]"><BoardVisual venue="THE CORNER SLICE" label="PIZZA · PASTA · PEOPLE" tilt="left" /><b>Pizza restaurant concept</b></div><div class="cb-sample bg-[var(--brand-yellow)]"><BoardVisual venue="OAK CITY COFFEE" label="TODAY AT" /><b>Coffee shop concept</b></div><div class="cb-sample bg-[var(--brand-surface-soft)]"><BoardVisual venue="TRIANGLE TAPROOM" label="ON TAP" tilt="right" /><b>Brewery concept</b></div></div>
-      <div class="mt-6 grid items-center gap-7 border-2 border-[var(--brand-ink)] bg-[var(--brand-surface)] p-5 shadow-[6px_6px_0_var(--brand-ink)] md:grid-cols-[.72fr_1.28fr] md:p-7"><Image src={referenceImage} alt="Original real-world advertiser board reference" class="max-h-[31rem] w-full border-2 border-[var(--brand-ink)] object-cover" widths={[480,720,960]} sizes="(min-width:768px) 40vw, 100vw" /><div class="md:p-8"><span class="print-stamp">Original reference</span><h3 class="mt-7 font-editorial text-5xl leading-[.9] uppercase md:text-6xl">A proven format, refined for Raleigh.</h3><p class="mt-5 text-sm leading-6 text-[var(--brand-muted)]">This has the essentials: a generous reusable surface and durable sponsor placements. The new concept gives it a cleaner finish and uses Raleigh AI Guy as the house sponsor while real local businesses are selected.</p></div></div>
+      <div class="grid gap-6 lg:grid-cols-[1fr_.7fr] lg:items-end"><div><p class="site-eyebrow">Venue concepts</p><h2 class="cb-heading">Their name.<br/><span class="cb-yellow-line">Their board.</span></h2></div><p class="text-sm leading-6 text-[var(--brand-muted)]">Each concept leads with the venue’s identity. The six trade categories are intentionally marked “spot available” until a local sponsor joins the board.</p></div>
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {boardConcepts.map(([image, venue]) => (
+          <figure class="cb-concept-card">
+            <Image src={image} alt={`${venue} custom community board concept held outside a Raleigh venue`} class="aspect-[2/3] w-full object-cover" widths={[420,640,820]} sizes="(min-width:1024px) 31vw, (min-width:640px) 48vw, 100vw" />
+            <figcaption><strong>{venue}</strong><span>Venue concept · sponsors not yet confirmed</span></figcaption>
+          </figure>
+        ))}
+      </div>
     </div></section>
-
-    <section id="locations" class="cb-paper border-y-2 border-[var(--brand-ink)] py-22 md:py-28"><div class="site-shell"><div class="grid gap-6 lg:grid-cols-[1fr_.7fr] lg:items-end"><div><p class="site-eyebrow">Launch map</p><h2 class="cb-heading">Available next.</h2></div><p class="text-sm leading-6 text-[var(--brand-muted)]">These cards are demo inventory for planning. No venue is represented as confirmed.</p></div><div class="mt-10"><InventoryGrid /></div></div></section>
 
     <section class="py-22 md:py-30"><div class="site-shell grid gap-12 lg:grid-cols-[.55fr_1fr]"><div><p class="site-eyebrow">Questions, answered</p><h2 class="cb-heading">The useful fine print.</h2></div><div class="grid gap-3">{faqs.map(([q,a],i) => <details class="group border-2 border-[var(--brand-ink)] bg-[var(--brand-surface)] px-5" open={i===0}><summary class="flex min-h-16 cursor-pointer list-none items-center justify-between gap-5 py-3 font-bold"><span>{q}</span><span class="text-2xl text-[var(--brand-orange)] group-open:rotate-45">+</span></summary><p class="pb-5 text-sm leading-6 text-[var(--brand-muted)]">{a}</p></details>)}</div></div></section>
 
@@ -102,7 +118,9 @@ const schema = {
   .community-boards .cb-kicker { color:var(--brand-yellow); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; }
   .community-boards .cb-button-light { display:inline-flex; min-height:2.75rem; align-items:center; justify-content:center; border:2px solid var(--brand-ink); padding-inline:1rem; color:var(--brand-ink); background:var(--brand-surface); box-shadow:4px 4px 0 var(--brand-ink); font-family:"Instrument Sans",sans-serif; font-size:.78rem; font-weight:800; text-transform:uppercase; transition:140ms; }
   .community-boards .cb-button-light:hover { transform:translate(2px,2px); box-shadow:2px 2px 0 var(--brand-ink); }
-  .community-boards .cb-sample { border:2px solid var(--brand-ink); padding:1.5rem; }
-  .community-boards .cb-sample > b { display:block; margin-top:1.5rem; font-size:.7rem; text-transform:uppercase; }
+  .community-boards .cb-concept-card { overflow:hidden; border:2px solid var(--brand-ink); background:var(--brand-surface); box-shadow:5px 5px 0 var(--brand-ink); }
+  .community-boards .cb-concept-card figcaption { display:flex; min-height:5.5rem; flex-direction:column; justify-content:center; gap:.35rem; border-top:2px solid var(--brand-ink); padding:1rem 1.1rem; }
+  .community-boards .cb-concept-card strong { font-family:"Instrument Sans",sans-serif; font-size:.78rem; text-transform:uppercase; }
+  .community-boards .cb-concept-card span { color:var(--brand-muted); font-size:.62rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
   .community-boards details summary::-webkit-details-marker { display:none; }
 </style>
