@@ -1,0 +1,74 @@
+---
+interface Props {
+  type: 'venue' | 'advertiser';
+}
+
+const { type } = Astro.props;
+const isVenue = type === 'venue';
+const formName = isVenue ? 'community-board-venue' : 'community-board-advertiser';
+---
+
+<form
+  id={isVenue ? 'venue-form' : 'advertiser-form'}
+  name={formName}
+  method="POST"
+  action="/thank-you/"
+  data-netlify="true"
+  netlify-honeypot="website-check"
+  enctype={isVenue ? 'multipart/form-data' : undefined}
+  class="cb-form grid gap-5 border-2 border-[var(--brand-ink)] bg-[var(--brand-surface)] p-5 shadow-[7px_7px_0_var(--brand-ink)] sm:p-8"
+>
+  <input type="hidden" name="form-name" value={formName} />
+  <input type="hidden" name="lead-type" value={type} />
+  <p class="hidden"><label>Leave this empty: <input name="website-check" /></label></p>
+
+  <div>
+    <span class="print-stamp">{isVenue ? 'Venue application' : 'Sponsor inquiry'}</span>
+    <h3 class="mt-6 font-editorial text-5xl leading-[.9] uppercase">{isVenue ? 'Request a free board.' : 'Request sponsor details.'}</h3>
+    <p class="mt-4 max-w-xl text-sm leading-6 text-[var(--brand-muted)]">
+      {isVenue
+        ? 'Tell me about your space. This is an interest form, not a commitment.'
+        : 'Tell me where you serve customers and the kinds of local places you want to reach.'}
+    </p>
+  </div>
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    <label class="intake-label">Business name *<input class="intake-field" required name="business-name" autocomplete="organization" /></label>
+    <label class="intake-label">Contact name *<input class="intake-field" required name="contact-name" autocomplete="name" /></label>
+    <label class="intake-label">Email *<input class="intake-field" required type="email" name="email" autocomplete="email" /></label>
+    <label class="intake-label">Phone<input class="intake-field" type="tel" name="phone" autocomplete="tel" /></label>
+    <label class="intake-label">{isVenue ? 'Business type *' : 'Industry *'}<input class="intake-field" required name={isVenue ? 'business-type' : 'industry'} placeholder={isVenue ? 'Restaurant, coffee shop, gym…' : 'HVAC, real estate, dental…'} /></label>
+    <label class="intake-label">Website<input class="intake-field" type="url" name="business-website" placeholder="https://" /></label>
+  </div>
+
+  {isVenue ? (
+    <>
+      <label class="intake-label">Business address *<input class="intake-field" required name="address" autocomplete="street-address" /></label>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <label class="intake-label">Approx. weekly foot traffic<select class="intake-field" name="weekly-foot-traffic"><option>Not sure</option><option>Under 500</option><option>500–1,500</option><option>1,500–3,000</option><option>3,000+</option></select></label>
+        <label class="intake-label">Where would the board go?<input class="intake-field" name="board-location" placeholder="Entry, register, dining room…" /></label>
+      </div>
+      <label class="intake-label">Logo file (optional)<input class="intake-field" type="file" name="logo" accept="image/png,image/jpeg,image/svg+xml,application/pdf" /></label>
+    </>
+  ) : (
+    <>
+      <label class="intake-label">Service area *<input class="intake-field" required name="service-area" placeholder="Raleigh, Wake County, Triangle…" /></label>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <label class="intake-label">Locations of interest<select class="intake-field" name="location-count"><option>1 board</option><option>2–3 boards</option><option>4–6 boards</option><option>Raleigh network</option><option>Not sure yet</option></select></label>
+        <label class="intake-label">Approximate budget<select class="intake-field" name="budget"><option>Let’s discuss</option><option>Under $1,000</option><option>$1,000–$2,500</option><option>$2,500–$5,000</option><option>$5,000+</option></select></label>
+      </div>
+      <fieldset>
+        <legend class="intake-label">Preferred areas</legend>
+        <div class="mt-3 flex flex-wrap gap-2">
+          {['Downtown', 'North Raleigh', 'Five Points', 'Cary', 'Apex', 'Wake Forest'].map((area) => (
+            <label class="flex items-center gap-2 border border-[var(--brand-line-strong)] bg-[var(--brand-bg)] px-3 py-2 text-xs font-bold"><input type="checkbox" name="preferred-areas" value={area} />{area}</label>
+          ))}
+        </div>
+      </fieldset>
+    </>
+  )}
+
+  <label class="intake-label">Additional notes<textarea class="intake-field min-h-28" name="notes" placeholder={isVenue ? 'Anything useful about the space or audience…' : 'Audience, preferred venue types, category questions…'}></textarea></label>
+  <button class="brand-button w-full sm:w-fit" type="submit">{isVenue ? 'Request my free board' : 'Request advertising info'} <span aria-hidden="true">→</span></button>
+  <p class="text-[.65rem] leading-5 text-[var(--brand-muted)]">Submitting this form does not guarantee a board or placement and does not create an agreement.</p>
+</form>

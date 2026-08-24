@@ -1,0 +1,35 @@
+---
+interface Props {
+  venue?: string;
+  label?: string;
+  tilt?: 'left' | 'right' | 'none';
+}
+
+const { venue = 'YOUR PLACE HERE', label = 'TODAY AT', tilt = 'none' } = Astro.props;
+const sponsors = ['HOME', 'DENTAL', 'REALTY', 'HVAC', 'LEGAL', 'FITNESS'];
+---
+
+<div class:list={[
+  'cb-board relative overflow-hidden border-[7px] border-[#17130f] bg-[#17130f] shadow-[10px_12px_0_rgb(23_19_15_/_18%)]',
+  tilt === 'left' && '-rotate-2',
+  tilt === 'right' && 'rotate-2',
+] }>
+  <div class="flex h-[72%] flex-col items-center px-5 pt-7 text-center text-[#f7f1df]">
+    <p class="text-[.58rem] font-bold tracking-[.24em] text-[#f0df55]">{label}</p>
+    <h3 class="mt-2 font-editorial text-[clamp(2rem,5vw,3.25rem)] leading-[.85]">{venue}</h3>
+    <div class="mt-5 h-[2px] w-14 bg-[#f43e8d]"></div>
+    <p class="mt-6 -rotate-1 text-sm leading-7 opacity-75">today's specials<br/>fresh • local • made here</p>
+  </div>
+  <div class="absolute inset-x-0 bottom-0 grid h-[28%] grid-cols-3 gap-[2px] bg-[#17130f] p-[3px]">
+    {sponsors.map((sponsor, index) => (
+      <div class:list={[
+        'grid place-items-center text-[.45rem] font-bold tracking-[.06em] text-[#17130f]',
+        index === 1 || index === 4 ? 'bg-[#f0df55]' : index === 2 ? 'bg-[#f4a9c9]' : 'bg-[#f7f1df]',
+      ]}>{sponsor}</div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .cb-board { aspect-ratio: 4 / 5; }
+</style>
