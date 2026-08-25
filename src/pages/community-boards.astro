@@ -3,18 +3,7 @@ import { Image } from 'astro:assets';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import BoardVisual from '@/components/community-boards/BoardVisual.astro';
 import LeadForm from '@/components/community-boards/LeadForm.astro';
-import heroImage from '@/images/community-boards/board-restaurant-hero-v2.png';
-import periBrothersBoard from '@/images/community-boards/venue-concepts/peri-brothers-specials-final.png';
-import twoRoostersBoard from '@/images/community-boards/venue-concepts/two-roosters-specials-final.png';
-import noraCafeBoard from '@/images/community-boards/venue-concepts/nora-cafe-specials-final.png';
-import fit4LifeBoard from '@/images/community-boards/venue-concepts/fit4life-specials.png';
-import bombayCurryBoard from '@/images/community-boards/venue-concepts/bombay-curry-specials-final.png';
-import gonzaTacosBoard from '@/images/community-boards/venue-concepts/gonza-tacos-specials.png';
-import brierCreekBoard from '@/images/community-boards/host-concepts/brier-creek-beer-garden-final.png';
-import traliBoard from '@/images/community-boards/host-concepts/trali-irish-pub.png';
-import epicAutoBoard from '@/images/community-boards/host-concepts/epic-auto-center.png';
-import manchestersBoard from '@/images/community-boards/host-concepts/manchesters-grill.png';
-import ruckusBoard from '@/images/community-boards/host-concepts/ruckus-leesville.png';
+import heroImage from '@/images/community-boards/board-restaurant-hero-generic.png';
 
 const steps = [
   ['01', 'Tell me about your space', 'Share the venue, audience, brand, and where a daily board would be useful.'],
@@ -27,19 +16,6 @@ const benefits = [
   ['Lasting visibility', 'Stay present in a familiar place after a digital ad has disappeared.'],
   ['Category protection', 'The goal is one sponsor per business category on each board.'],
   ['Trackable response', 'Each board can lead to its own sponsor page, with scans and sponsor actions measured separately.'],
-];
-const boardConcepts = [
-  [periBrothersBoard, 'Peri Brothers Pizza & Pasta'],
-  [twoRoostersBoard, 'Two Roosters Ice Cream'],
-  [noraCafeBoard, 'NoRa Cafe'],
-  [fit4LifeBoard, 'Fit4Life Health Clubs'],
-  [bombayCurryBoard, 'Bombay Curry'],
-  [gonzaTacosBoard, 'Gonza Tacos y Tequila'],
-  [brierCreekBoard, 'Brier Creek Beer Garden'],
-  [traliBoard, 'Tra’Li Irish Pub'],
-  [epicAutoBoard, 'EPIC Auto Center'],
-  [manchestersBoard, 'Manchester’s Grill'],
-  [ruckusBoard, 'Ruckus Pizza, Pasta & Spirits — Leesville'],
 ];
 const faqs = [
   ['How is the board free?', 'A small group of local businesses sponsors the placements along the bottom. Their sponsorship covers design, production, and installation.'],
@@ -107,16 +83,9 @@ const schema = {
       <div class="print-panel mx-auto w-full max-w-md p-5 shadow-[8px_8px_0_var(--brand-ink)]"><div class="border-2 border-[var(--brand-ink)] bg-white p-5"><div class="flex items-center justify-between border-b-2 border-[var(--brand-ink)] pb-4"><div><p class="text-[.58rem] font-bold uppercase tracking-[.1em] text-[var(--brand-muted)]">You scanned</p><p class="mt-1 font-editorial text-3xl uppercase">Your neighborhood board</p></div><div class="grid h-16 w-16 place-items-center border-2 border-[var(--brand-ink)] bg-[var(--brand-yellow)] text-center text-[.62rem] font-black leading-tight">UNIQUE<br/>QR</div></div><p class="mt-5 text-xs font-bold uppercase tracking-[.08em]">Meet the businesses behind this board</p><div class="mt-4 grid gap-2">{['HVAC sponsor','Plumbing sponsor','Roofing sponsor'].map(label => <div class="flex items-center justify-between border border-[var(--brand-ink)] px-3 py-3 text-xs font-bold uppercase"><span>{label}</span><span aria-hidden="true">View →</span></div>)}</div><p class="mt-5 text-[.58rem] font-bold uppercase tracking-[.08em] text-[var(--brand-muted)]">Board scan + sponsor taps tracked separately</p></div></div>
     </div></section>
 
-    <section id="samples" class="py-22 md:py-30"><div class="site-shell">
-      <div class="grid gap-6 lg:grid-cols-[1fr_.7fr] lg:items-end"><div><p class="site-eyebrow">Venue concepts</p><h2 class="cb-heading">Their name.<br/><span class="cb-yellow-line">Their board.</span></h2></div><p class="text-sm leading-6 text-[var(--brand-muted)]">Each concept leads with the venue’s identity. The six trade categories are intentionally marked “spot available” until a local sponsor joins the board.</p></div>
-      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {boardConcepts.map(([image, venue]) => (
-          <figure class="cb-concept-card">
-            <Image src={image} alt={`${venue} custom community board concept held outside a Raleigh venue`} class="aspect-[2/3] w-full object-cover" widths={[420,640,820]} sizes="(min-width:1024px) 31vw, (min-width:640px) 48vw, 100vw" />
-            <figcaption><strong>{venue}</strong><span>Venue concept · sponsors not yet confirmed</span></figcaption>
-          </figure>
-        ))}
-      </div>
+    <section id="samples" class="py-22 md:py-30"><div class="site-shell grid items-center gap-14 lg:grid-cols-[.82fr_1.18fr]">
+      <div class="mx-auto w-full max-w-md px-6"><BoardVisual venue="YOUR VENUE" label="CUSTOM SPECIALS FOR" tilt="right" /></div>
+      <div><p class="site-eyebrow">A generic example</p><h2 class="cb-heading">Your identity.<br/><span class="cb-yellow-line">Your daily message.</span></h2><p class="mt-7 max-w-2xl leading-7 text-[var(--brand-muted)]">Every finished board is designed for one venue. Your logo and specials stay prominent; the sponsor area remains organized, useful, and secondary.</p><div class="mt-9 grid gap-4 sm:grid-cols-2">{[['01','Venue-first design','The top of the board is branded around the place hosting it.'],['02','Reusable writing area','Update specials, classes, events, flavors, or service reminders anytime.'],['03','Six clean sponsor spots','Complementary local businesses fund the production and installation.'],['04','Optional tracked QR','One discreet code can connect visitors to a measurable sponsor page.']].map(([n,title,copy]) => <article class="border-t-2 border-[var(--brand-ink)] pt-4"><span class="font-editorial text-3xl text-[var(--brand-orange)]">{n}</span><h3 class="mt-4 text-sm font-bold uppercase">{title}</h3><p class="mt-2 text-sm leading-6 text-[var(--brand-muted)]">{copy}</p></article>)}</div><div class="mt-9 flex flex-col gap-3 sm:flex-row"><a class="brand-button" href="#venue-form">Get a free board →</a><a class="cb-button-light" href="#advertiser-form">Sponsor a board</a></div></div>
     </div></section>
 
     <section class="py-22 md:py-30"><div class="site-shell grid gap-12 lg:grid-cols-[.55fr_1fr]"><div><p class="site-eyebrow">Questions, answered</p><h2 class="cb-heading">The useful fine print.</h2></div><div class="grid gap-3">{faqs.map(([q,a],i) => <details class="group border-2 border-[var(--brand-ink)] bg-[var(--brand-surface)] px-5" open={i===0}><summary class="flex min-h-16 cursor-pointer list-none items-center justify-between gap-5 py-3 font-bold"><span>{q}</span><span class="text-2xl text-[var(--brand-orange)] group-open:rotate-45">+</span></summary><p class="pb-5 text-sm leading-6 text-[var(--brand-muted)]">{a}</p></details>)}</div></div></section>
@@ -133,9 +102,5 @@ const schema = {
   .community-boards .cb-kicker { color:var(--brand-yellow); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; }
   .community-boards .cb-button-light { display:inline-flex; min-height:2.75rem; align-items:center; justify-content:center; border:2px solid var(--brand-ink); padding-inline:1rem; color:var(--brand-ink); background:var(--brand-surface); box-shadow:4px 4px 0 var(--brand-ink); font-family:"Instrument Sans",sans-serif; font-size:.78rem; font-weight:800; text-transform:uppercase; transition:140ms; }
   .community-boards .cb-button-light:hover { transform:translate(2px,2px); box-shadow:2px 2px 0 var(--brand-ink); }
-  .community-boards .cb-concept-card { overflow:hidden; border:2px solid var(--brand-ink); background:var(--brand-surface); box-shadow:5px 5px 0 var(--brand-ink); }
-  .community-boards .cb-concept-card figcaption { display:flex; min-height:5.5rem; flex-direction:column; justify-content:center; gap:.35rem; border-top:2px solid var(--brand-ink); padding:1rem 1.1rem; }
-  .community-boards .cb-concept-card strong { font-family:"Instrument Sans",sans-serif; font-size:.78rem; text-transform:uppercase; }
-  .community-boards .cb-concept-card span { color:var(--brand-muted); font-size:.62rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
   .community-boards details summary::-webkit-details-marker { display:none; }
 </style>

@@ -4,7 +4,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 interface Props {
   title: string;
   description: string;
-  current: "overview" | "clients" | "expenses";
+  current: "overview" | "clients" | "expenses" | "boards";
   eyebrow?: string;
 }
 
@@ -13,6 +13,7 @@ const links = [
   { id: "overview", label: "Overview", href: "/admin/" },
   { id: "clients", label: "Clients", href: "/clients/" },
   { id: "expenses", label: "Expenses", href: "/admin/expenses/" },
+  { id: "boards", label: "Community boards", href: "/admin/community-boards/" },
 ];
 ---
 

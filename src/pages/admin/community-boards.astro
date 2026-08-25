@@ -1,0 +1,111 @@
+---
+import { Image } from 'astro:assets';
+import AdminLayout from '@/layouts/AdminLayout.astro';
+import { communityBoardProspects } from '@/data/communityBoardProspects';
+
+const prospects = [...communityBoardProspects].sort((a, b) => a.name.localeCompare(b.name));
+const areas = [...new Set(prospects.map((prospect) => prospect.area))].sort((a, b) => a.localeCompare(b));
+---
+
+<AdminLayout title="Community boards" description="Search every prepared venue concept, open its private pitch page, or copy a shareable link." current="boards" eyebrow="Prospect pitch desk">
+  <div class="prospect-dashboard pb-20">
+    <section class="mb-8 grid items-center gap-6 border-2 border-[var(--brand-ink)] bg-[var(--brand-yellow)] p-6 shadow-[6px_6px_0_var(--brand-ink)] md:grid-cols-[1fr_auto]">
+      <div><p class="text-[.62rem] font-bold uppercase tracking-[.1em]">Private working dashboard</p><h2 class="mt-2 font-editorial text-5xl leading-[.88] uppercase md:text-6xl">Every prospect. One place.</h2></div>
+      <div class="border-l-2 border-[var(--brand-ink)] pl-6 md:min-w-48"><p class="text-[.58rem] font-bold uppercase tracking-[.1em] text-[var(--brand-muted)]">Prepared concepts</p><p class="mt-1 font-editorial text-6xl leading-none">{prospects.length}</p></div>
+    </section>
+
+    <section class="sticky top-0 z-20 border-b-2 border-[var(--brand-ink)] bg-[var(--brand-bg)]/95 py-4 backdrop-blur-sm">
+      <div class="grid gap-3 md:grid-cols-[1fr_18rem_auto] md:items-end">
+        <label class="dashboard-label">Search companies
+          <input class="dashboard-control" type="search" data-prospect-search placeholder="Name, area, or venue type…" autocomplete="off" />
+        </label>
+        <label class="dashboard-label">Filter by area
+          <select class="dashboard-control" data-area-filter>
+            <option value="">All areas</option>
+            {areas.map((area) => <option value={area.toLowerCase()}>{area}</option>)}
+          </select>
+        </label>
+        <p class="min-h-12 border-2 border-[var(--brand-ink)] bg-[var(--brand-ink)] px-4 py-3 text-center text-xs font-bold uppercase text-[var(--brand-paper)] md:min-w-36" aria-live="polite"><span data-visible-count>{prospects.length}</span> showing</p>
+      </div>
+    </section>
+
+    <section class="py-10 md:py-14">
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-prospect-grid>
+        {prospects.map((prospect, index) => (
+          <article class="prospect-card group" data-prospect-card data-search={`${prospect.name} ${prospect.area} ${prospect.venueType}`.toLowerCase()} data-area={prospect.area.toLowerCase()}>
+            <a href={`/community-boards/pitch/${prospect.slug}/`} target="_blank" rel="noreferrer" class="block overflow-hidden border-b-2 border-[var(--brand-ink)] bg-[var(--brand-ink)]">
+              <Image src={prospect.image} alt={`${prospect.name} community board concept`} class="aspect-[2/3] w-full object-cover transition duration-300 group-hover:scale-[1.02]" widths={[360,520,720]} sizes="(min-width:1024px) 31vw, (min-width:640px) 48vw, 100vw" loading={index < 6 ? 'eager' : 'lazy'} />
+            </a>
+            <div class="flex min-h-52 flex-col p-5">
+              <p class="text-[.6rem] font-bold uppercase tracking-[.08em] text-[var(--brand-orange)]">{prospect.area}</p>
+              <h2 class="mt-3 font-editorial text-4xl leading-[.9] uppercase">{prospect.name}</h2>
+              <p class="mt-3 text-xs leading-5 text-[var(--brand-muted)]">{prospect.venueType}</p>
+              <div class="mt-auto flex gap-2 pt-6">
+                <a class="dashboard-open" href={`/community-boards/pitch/${prospect.slug}/`} target="_blank" rel="noreferrer">Open pitch →</a>
+                <button class="dashboard-copy" type="button" data-copy-url={`/community-boards/pitch/${prospect.slug}/`} aria-label={`Copy pitch-page link for ${prospect.name}`}>Copy link</button>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+      <div class="hidden border-2 border-[var(--brand-ink)] bg-[var(--brand-surface)] p-10 text-center shadow-[6px_6px_0_var(--brand-ink)]" data-empty-state>
+        <p class="font-editorial text-5xl uppercase">No matches.</p>
+        <p class="mt-3 text-sm text-[var(--brand-muted)]">Try a company name, ZIP code, neighborhood, or venue type.</p>
+      </div>
+    </section>
+  </div>
+</AdminLayout>
+
+<script>
+  const search = document.querySelector<HTMLInputElement>('[data-prospect-search]');
+  const area = document.querySelector<HTMLSelectElement>('[data-area-filter]');
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-prospect-card]')];
+  const count = document.querySelector<HTMLElement>('[data-visible-count]');
+  const grid = document.querySelector<HTMLElement>('[data-prospect-grid]');
+  const empty = document.querySelector<HTMLElement>('[data-empty-state]');
+
+  const filterCards = () => {
+    const query = search?.value.trim().toLowerCase() ?? '';
+    const selectedArea = area?.value ?? '';
+    let visible = 0;
+
+    cards.forEach((card) => {
+      const matchesSearch = !query || card.dataset.search?.includes(query);
+      const matchesArea = !selectedArea || card.dataset.area === selectedArea;
+      const show = Boolean(matchesSearch && matchesArea);
+      card.hidden = !show;
+      if (show) visible += 1;
+    });
+
+    if (count) count.textContent = String(visible);
+    grid?.classList.toggle('hidden', visible === 0);
+    empty?.classList.toggle('hidden', visible !== 0);
+  };
+
+  search?.addEventListener('input', filterCards);
+  area?.addEventListener('change', filterCards);
+
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-url]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const path = button.dataset.copyUrl;
+      if (!path) return;
+      await navigator.clipboard.writeText(new URL(path, window.location.origin).toString());
+      const original = button.textContent;
+      button.textContent = 'Copied!';
+      window.setTimeout(() => { button.textContent = original; }, 1400);
+    });
+  });
+</script>
+
+<style is:global>
+  .prospect-dashboard { background-color:var(--brand-bg); background-image:radial-gradient(rgb(23 19 15 / 8%) .7px,transparent .8px); background-size:8px 8px; }
+  .prospect-dashboard .dashboard-label { display:grid; gap:.45rem; color:var(--brand-muted); font-size:.62rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+  .prospect-dashboard .dashboard-control { min-height:3rem; width:100%; border:2px solid var(--brand-ink); border-radius:0; padding:.65rem .8rem; color:var(--brand-ink); background:var(--brand-surface); font-size:.85rem; font-weight:700; text-transform:none; box-shadow:3px 3px 0 var(--brand-ink); }
+  .prospect-dashboard .prospect-card { overflow:hidden; border:2px solid var(--brand-ink); background:var(--brand-surface); box-shadow:6px 6px 0 var(--brand-ink); transition:transform 160ms ease, box-shadow 160ms ease; }
+  .prospect-dashboard .prospect-card:hover { transform:translate(-2px,-2px); box-shadow:8px 8px 0 var(--brand-ink); }
+  .prospect-dashboard .dashboard-open,
+  .prospect-dashboard .dashboard-copy { display:inline-flex; min-height:2.6rem; align-items:center; justify-content:center; border:2px solid var(--brand-ink); padding:.55rem .7rem; font-family:"Instrument Sans",sans-serif; font-size:.68rem; font-weight:800; text-transform:uppercase; }
+  .prospect-dashboard .dashboard-open { flex:1; color:var(--brand-paper); background:var(--brand-ink); }
+  .prospect-dashboard .dashboard-copy { color:var(--brand-ink); background:var(--brand-yellow); }
+  .prospect-dashboard [hidden] { display:none !important; }
+</style>
