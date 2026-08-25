@@ -28,6 +28,7 @@ export default defineConfig({
         !page.includes("/blog/tags/") &&
         !page.includes("/admin/") &&
         !page.includes("/clients/") &&
+        !page.includes("/community-boards/pitch/") &&
         !page.includes("thank-you/"),
     }),
     mdx(),
