@@ -1,0 +1,130 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { communityBoardLocations, type CommunityBoardLocation } from '@/data/communityBoardLocations';
+
+export function getStaticPaths() {
+  return communityBoardLocations.map((location) => ({ params: { slug: location.slug }, props: { location } }));
+}
+
+interface Props { location: CommunityBoardLocation }
+const { location } = Astro.props;
+const isDemo = location.status === 'demo';
+const maxWeeklyScans = Math.max(...location.weeklyScans.map((week) => week.value));
+const scanToDealRate = Math.round((location.metrics.dealViews / location.metrics.visits) * 100);
+const dealToClickRate = Math.round((location.metrics.ctaClicks / location.metrics.dealViews) * 100);
+const clickToRedemptionRate = Math.round((location.metrics.redemptions / location.metrics.ctaClicks) * 100);
+const summary = [
+  ['QR scans', location.metrics.visits, 'Directly tracked'],
+  ['Deal views', location.metrics.dealViews, `${scanToDealRate}% of scans`],
+  ['CTA clicks', location.metrics.ctaClicks, `${dealToClickRate}% of deal views`],
+  ['Redemption actions', location.metrics.redemptions, `${clickToRedemptionRate}% of clicks`],
+];
+---
+
+<BaseLayout pageTitle={`${location.venueName} Dashboard | Raleigh Community Boards`} pageDescription="Interactive example of the reporting available for a Raleigh Community Board." noindex={true}>
+  <div class="board-dashboard">
+    {isDemo && <div class="dash-demo-bar">Interactive dashboard demo · illustrative 90-day data</div>}
+
+    <header class="dash-header">
+      <div class="dash-shell py-9 md:py-14">
+        <div class="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+          <div>
+            <p class="dash-kicker">Raleigh Community Boards · Partner reporting</p>
+            <h1 class="mt-4 font-editorial text-[clamp(4.4rem,10vw,8rem)] leading-[.76] uppercase">A clear view<br/>of local attention.</h1>
+            <p class="mt-6 max-w-2xl text-base leading-7 text-[var(--dash-muted)]">See what happened after the board went up—from estimated in-person exposure to directly tracked scans, offer views, CTA clicks, and redemption actions.</p>
+          </div>
+          <div class="dash-context">
+            <p>Reporting window</p><strong>First 90 days</strong><span>{location.venueName} · {location.area}</span>
+            <div class="mt-5 flex flex-wrap gap-2"><a class="dash-button" href={`/community-boards/location/${location.slug}/`}>Open customer scan page →</a><button class="dash-button dash-button-light" type="button" data-copy-dashboard>Copy dashboard link</button></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="dash-shell py-10 md:py-16">
+      <section aria-labelledby="overview-heading">
+        <div class="flex flex-col justify-between gap-3 border-b-2 border-[var(--dash-ink)] pb-5 sm:flex-row sm:items-end"><div><p class="dash-kicker">Overview</p><h2 id="overview-heading" class="mt-2 font-editorial text-5xl uppercase">The response at a glance.</h2></div><p class="text-[.58rem] font-bold uppercase tracking-[.08em] text-[var(--dash-muted)]">Updated today · 9:42 AM</p></div>
+        <div class="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          {summary.map(([label,value,note], index) => <article class={`metric-card metric-card-${index + 1}`}><p>{label}</p><strong>{Number(value).toLocaleString()}</strong><span>{note}</span></article>)}
+        </div>
+      </section>
+
+      <section class="mt-12 grid gap-6 xl:grid-cols-[1.2fr_.8fr]" aria-label="Activity and conversion">
+        <article class="dash-panel">
+          <div class="dash-panel-heading"><div><p class="dash-kicker">QR activity</p><h2>Scans by week</h2></div><span>127 total</span></div>
+          <div class="weekly-chart" aria-label="Bar chart of weekly QR scans">
+            {location.weeklyScans.map((week) => <div class="week"><span class="week-value">{week.value}</span><div class="week-bar" style={`height:${Math.max(12,(week.value / maxWeeklyScans) * 100)}%`}></div><small>{week.label}</small></div>)}
+          </div>
+          <p class="dash-note">Directly tracked when a guest opens this board’s unique QR page.</p>
+        </article>
+
+        <article class="dash-panel">
+          <div class="dash-panel-heading"><div><p class="dash-kicker">Conversion path</p><h2>Scan to action</h2></div></div>
+          <div class="funnel">
+            <div style="--funnel-width:100%"><span>QR scans</span><strong>{location.metrics.visits}</strong></div>
+            <div style={`--funnel-width:${scanToDealRate}%`}><span>Viewed a deal</span><strong>{location.metrics.dealViews}</strong></div>
+            <div style={`--funnel-width:${Math.max(38,Math.round((location.metrics.ctaClicks/location.metrics.visits)*100))}%`}><span>Clicked a CTA</span><strong>{location.metrics.ctaClicks}</strong></div>
+            <div style={`--funnel-width:${Math.max(26,Math.round((location.metrics.redemptions/location.metrics.visits)*100))}%`}><span>Redemption action</span><strong>{location.metrics.redemptions}</strong></div>
+          </div>
+          <p class="dash-note">A redemption action can be a code reveal, form start, call tap, or other offer-specific success event.</p>
+        </article>
+      </section>
+
+      <section class="mt-12" aria-labelledby="partners-heading">
+        <div class="flex flex-col justify-between gap-4 border-b-2 border-[var(--dash-ink)] pb-5 md:flex-row md:items-end"><div><p class="dash-kicker">Partner performance</p><h2 id="partners-heading" class="mt-2 font-editorial text-5xl uppercase">Every business, clearly separated.</h2></div><p class="max-w-md text-sm leading-6 text-[var(--dash-muted)]">Each offer and CTA is tracked independently, so a partner sees its own response—not a blended board total.</p></div>
+        <div class="partner-table mt-6">
+          <div class="partner-row partner-row-head"><span>Partner & offer</span><span>Deal views</span><span>CTA clicks</span><span>Actions</span><span>Click rate</span></div>
+          {location.partners.map((partner,index) => {
+            const clickRate = Math.round((partner.performance.ctaClicks / partner.performance.dealViews) * 100);
+            return <div class={`partner-row partner-row-${index + 1}`}>
+              <div><b>{partner.name}</b><small>{partner.offer.title}</small></div>
+              <span data-label="Deal views">{partner.performance.dealViews}</span>
+              <span data-label="CTA clicks">{partner.performance.ctaClicks}</span>
+              <span data-label="Actions">{partner.performance.redemptions}</span>
+              <span data-label="Click rate"><b>{clickRate}%</b></span>
+            </div>;
+          })}
+        </div>
+      </section>
+
+      <section class="mt-12 grid gap-5 lg:grid-cols-3">
+        <article class="method-card"><p class="dash-kicker">Estimated</p><strong>{location.metrics.estimatedVenueVisits.toLocaleString()}</strong><h3>Venue visits</h3><p>Foot traffic supplied or estimated for the reporting window. It shows opportunity, not a confirmed board impression.</p></article>
+        <article class="method-card"><p class="dash-kicker">Reported</p><strong>{location.metrics.reportedSocialReach.toLocaleString()}</strong><h3>Social reach</h3><p>Reach reported from tagged or shared board photos across the venue, artist, and partner audiences.</p></article>
+        <article class="method-card"><p class="dash-kicker">Directly tracked</p><strong>{location.metrics.visits}</strong><h3>QR visits</h3><p>First-party activity on the unique board page, including deal views, CTA clicks, and configured success actions.</p></article>
+      </section>
+    </main>
+
+    <section class="dash-cta py-16 text-center md:py-22"><div class="dash-shell"><p class="dash-kicker !text-[var(--dash-ink)]">A simple 90-day test</p><h2 class="mx-auto mt-4 max-w-5xl font-editorial text-[clamp(4rem,9vw,7rem)] leading-[.8] uppercase">Put the board up. Measure what happens.</h2><div class="mt-8 flex flex-wrap justify-center gap-3"><a class="dash-button" href="/community-boards/#interest-form">Try a partner spot free →</a><a class="dash-button dash-button-light" href={`/community-boards/location/${location.slug}/`}>See the customer experience</a></div></div></section>
+    <div class="copy-toast" data-copy-toast role="status">Dashboard link copied</div>
+  </div>
+</BaseLayout>
+
+<script>
+  const copyButton = document.querySelector<HTMLButtonElement>('[data-copy-dashboard]');
+  const toast = document.querySelector<HTMLElement>('[data-copy-toast]');
+  copyButton?.addEventListener('click', async () => {
+    await navigator.clipboard.writeText(window.location.href);
+    toast?.classList.add('show');
+    window.setTimeout(() => toast?.classList.remove('show'), 1600);
+  });
+</script>
+
+<style is:global>
+  .board-dashboard { --dash-ink:#17130f; --dash-paper:#f7f1df; --dash-surface:#fffdf6; --dash-yellow:#f0df55; --dash-pink:#f43e8d; --dash-orange:#f15a32; --dash-muted:#6d6257; min-height:100vh; color:var(--dash-ink); background-color:var(--dash-paper); background-image:radial-gradient(rgb(23 19 15 / 8%) .7px,transparent .8px); background-size:8px 8px; }
+  .dash-shell { width:min(100% - 2rem,78rem); margin-inline:auto; }
+  .dash-demo-bar { border-bottom:2px solid var(--dash-ink); padding:.7rem 1rem; text-align:center; background:var(--dash-yellow); font-size:.6rem; font-weight:900; letter-spacing:.09em; text-transform:uppercase; }
+  .dash-header { border-bottom:2px solid var(--dash-ink); background:var(--dash-surface); }
+  .dash-kicker { color:var(--dash-orange); font-size:.6rem; font-weight:900; letter-spacing:.1em; text-transform:uppercase; }
+  .dash-context { min-width:min(100%,23rem); border:2px solid var(--dash-ink); padding:1.25rem; background:var(--dash-yellow); box-shadow:6px 6px 0 var(--dash-ink); }
+  .dash-context>p { font-size:.56rem; font-weight:900; letter-spacing:.09em; text-transform:uppercase; }.dash-context>strong { display:block; margin-top:.35rem; font-family:"Bebas Neue",sans-serif; font-size:2.7rem; line-height:1; text-transform:uppercase; }.dash-context>span { display:block; margin-top:.45rem; font-size:.65rem; color:var(--dash-muted); }
+  .dash-button { display:inline-flex; min-height:2.7rem; align-items:center; justify-content:center; border:2px solid var(--dash-ink); padding:.55rem .75rem; color:var(--dash-paper); background:var(--dash-ink); font-size:.62rem; font-weight:900; text-transform:uppercase; }.dash-button-light { color:var(--dash-ink); background:var(--dash-surface); }
+  .metric-card { border:2px solid var(--dash-ink); padding:1rem; background:var(--dash-surface); box-shadow:4px 4px 0 var(--dash-ink); }.metric-card>p { font-size:.56rem; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }.metric-card>strong { display:block; margin-top:.6rem; font-family:"Bebas Neue",sans-serif; font-size:clamp(3rem,7vw,5rem); line-height:.8; }.metric-card>span { display:block; margin-top:.7rem; color:var(--dash-muted); font-size:.58rem; font-weight:800; text-transform:uppercase; }.metric-card-1 { border-top:8px solid var(--dash-yellow); }.metric-card-2 { border-top:8px solid #8fcfd1; }.metric-card-3 { border-top:8px solid var(--dash-pink); }.metric-card-4 { border-top:8px solid #a9d26f; }
+  .dash-panel { overflow:hidden; border:2px solid var(--dash-ink); background:var(--dash-surface); box-shadow:6px 6px 0 var(--dash-ink); }.dash-panel-heading { display:flex; align-items:end; justify-content:space-between; gap:1rem; border-bottom:2px solid var(--dash-ink); padding:1.25rem; }.dash-panel-heading h2 { margin-top:.35rem; font-family:"Bebas Neue",sans-serif; font-size:2.5rem; line-height:1; text-transform:uppercase; }.dash-panel-heading>span { font-family:"Bebas Neue",sans-serif; font-size:2rem; }
+  .weekly-chart { display:flex; height:17rem; align-items:end; gap:.4rem; padding:2rem 1rem 1rem; }.week { display:grid; height:100%; min-width:0; flex:1; grid-template-rows:1.1rem 1fr 1rem; align-items:end; text-align:center; }.week-value { font-size:.55rem; font-weight:800; }.week-bar { width:100%; border:1px solid var(--dash-ink); background:var(--dash-yellow); transition:height 400ms ease; }.week:nth-child(3n+2) .week-bar { background:var(--dash-pink); }.week:nth-child(3n) .week-bar { background:#8fcfd1; }.week small { padding-top:.25rem; color:var(--dash-muted); font-size:.5rem; font-weight:800; }
+  .dash-note { border-top:1px solid var(--dash-ink); padding:1rem 1.25rem; color:var(--dash-muted); font-size:.58rem; font-weight:700; line-height:1.5; text-transform:uppercase; }
+  .funnel { display:grid; gap:.65rem; padding:1.5rem 1.25rem; }.funnel>div { display:flex; width:var(--funnel-width); min-width:48%; align-items:center; justify-content:space-between; gap:1rem; border:2px solid var(--dash-ink); padding:.65rem .8rem; background:var(--dash-yellow); }.funnel>div:nth-child(2) { background:#8fcfd1; }.funnel>div:nth-child(3) { background:var(--dash-pink); }.funnel>div:nth-child(4) { background:#a9d26f; }.funnel span { font-size:.56rem; font-weight:900; text-transform:uppercase; }.funnel strong { font-family:"Bebas Neue",sans-serif; font-size:1.8rem; line-height:1; }
+  .partner-table { overflow:hidden; border:2px solid var(--dash-ink); background:var(--dash-surface); box-shadow:6px 6px 0 var(--dash-ink); }.partner-row { display:grid; grid-template-columns:minmax(0,1fr); gap:.65rem; border-bottom:1px solid var(--dash-ink); padding:1rem; }.partner-row:last-child { border-bottom:0; }.partner-row>div b { display:block; font-family:"Bebas Neue",sans-serif; font-size:1.65rem; line-height:1; text-transform:uppercase; }.partner-row>div small { display:block; margin-top:.35rem; color:var(--dash-muted); font-size:.62rem; }.partner-row>span { display:flex; justify-content:space-between; font-size:.75rem; }.partner-row>span::before { content:attr(data-label); color:var(--dash-muted); font-size:.52rem; font-weight:800; letter-spacing:.07em; text-transform:uppercase; }.partner-row-head { display:none; background:var(--dash-ink); color:var(--dash-paper); }.partner-row-1 { border-left:8px solid var(--dash-yellow); }.partner-row-2 { border-left:8px solid var(--dash-pink); }.partner-row-3 { border-left:8px solid #8fcfd1; }.partner-row-4 { border-left:8px solid #f3a65a; }.partner-row-5 { border-left:8px solid #a9d26f; }.partner-row-6 { border-left:8px solid #c1a7e2; }
+  .method-card { border:2px solid var(--dash-ink); padding:1.4rem; background:var(--dash-surface); box-shadow:5px 5px 0 var(--dash-ink); }.method-card>strong { display:block; margin-top:1.25rem; font-family:"Bebas Neue",sans-serif; font-size:4.5rem; line-height:.8; }.method-card h3 { margin-top:.8rem; font-family:"Bebas Neue",sans-serif; font-size:2rem; text-transform:uppercase; }.method-card>p:last-child { margin-top:.75rem; color:var(--dash-muted); font-size:.75rem; line-height:1.6; }
+  .dash-cta { border-top:2px solid var(--dash-ink); background:var(--dash-yellow); }.copy-toast { position:fixed; right:1rem; bottom:1rem; z-index:30; transform:translateY(6rem); border:2px solid var(--dash-ink); padding:.8rem 1rem; background:var(--dash-surface); box-shadow:4px 4px 0 var(--dash-ink); font-size:.62rem; font-weight:900; text-transform:uppercase; transition:transform 180ms ease; }.copy-toast.show { transform:translateY(0); }
+  @media (min-width:800px) { .partner-row { grid-template-columns:minmax(18rem,1.8fr) repeat(4,minmax(5rem,.6fr)); align-items:center; }.partner-row>span { display:block; font-family:"Bebas Neue",sans-serif; font-size:1.5rem; }.partner-row>span::before { display:none; }.partner-row-head { display:grid; font-size:.55rem; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }.partner-row-head span { font-family:inherit; font-size:inherit; }.partner-row:not(.partner-row-head) { padding-block:1.2rem; } }
+</style>
