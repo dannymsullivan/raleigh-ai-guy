@@ -2,11 +2,11 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import BoardVisual from '@/components/community-boards/BoardVisual.astro';
-import heroImage from '@/images/community-boards/board-restaurant-hero-community-v2.png';
-import periBrothersImage from '@/images/community-boards/venue-concepts/peri-brothers-specials-community-v2.png';
-import twoRoostersImage from '@/images/community-boards/venue-concepts/two-roosters-specials-community-v2.png';
-import solaCoffeeImage from '@/images/community-boards/venue-concepts/sola-coffee-community-v2.png';
-import noraCafeImage from '@/images/community-boards/venue-concepts/nora-cafe-specials-community-v2.png';
+import heroImage from '@/images/community-boards/board-restaurant-hero-community-v3-wall.png';
+import periBrothersImage from '@/images/community-boards/venue-concepts/peri-brothers-specials-community-v3-wall.png';
+import twoRoostersImage from '@/images/community-boards/venue-concepts/two-roosters-specials-community-v3-wall.png';
+import solaCoffeeImage from '@/images/community-boards/venue-concepts/sola-coffee-community-v3-wall.png';
+import noraCafeImage from '@/images/community-boards/venue-concepts/nora-cafe-specials-community-v3-wall.png';
 
 const examples = [
   { name: 'Two Roosters', type: 'Ice cream shop', image: twoRoostersImage },
@@ -46,7 +46,7 @@ const schema = {
           <div class="mt-8 flex flex-col gap-3 sm:flex-row"><a class="brand-button" href="#join">Choose your side →</a><a class="cb-button-light" href="#examples">See examples</a></div>
           <p class="mt-7 text-[.64rem] font-bold uppercase tracking-[.06em] text-[var(--brand-muted)]">No automatic renewal · No surprise invoice · Continue only if it works</p>
         </div>
-        <div class="relative field-reveal field-reveal-delay lg:-mr-10"><span class="absolute -left-5 top-8 z-10 hidden -rotate-3 border-2 border-[var(--brand-ink)] bg-[var(--brand-yellow)] px-4 py-3 text-[.65rem] font-bold uppercase shadow-[4px_4px_0_var(--brand-ink)] md:block">The opposite of<br/>another digital ad</span><Image src={heroImage} alt="Concept of a Raleigh Community Board installed in a restaurant" class="aspect-[3/2] w-full border-2 border-[var(--brand-ink)] object-cover shadow-[9px_9px_0_var(--brand-ink)] lg:min-h-[37rem]" widths={[640,960,1280,1536]} sizes="(min-width:1024px) 55vw, 100vw" loading="eager"/><p class="mt-4 text-right text-[.58rem] font-bold uppercase tracking-[.08em] text-[var(--brand-muted)]">Concept image · final boards approved by each venue</p></div>
+        <div class="relative field-reveal field-reveal-delay lg:-mr-10"><span class="absolute -left-5 top-8 z-10 hidden -rotate-3 border-2 border-[var(--brand-ink)] bg-[var(--brand-yellow)] px-4 py-3 text-[.65rem] font-bold uppercase shadow-[4px_4px_0_var(--brand-ink)] md:block">The opposite of<br/>another digital ad</span><Image src={heroImage} alt="Concept of a wall-mounted Raleigh Community Board inside a restaurant" class="aspect-[2/3] w-full border-2 border-[var(--brand-ink)] object-cover shadow-[9px_9px_0_var(--brand-ink)] lg:max-h-[47rem]" widths={[640,960,1280,1536]} sizes="(min-width:1024px) 55vw, 100vw" loading="eager"/><p class="mt-4 text-right text-[.58rem] font-bold uppercase tracking-[.08em] text-[var(--brand-muted)]">Concept image · final boards approved by each venue</p></div>
       </div>
     </section>
 

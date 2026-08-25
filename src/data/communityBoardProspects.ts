@@ -1,9 +1,9 @@
 import type { ImageMetadata } from 'astro';
 
-import periBrothers from '@/images/community-boards/venue-concepts/peri-brothers-specials-community-v2.png';
-import twoRoosters from '@/images/community-boards/venue-concepts/two-roosters-specials-community-v2.png';
-import noraCafe from '@/images/community-boards/venue-concepts/nora-cafe-specials-community-v2.png';
-import solaCoffee from '@/images/community-boards/venue-concepts/sola-coffee-community-v2.png';
+import periBrothers from '@/images/community-boards/venue-concepts/peri-brothers-specials-community-v3-wall.png';
+import twoRoosters from '@/images/community-boards/venue-concepts/two-roosters-specials-community-v3-wall.png';
+import noraCafe from '@/images/community-boards/venue-concepts/nora-cafe-specials-community-v3-wall.png';
+import solaCoffee from '@/images/community-boards/venue-concepts/sola-coffee-community-v3-wall.png';
 import fit4Life from '@/images/community-boards/venue-concepts/fit4life-specials.png';
 import bombayCurry from '@/images/community-boards/venue-concepts/bombay-curry-specials-final.png';
 import gonzaTacos from '@/images/community-boards/venue-concepts/gonza-tacos-specials.png';

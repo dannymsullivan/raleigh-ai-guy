@@ -22,8 +22,8 @@ const partners = Array.from({ length: 6 }, () => 'YOUR BUSINESS HERE');
   </div>
   <div class="absolute inset-x-0 bottom-[7%] grid h-[18%] grid-cols-3 gap-[2px] bg-[#17130f] px-[3px] pt-[3px]">
     {partners.map((business) => (
-      <div class="grid place-items-center bg-[#f7f1df] px-1 text-center text-[#17130f]">
-        <strong class="block text-[.38rem] leading-tight">{business}</strong>
+      <div class="grid place-items-center border border-[#f7f1df]/80 bg-[#17130f] px-1 text-center text-[#f7f1df]">
+        <strong class="block -rotate-1 font-editorial text-[.55rem] font-normal leading-tight">{business}</strong>
       </div>
     ))}
   </div>
