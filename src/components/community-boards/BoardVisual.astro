@@ -6,7 +6,7 @@ interface Props {
 }
 
 const { venue = 'YOUR LOGO HERE', label = 'TODAY AT', tilt = 'none' } = Astro.props;
-const partners = Array.from({ length: 6 }, () => ['YOUR BUSINESS HERE', 'yourwebsite.com']);
+const partners = Array.from({ length: 6 }, () => 'YOUR BUSINESS HERE');
 ---
 
 <div class:list={[
@@ -21,15 +21,16 @@ const partners = Array.from({ length: 6 }, () => ['YOUR BUSINESS HERE', 'yourweb
     <p class="mt-8 -rotate-1 text-sm leading-8 opacity-75">today's specials<br/>fresh • local • made here<br/><br/>events • updates • announcements</p>
   </div>
   <div class="absolute inset-x-0 bottom-[7%] grid h-[18%] grid-cols-3 gap-[2px] bg-[#17130f] px-[3px] pt-[3px]">
-    {partners.map(([business, website]) => (
+    {partners.map((business) => (
       <div class="grid place-items-center bg-[#f7f1df] px-1 text-center text-[#17130f]">
-        <span><strong class="block text-[.38rem] leading-none">{business}</strong><small class="mt-1.5 block text-[.25rem] font-bold lowercase tracking-normal opacity-70">{website}</small></span>
+        <strong class="block text-[.38rem] leading-tight">{business}</strong>
       </div>
     ))}
   </div>
   <div class="absolute inset-x-[3px] bottom-[3px] flex h-[7%] items-center bg-[#17130f] px-2 text-left text-[#f7f1df]">
     <span class="grid aspect-square h-[70%] place-items-center border border-[#f0df55] bg-[#f0df55] font-editorial text-lg leading-none text-[#17130f] shadow-[2px_2px_0_#f43e8d]">AI</span>
-    <span class="ml-2 min-w-0 leading-none"><strong class="block truncate font-editorial text-[clamp(.7rem,2.2vw,1rem)] uppercase">Community Board</strong><small class="mt-1 block truncate text-[.27rem] font-bold uppercase tracking-[.02em] text-white/75">By Raleigh AI Guy · RaleighAIGuy.com</small></span>
+    <span class="ml-1 hidden text-[.22rem] font-bold uppercase leading-tight text-white/65 min-[360px]:block">Raleigh<br/>AI Guy</span>
+    <span class="ml-auto min-w-0 text-center leading-none"><strong class="block truncate font-editorial text-[clamp(.7rem,2.2vw,1rem)] uppercase">Community Board</strong><small class="mt-1 block truncate text-[.27rem] font-bold uppercase tracking-[.06em] text-white/75">Scan to meet the sponsors</small></span>
     <span class="ml-auto h-[65%] border-l border-white/55 pl-2"><span class="cb-qr grid aspect-square h-full place-items-center border-2 border-white bg-white text-[.28rem] font-black text-[#17130f]">QR</span></span>
   </div>
 </div>

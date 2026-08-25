@@ -1,0 +1,97 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { communityBoardLocations, type CommunityBoardLocation } from '@/data/communityBoardLocations';
+
+export function getStaticPaths() {
+  return communityBoardLocations.map((location) => ({ params: { slug: location.slug }, props: { location } }));
+}
+
+interface Props { location: CommunityBoardLocation }
+const { location } = Astro.props;
+const isDemo = location.status === 'demo';
+const metrics = [
+  [location.metrics.estimatedVenueVisits, 'Est. venue visits'],
+  [location.metrics.socialShares, 'Reported shares'],
+  [location.metrics.reportedSocialReach, 'Reported social reach'],
+  [location.metrics.visits, 'Board visits'],
+  [location.metrics.visitors, 'Unique visitors'],
+  [location.metrics.partnerTaps, 'Partner taps'],
+  [location.metrics.venueActions, 'Venue actions'],
+];
+---
+
+<BaseLayout
+  pageTitle={`${location.venueName} | Raleigh Community Boards`}
+  pageDescription={location.description}
+  socialImage={location.image.src}
+  socialImageAlt={`${location.venueName} community board`}
+  noindex={isDemo}
+>
+  <div class="location-page">
+    {isDemo && <div class="border-b-2 border-[var(--brand-ink)] bg-[var(--brand-yellow)] py-3 text-center text-[.62rem] font-black uppercase tracking-[.1em]">Interactive demo · sample names and metrics</div>}
+
+    <section class="location-paper border-b-2 border-[var(--brand-ink)] py-12 md:py-20">
+      <div class="site-shell grid items-center gap-10 lg:grid-cols-[.8fr_1.2fr]">
+        <div>
+          <p class="site-eyebrow">Raleigh Community Boards</p>
+          <p class="mt-6 text-xs font-bold uppercase tracking-[.1em] text-[var(--brand-orange)]">{location.area} · {location.venueType}</p>
+          <h1 class="mt-4 font-editorial text-[clamp(4.5rem,10vw,8rem)] leading-[.78] uppercase">{location.venueName}</h1>
+          <p class="mt-7 max-w-xl text-base leading-7 text-[var(--brand-muted)]">{location.description}</p>
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            {location.venueWebsite && <a class="brand-button" href={location.venueWebsite} rel="noreferrer">Visit the venue →</a>}
+            {location.directionsUrl && <a class="location-button" href={location.directionsUrl} rel="noreferrer">Get directions</a>}
+            {isDemo && <a class="brand-button" href="/community-boards/#interest-form">Get a free board →</a>}
+          </div>
+        </div>
+        <Image src={location.image} alt={`${location.venueName} community board`} class="aspect-[3/2] w-full border-2 border-[var(--brand-ink)] object-cover shadow-[9px_9px_0_var(--brand-ink)]" widths={[640,960,1280]} sizes="(min-width:1024px) 55vw, 100vw" loading="eager" />
+      </div>
+    </section>
+
+    <section class="bg-[var(--brand-ink)] py-16 text-[var(--brand-paper)] md:py-22">
+      <div class="site-shell">
+        <div class="flex flex-col justify-between gap-5 border-b border-white/25 pb-7 md:flex-row md:items-end">
+          <div><p class="location-kicker">Community partners</p><h2 class="mt-3 font-editorial text-[clamp(3.5rem,8vw,6.5rem)] leading-[.8] uppercase">Meet the locals.</h2></div>
+          <p class="max-w-md text-sm leading-6 text-white/60">A small group of Raleigh businesses, presented simply so the board stays useful and uncluttered.</p>
+        </div>
+        <div class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {location.partners.map((partner) => (
+            <article class="border border-white/35 bg-white/[.04] p-5">
+              <h3 class="font-editorial text-3xl uppercase">{partner.name}</h3>
+              <p class="mt-2 text-xs font-bold lowercase text-[var(--brand-yellow)]">{partner.website}</p>
+              {partner.href && <a class="mt-6 inline-block text-[.62rem] font-bold uppercase tracking-[.08em]" href={partner.href} rel="noreferrer">Visit business →</a>}
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="location-paper py-16 md:py-22">
+      <div class="site-shell grid gap-10 lg:grid-cols-[1fr_.65fr]">
+        <div>
+          <p class="site-eyebrow">Board activity</p>
+          <h2 class="mt-4 font-editorial text-[clamp(3.5rem,8vw,6.5rem)] leading-[.8] uppercase">Local attention,<br/>made visible.</h2>
+          <div class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">{metrics.map(([value,label]) => <div class="border-2 border-[var(--brand-ink)] bg-white p-4 shadow-[4px_4px_0_var(--brand-ink)]"><b class="font-editorial text-5xl leading-none">{Number(value).toLocaleString()}</b><p class="mt-3 text-[.56rem] font-bold uppercase tracking-[.06em] text-[var(--brand-muted)]">{label}</p></div>)}</div>
+          {isDemo && <p class="mt-5 text-[.58rem] font-bold uppercase tracking-[.08em] text-[var(--brand-muted)]">Illustrative demo · foot traffic is estimated · social reach is reported · QR activity is measured directly</p>}
+          {isDemo && <p class="mt-5 text-[.6rem] font-bold uppercase tracking-[.08em] text-[var(--brand-muted)]">Illustrative demo data · installed boards report actual activity</p>}
+        </div>
+        <aside class="border-2 border-[var(--brand-ink)] bg-[var(--brand-yellow)] p-7 shadow-[7px_7px_0_var(--brand-ink)]">
+          <p class="text-[.62rem] font-black uppercase tracking-[.1em]">The hand behind the board</p>
+          <h3 class="mt-5 font-editorial text-5xl leading-[.85] uppercase">Lettering by<br/>{location.artist.name}</h3>
+          <p class="mt-6 text-sm leading-6">Local artists receive visible credit here, turning every board into a small collaboration between Raleigh businesses and Raleigh creatives.</p>
+          {location.artist.href && <a class="location-button mt-7" href={location.artist.href} rel="noreferrer">See the artist’s work →</a>}
+        </aside>
+      </div>
+    </section>
+
+    <section class="border-t-2 border-[var(--brand-ink)] bg-[var(--brand-yellow)] py-16 text-center md:py-22">
+      <div class="site-shell"><p class="site-eyebrow !text-[var(--brand-ink)]">Useful signage · local connection</p><h2 class="mx-auto mt-4 max-w-4xl font-editorial text-[clamp(4rem,9vw,7rem)] leading-[.8] uppercase">Want one for your place?</h2><p class="mx-auto mt-6 max-w-xl text-sm leading-6">The founding rollout is complimentary. No required consultation, hidden pitch, or purchase commitment.</p><a class="brand-button mt-8" href="/community-boards/#interest-form">Request a free board →</a></div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  .location-page .location-paper { background-color:var(--brand-bg); background-image:radial-gradient(rgb(23 19 15 / 8%) .7px,transparent .8px); background-size:8px 8px; }
+  .location-page .location-kicker { color:var(--brand-yellow); font-size:.62rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+  .location-page .location-button { display:inline-flex; min-height:2.75rem; align-items:center; justify-content:center; border:2px solid var(--brand-ink); padding-inline:1rem; color:var(--brand-ink); background:var(--brand-surface); box-shadow:4px 4px 0 var(--brand-ink); font-size:.7rem; font-weight:800; text-transform:uppercase; }
+</style>

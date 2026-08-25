@@ -7,11 +7,11 @@ const prospects = [...communityBoardProspects].sort((a, b) => a.name.localeCompa
 const areas = [...new Set(prospects.map((prospect) => prospect.area))].sort((a, b) => a.localeCompare(b));
 ---
 
-<AdminLayout title="Community boards" description="Search every prepared venue concept, open its private pitch page, or copy a shareable link." current="boards" eyebrow="Prospect pitch desk">
+<AdminLayout title="Community boards" description="Manage private prospect concepts separately from the public landing page and installed-board location pages." current="boards" eyebrow="Prospect pitch desk">
   <div class="prospect-dashboard pb-20">
     <section class="mb-8 grid items-center gap-6 border-2 border-[var(--brand-ink)] bg-[var(--brand-yellow)] p-6 shadow-[6px_6px_0_var(--brand-ink)] md:grid-cols-[1fr_auto]">
-      <div><p class="text-[.62rem] font-bold uppercase tracking-[.1em]">Private working dashboard</p><h2 class="mt-2 font-editorial text-5xl leading-[.88] uppercase md:text-6xl">Every prospect. One place.</h2></div>
-      <div class="border-l-2 border-[var(--brand-ink)] pl-6 md:min-w-48"><p class="text-[.58rem] font-bold uppercase tracking-[.1em] text-[var(--brand-muted)]">Prepared concepts</p><p class="mt-1 font-editorial text-6xl leading-none">{prospects.length}</p></div>
+      <div><p class="text-[.62rem] font-bold uppercase tracking-[.1em]">Private working dashboard</p><h2 class="mt-2 font-editorial text-5xl leading-[.88] uppercase md:text-6xl">Every prospect. One place.</h2><div class="mt-6 flex flex-wrap gap-3"><a class="dashboard-open !flex-none" href="/community-boards/" target="_blank" rel="noreferrer">Open public page →</a><a class="dashboard-copy" href="/community-boards/location/sample-board/" target="_blank" rel="noreferrer">Open QR demo</a></div></div>
+      <div class="border-l-2 border-[var(--brand-ink)] pl-6 md:min-w-48"><p class="text-[.58rem] font-bold uppercase tracking-[.1em] text-[var(--brand-muted)]">Private concepts</p><p class="mt-1 font-editorial text-6xl leading-none">{prospects.length}</p><p class="mt-2 text-[.55rem] font-bold uppercase tracking-[.06em] text-[var(--brand-muted)]">Noindex · share selectively</p></div>
     </section>
 
     <section class="sticky top-0 z-20 border-b-2 border-[var(--brand-ink)] bg-[var(--brand-bg)]/95 py-4 backdrop-blur-sm">
@@ -37,7 +37,7 @@ const areas = [...new Set(prospects.map((prospect) => prospect.area))].sort((a, 
               <Image src={prospect.image} alt={`${prospect.name} community board concept`} class="aspect-[2/3] w-full object-cover transition duration-300 group-hover:scale-[1.02]" widths={[360,520,720]} sizes="(min-width:1024px) 31vw, (min-width:640px) 48vw, 100vw" loading={index < 6 ? 'eager' : 'lazy'} />
             </a>
             <div class="flex min-h-52 flex-col p-5">
-              <p class="text-[.6rem] font-bold uppercase tracking-[.08em] text-[var(--brand-orange)]">{prospect.area}</p>
+              <div class="flex items-center justify-between gap-3"><p class="text-[.6rem] font-bold uppercase tracking-[.08em] text-[var(--brand-orange)]">{prospect.area}</p><span class="border border-[var(--brand-ink)] px-2 py-1 text-[.5rem] font-bold uppercase tracking-[.06em]">Private pitch</span></div>
               <h2 class="mt-3 font-editorial text-4xl leading-[.9] uppercase">{prospect.name}</h2>
               <p class="mt-3 text-xs leading-5 text-[var(--brand-muted)]">{prospect.venueType}</p>
               <div class="mt-auto flex gap-2 pt-6">

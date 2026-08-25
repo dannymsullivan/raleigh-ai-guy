@@ -28,7 +28,7 @@ const formName = isVenue ? 'community-board-venue' : 'community-board-advertiser
     <p class="mt-4 max-w-xl text-sm leading-6 text-[var(--brand-muted)]">
       {isVenue
         ? 'Tell me about your space. This is an interest form, not a commitment.'
-        : 'Tell me where you serve customers and the kinds of local places where an introduction would be useful.'}
+        : 'Request a complimentary 90-day founding placement. Tell me where you serve customers and where an introduction would be useful.'}
     </p>
   </div>
 
@@ -37,7 +37,7 @@ const formName = isVenue ? 'community-board-venue' : 'community-board-advertiser
     <label class="intake-label">Contact name *<input class="intake-field" required name="contact-name" autocomplete="name" /></label>
     <label class="intake-label">Email *<input class="intake-field" required type="email" name="email" autocomplete="email" /></label>
     <label class="intake-label">Phone<input class="intake-field" type="tel" name="phone" autocomplete="tel" /></label>
-    <label class="intake-label">{isVenue ? 'Business type *' : 'Industry *'}<input class="intake-field" required name={isVenue ? 'business-type' : 'industry'} placeholder={isVenue ? 'Restaurant, coffee shop, gym…' : 'HVAC, real estate, dental…'} /></label>
+    <label class="intake-label">Business type *<input class="intake-field" required name="business-type" placeholder={isVenue ? 'Restaurant, coffee shop, gym…' : 'Home service, professional service, retail…'} /></label>
     <label class="intake-label">Website<input class="intake-field" type="url" name="business-website" placeholder="https://" /></label>
   </div>
 
@@ -68,7 +68,7 @@ const formName = isVenue ? 'community-board-venue' : 'community-board-advertiser
     </>
   )}
 
-  <label class="intake-label">Additional notes<textarea class="intake-field min-h-28" name="notes" placeholder={isVenue ? 'Anything useful about the space or audience…' : 'Audience, preferred venue types, category questions…'}></textarea></label>
+  <label class="intake-label">Additional notes<textarea class="intake-field min-h-28" name="notes" placeholder={isVenue ? 'Anything useful about the space or audience…' : 'Audience, preferred venue types, or placement questions…'}></textarea></label>
   <button class="brand-button w-full sm:w-fit" type="submit">{isVenue ? 'Request my free board' : 'Request a partner spot'} <span aria-hidden="true">→</span></button>
-  <p class="text-[.65rem] leading-5 text-[var(--brand-muted)]">Submitting this form does not guarantee a board or placement and does not create an agreement.</p>
+  <p class="text-[.65rem] leading-5 text-[var(--brand-muted)]">{isVenue ? 'Submitting this form does not guarantee a board and does not create an agreement.' : 'The founding placement is complimentary for 90 days. Any paid renewal is optional, separately approved, and never automatic.'}</p>
 </form>

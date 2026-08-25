@@ -1,8 +1,9 @@
 import type { ImageMetadata } from 'astro';
 
 import periBrothers from '@/images/community-boards/venue-concepts/peri-brothers-specials-community-v2.png';
-import twoRoosters from '@/images/community-boards/venue-concepts/two-roosters-specials-final.png';
-import noraCafe from '@/images/community-boards/venue-concepts/nora-cafe-specials-final.png';
+import twoRoosters from '@/images/community-boards/venue-concepts/two-roosters-specials-community-v2.png';
+import noraCafe from '@/images/community-boards/venue-concepts/nora-cafe-specials-community-v2.png';
+import solaCoffee from '@/images/community-boards/venue-concepts/sola-coffee-community-v2.png';
 import fit4Life from '@/images/community-boards/venue-concepts/fit4life-specials.png';
 import bombayCurry from '@/images/community-boards/venue-concepts/bombay-curry-specials-final.png';
 import gonzaTacos from '@/images/community-boards/venue-concepts/gonza-tacos-specials.png';
@@ -40,7 +41,8 @@ const pitchProspect = (
   venueType: string,
   fit: string,
   uses: string[],
-): CommunityBoardProspect => ({ slug, name, area, venueType, image: prospectImage(slug), fit, uses });
+  image?: ImageMetadata,
+): CommunityBoardProspect => ({ slug, name, area, venueType, image: image ?? prospectImage(slug), fit, uses });
 
 export const communityBoardProspects: CommunityBoardProspect[] = [
   { slug: 'peri-brothers', name: 'Peri Brothers Pizza & Pasta', area: 'North Raleigh', venueType: 'Neighborhood restaurant', image: periBrothers, fit: 'A reusable board gives regulars an immediate reason to notice weekly pizzas, dinner features, and takeout offers.', uses: ['Weekly pizza and dinner features', 'Takeout and catering reminders', 'Community events and announcements'] },
@@ -54,7 +56,7 @@ export const communityBoardProspects: CommunityBoardProspect[] = [
   { slug: 'epic-auto-center', name: 'EPIC Auto Center', area: 'North Raleigh', venueType: 'Automotive service center', image: epicAuto, fit: 'Customers waiting for service are a valuable, attentive audience, while the board also communicates today’s shop services.', uses: ['Inspection and service reminders', 'Seasonal maintenance guidance', 'Waiting-area information'] },
   { slug: 'manchesters-grill', name: 'Manchester’s Grill', area: 'Leesville / North Raleigh', venueType: 'Neighborhood grill', image: manchesters, fit: 'Weekly dinner, burger, and soup features give regular customers fresh information every time they visit.', uses: ['Weekly dinner specials', 'Burger and soup features', 'Family and community announcements'] },
   { slug: 'ruckus-leesville', name: 'Ruckus Pizza, Pasta & Spirits — Leesville', area: 'Leesville / North Raleigh', venueType: 'Pizza restaurant and sports bar', image: ruckusLeesville, fit: 'A high-energy neighborhood restaurant can use the board for food favorites, game-day programming, and rotating events.', uses: ['Food and drink favorites', 'Game-day features', 'Events, parties, and catering'] },
-  pitchProspect('sola-coffee-cafe', 'Sola Coffee Café', 'North Raleigh · 27615', 'Neighborhood coffeehouse', 'Repeat morning visits, rotating seasonal drinks, and community programming make Sola a natural fit for an always-current board.', ['Seasonal coffee and breakfast', 'Mini-donut features', 'Live music and community events']),
+  pitchProspect('sola-coffee-cafe', 'Sola Coffee Café', 'North Raleigh · 27615', 'Neighborhood coffeehouse', 'Repeat morning visits, rotating seasonal drinks, and community programming make Sola a natural fit for an always-current board.', ['Seasonal coffee and breakfast', 'Mini-donut features', 'Live music and community events'], solaCoffee),
   pitchProspect('sassool', 'Sassool', 'North Raleigh · 27615', 'Family-owned Mediterranean café', 'Counter-service traffic and a broad menu give Sassool useful daily content while guests have time to notice local community partners.', ['Daily café features', 'Family meals and takeout', 'Catering and community updates']),
   pitchProspect('winstons-grille', 'Winston’s Grille', 'North Raleigh · 27609', 'Locally owned American grille', 'A longstanding neighborhood restaurant can keep lunch, dinner, and dessert features visible to a loyal repeat audience.', ['Soup and lunch features', 'Dinner and prime-rib features', 'Events and seasonal menus']),
   pitchProspect('pipers-tavern', 'Piper’s Tavern', 'North Raleigh · 27615', 'Neighborhood tavern', 'Regulars, sports, and weekly programming create repeated exposure and a constant reason to refresh the writing area.', ['Daily food features', 'Draft and happy-hour notes', 'Trivia and game-day events']),
