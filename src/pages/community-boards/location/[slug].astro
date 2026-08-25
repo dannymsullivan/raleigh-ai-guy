@@ -50,7 +50,7 @@ const isDemo = location.status === 'demo';
           <p class="max-w-lg text-sm leading-6 text-[var(--scan-muted)]">Each business controls its own offer and CTA. Every tap can be measured, so partners can see what the board actually produces.</p>
         </div>
 
-        <div class="mt-10 grid gap-6 lg:grid-cols-2">
+        <div class="mt-12 grid gap-8 lg:grid-cols-2">
           {location.partners.map((partner, index) => (
             <article class={`deal-card deal-card-${index + 1}`}>
               <div class="deal-card-top">
@@ -124,25 +124,24 @@ const isDemo = location.status === 'demo';
   .scan-button:hover { transform:translate(2px,2px); box-shadow:2px 2px 0 var(--scan-pink); }
   .scan-button-light { color:var(--scan-ink); background:var(--scan-paper); box-shadow:4px 4px 0 var(--scan-ink); }
   .scan-deals { border-top:2px solid var(--scan-ink); }
-  .deal-card { display:flex; min-height:27rem; flex-direction:column; overflow:hidden; border:2px solid var(--scan-ink); background:#fffdf6; box-shadow:7px 7px 0 var(--scan-ink); }
+  .deal-card { display:flex; min-width:0; flex-direction:column; overflow:hidden; border:2px solid var(--scan-ink); background:#fffdf6; box-shadow:7px 7px 0 var(--scan-ink); }
   .deal-card-top { display:flex; align-items:center; justify-content:space-between; border-bottom:2px solid var(--scan-ink); padding:.8rem 1rem; background:var(--deal-accent,var(--scan-yellow)); }
-  .deal-card-top span { font-family:"Bebas Neue",sans-serif; font-size:2.2rem; line-height:1; }
+  .deal-card-top span { font-family:"League Gothic","Instrument Sans",sans-serif; font-size:2.2rem; line-height:1; }
   .deal-category,.deal-eyebrow { font-size:.58rem; font-weight:900; letter-spacing:.1em; text-transform:uppercase; }
-  .deal-card-body { padding:1.5rem; }
+  .deal-card-body { padding:1.75rem; }
   .deal-eyebrow { color:var(--scan-orange); }
-  .deal-card h3 { margin-top:.75rem; max-width:28rem; font-family:"Bebas Neue",sans-serif; font-size:clamp(2.8rem,7vw,4.5rem); line-height:.86; text-transform:uppercase; }
+  .deal-card h3 { margin-top:.85rem; max-width:24rem; overflow-wrap:anywhere; font-family:"League Gothic","Instrument Sans",sans-serif; font-size:clamp(3rem,4.25vw,4rem); font-weight:400; line-height:.9; letter-spacing:.005em; text-wrap:balance; text-transform:uppercase; }
   .deal-description { margin-top:1.2rem; max-width:33rem; color:var(--scan-muted); font-size:.9rem; line-height:1.65; }
   .deal-code { display:inline-flex; margin-top:1.25rem; align-items:center; gap:.65rem; border:1px dashed var(--scan-ink); padding:.55rem .7rem; }
   .deal-code span { color:var(--scan-muted); font-size:.52rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
   .deal-code strong { font-size:.78rem; letter-spacing:.08em; }
   .deal-card-footer { display:flex; margin-top:auto; flex-direction:column; gap:1rem; border-top:2px solid var(--scan-ink); padding:1rem 1.5rem; background:var(--scan-ink); color:var(--scan-paper); }
-  .deal-card-footer p { font-family:"Bebas Neue",sans-serif; font-size:1.7rem; line-height:1; text-transform:uppercase; }
+  .deal-card-footer p { font-family:"League Gothic","Instrument Sans",sans-serif; font-size:2rem; font-weight:400; line-height:1; text-transform:uppercase; }
   .deal-card-footer small { display:block; margin-top:.35rem; color:#fff9; font-size:.58rem; font-weight:700; }
-  .deal-card-footer button { min-height:2.75rem; border:2px solid var(--scan-paper); padding:.6rem .8rem; color:var(--scan-ink); background:var(--deal-accent,var(--scan-yellow)); font-size:.62rem; font-weight:900; text-transform:uppercase; }
+  .deal-card-footer button { min-height:3rem; width:100%; border:2px solid var(--scan-paper); padding:.7rem .9rem; color:var(--scan-ink); background:var(--deal-accent,var(--scan-yellow)); font-size:.62rem; font-weight:900; text-transform:uppercase; }
   .deal-card-1 { --deal-accent:#f0df55; }.deal-card-2 { --deal-accent:#f43e8d; }.deal-card-3 { --deal-accent:#8fcfd1; }.deal-card-4 { --deal-accent:#f3a65a; }.deal-card-5 { --deal-accent:#a9d26f; }.deal-card-6 { --deal-accent:#c1a7e2; }
   .scan-artist { border-top:2px solid var(--scan-ink); color:var(--scan-paper); background:var(--scan-ink); }
   .deal-dialog { width:min(100% - 2rem,34rem); border:2px solid var(--scan-ink); padding:2rem; color:var(--scan-ink); background:var(--scan-paper); box-shadow:9px 9px 0 var(--scan-pink); }
   .deal-dialog::backdrop { background:rgb(23 19 15 / 75%); backdrop-filter:blur(3px); }
-  .deal-dialog-close { position:absolute; top:.6rem; right:.8rem; font-family:"Bebas Neue",sans-serif; font-size:2rem; }
-  @media (min-width:640px) { .deal-card-footer { flex-direction:row; align-items:center; justify-content:space-between; }.deal-card-footer button { max-width:14rem; } }
+  .deal-dialog-close { position:absolute; top:.6rem; right:.8rem; font-family:"League Gothic","Instrument Sans",sans-serif; font-size:2rem; }
 </style>

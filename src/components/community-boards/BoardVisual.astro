@@ -3,10 +3,18 @@ interface Props {
   venue?: string;
   label?: string;
   tilt?: 'left' | 'right' | 'none';
+  messages?: string[];
+  partners?: string[];
 }
 
-const { venue = 'YOUR LOGO HERE', label = 'TODAY AT', tilt = 'none' } = Astro.props;
-const partners = Array.from({ length: 6 }, () => 'YOUR BUSINESS HERE');
+const {
+  venue = 'YOUR LOGO HERE',
+  label = 'TODAY AT',
+  tilt = 'none',
+  messages = ['Today’s specials', 'Fresh • local • made here', 'Events • updates • announcements'],
+  partners = Array.from({ length: 6 }, () => 'YOUR BUSINESS HERE'),
+} = Astro.props;
+const compactVenueName = venue.length > 28;
 ---
 
 <div class:list={[
@@ -16,9 +24,11 @@ const partners = Array.from({ length: 6 }, () => 'YOUR BUSINESS HERE');
 ] }>
   <div class="flex h-[75%] flex-col items-center px-5 pt-7 text-center text-[#f7f1df]">
     <p class="text-[.54rem] font-bold tracking-[.24em] text-[#f0df55]">{label}</p>
-    <h3 class="mt-2 font-editorial text-[clamp(1.85rem,4.5vw,3rem)] leading-[.85]">{venue}</h3>
+    <h3 class:list={["mt-2 max-w-full text-balance font-editorial leading-[.85]", compactVenueName ? "text-[clamp(1.25rem,3.2vw,2rem)]" : "text-[clamp(1.85rem,4.5vw,3rem)]"]}>{venue}</h3>
     <div class="mt-5 h-[2px] w-14 bg-[#f43e8d]"></div>
-    <p class="mt-8 -rotate-1 text-sm leading-8 opacity-75">today's specials<br/>fresh • local • made here<br/><br/>events • updates • announcements</p>
+    <div class="mt-7 grid w-full gap-3 px-1 opacity-85">
+      {messages.slice(0, 3).map((message, index) => <p class:list={["font-editorial text-[clamp(.78rem,2.2vw,1.15rem)] uppercase leading-tight", index === 1 && "-rotate-1", index === 2 && "rotate-1"]}>{message}</p>)}
+    </div>
   </div>
   <div class="absolute inset-x-0 bottom-[7%] grid h-[18%] grid-cols-3 gap-[2px] bg-[#17130f] px-[3px] pt-[3px]">
     {partners.map((business) => (
