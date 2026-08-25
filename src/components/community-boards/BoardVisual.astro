@@ -5,8 +5,8 @@ interface Props {
   tilt?: 'left' | 'right' | 'none';
 }
 
-const { venue = 'YOUR PLACE HERE', label = 'TODAY AT', tilt = 'none' } = Astro.props;
-const sponsors = ['HVAC', 'PLUMBING', 'ROOFING', 'ELECTRICAL', 'LANDSCAPING', 'AUTO CARE'];
+const { venue = 'YOUR LOGO HERE', label = 'TODAY AT', tilt = 'none' } = Astro.props;
+const partners = Array.from({ length: 6 }, () => ['YOUR BUSINESS HERE', 'yourwebsite.com']);
 ---
 
 <div class:list={[
@@ -14,22 +14,28 @@ const sponsors = ['HVAC', 'PLUMBING', 'ROOFING', 'ELECTRICAL', 'LANDSCAPING', 'A
   tilt === 'left' && '-rotate-2',
   tilt === 'right' && 'rotate-2',
 ] }>
-  <div class="flex h-[72%] flex-col items-center px-5 pt-7 text-center text-[#f7f1df]">
-    <p class="text-[.58rem] font-bold tracking-[.24em] text-[#f0df55]">{label}</p>
-    <h3 class="mt-2 font-editorial text-[clamp(2rem,5vw,3.25rem)] leading-[.85]">{venue}</h3>
+  <div class="flex h-[75%] flex-col items-center px-5 pt-7 text-center text-[#f7f1df]">
+    <p class="text-[.54rem] font-bold tracking-[.24em] text-[#f0df55]">{label}</p>
+    <h3 class="mt-2 font-editorial text-[clamp(1.85rem,4.5vw,3rem)] leading-[.85]">{venue}</h3>
     <div class="mt-5 h-[2px] w-14 bg-[#f43e8d]"></div>
-    <p class="mt-6 -rotate-1 text-sm leading-7 opacity-75">today's specials<br/>fresh • local • made here</p>
+    <p class="mt-8 -rotate-1 text-sm leading-8 opacity-75">today's specials<br/>fresh • local • made here<br/><br/>events • updates • announcements</p>
   </div>
-  <div class="absolute inset-x-0 bottom-0 grid h-[28%] grid-cols-3 gap-[2px] bg-[#17130f] p-[3px]">
-    {sponsors.map((sponsor, index) => (
-      <div class:list={[
-        'grid place-items-center text-[.45rem] font-bold tracking-[.06em] text-[#17130f]',
-        index === 1 || index === 4 ? 'bg-[#f0df55]' : index === 2 ? 'bg-[#f4a9c9]' : 'bg-[#f7f1df]',
-      ]}>{sponsor}</div>
+  <div class="absolute inset-x-0 bottom-[7%] grid h-[18%] grid-cols-3 gap-[2px] bg-[#17130f] px-[3px] pt-[3px]">
+    {partners.map(([business, website]) => (
+      <div class="grid place-items-center bg-[#f7f1df] px-1 text-center text-[#17130f]">
+        <span><strong class="block text-[.38rem] leading-none">{business}</strong><small class="mt-1.5 block text-[.25rem] font-bold lowercase tracking-normal opacity-70">{website}</small></span>
+      </div>
     ))}
+  </div>
+  <div class="absolute inset-x-[3px] bottom-[3px] flex h-[7%] items-center bg-[#17130f] px-2 text-left text-[#f7f1df]">
+    <span class="grid aspect-square h-[70%] place-items-center border border-[#f0df55] bg-[#f0df55] font-editorial text-lg leading-none text-[#17130f] shadow-[2px_2px_0_#f43e8d]">AI</span>
+    <span class="ml-2 min-w-0 leading-none"><strong class="block truncate font-editorial text-[clamp(.7rem,2.2vw,1rem)] uppercase">Community Board</strong><small class="mt-1 block truncate text-[.27rem] font-bold uppercase tracking-[.02em] text-white/75">By Raleigh AI Guy · RaleighAIGuy.com</small></span>
+    <span class="ml-auto h-[65%] border-l border-white/55 pl-2"><span class="cb-qr grid aspect-square h-full place-items-center border-2 border-white bg-white text-[.28rem] font-black text-[#17130f]">QR</span></span>
   </div>
 </div>
 
 <style>
-  .cb-board { aspect-ratio: 4 / 5; }
+  .cb-board { aspect-ratio: 2 / 3; }
+  .cb-qr { background-image:repeating-conic-gradient(#17130f 0 25%,#fff 0 50%); background-position:0 0; background-size:5px 5px; }
+  .cb-qr { text-shadow:0 0 2px #fff,0 0 3px #fff; }
 </style>

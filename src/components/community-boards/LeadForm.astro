@@ -23,12 +23,12 @@ const formName = isVenue ? 'community-board-venue' : 'community-board-advertiser
   <p class="hidden"><label>Leave this empty: <input name="website-check" /></label></p>
 
   <div>
-    <span class="print-stamp">{isVenue ? 'Venue application' : 'Sponsor inquiry'}</span>
-    <h3 class="mt-6 font-editorial text-5xl leading-[.9] uppercase">{isVenue ? 'Request a free board.' : 'Request sponsor details.'}</h3>
+    <span class="print-stamp">{isVenue ? 'Venue application' : 'Community partner interest'}</span>
+    <h3 class="mt-6 font-editorial text-5xl leading-[.9] uppercase">{isVenue ? 'Request a free board.' : 'Request a free partner spot.'}</h3>
     <p class="mt-4 max-w-xl text-sm leading-6 text-[var(--brand-muted)]">
       {isVenue
         ? 'Tell me about your space. This is an interest form, not a commitment.'
-        : 'Tell me where you serve customers and the kinds of local places you want to reach.'}
+        : 'Tell me where you serve customers and the kinds of local places where an introduction would be useful.'}
     </p>
   </div>
 
@@ -55,7 +55,7 @@ const formName = isVenue ? 'community-board-venue' : 'community-board-advertiser
       <label class="intake-label">Service area *<input class="intake-field" required name="service-area" placeholder="Raleigh, Wake County, Triangle…" /></label>
       <div class="grid gap-4 sm:grid-cols-2">
         <label class="intake-label">Locations of interest<select class="intake-field" name="location-count"><option>1 board</option><option>2–3 boards</option><option>4–6 boards</option><option>Raleigh network</option><option>Not sure yet</option></select></label>
-        <label class="intake-label">Approximate budget<select class="intake-field" name="budget"><option>Let’s discuss</option><option>Under $1,000</option><option>$1,000–$2,500</option><option>$2,500–$5,000</option><option>$5,000+</option></select></label>
+        <label class="intake-label">Best customer fit<input class="intake-field" name="customer-fit" placeholder="Homeowners, families, professionals…" /></label>
       </div>
       <fieldset>
         <legend class="intake-label">Preferred areas</legend>
@@ -69,6 +69,6 @@ const formName = isVenue ? 'community-board-venue' : 'community-board-advertiser
   )}
 
   <label class="intake-label">Additional notes<textarea class="intake-field min-h-28" name="notes" placeholder={isVenue ? 'Anything useful about the space or audience…' : 'Audience, preferred venue types, category questions…'}></textarea></label>
-  <button class="brand-button w-full sm:w-fit" type="submit">{isVenue ? 'Request my free board' : 'Request advertising info'} <span aria-hidden="true">→</span></button>
+  <button class="brand-button w-full sm:w-fit" type="submit">{isVenue ? 'Request my free board' : 'Request a partner spot'} <span aria-hidden="true">→</span></button>
   <p class="text-[.65rem] leading-5 text-[var(--brand-muted)]">Submitting this form does not guarantee a board or placement and does not create an agreement.</p>
 </form>
