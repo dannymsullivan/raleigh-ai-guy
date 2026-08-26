@@ -24,11 +24,11 @@ const formName = isVenue ? 'community-board-venue' : 'community-board-advertiser
 
   <div>
     <span class="print-stamp">{isVenue ? 'Venue application' : 'Community partner interest'}</span>
-    <h3 class="mt-6 font-editorial text-5xl leading-[.9] uppercase">{isVenue ? 'Request a free board.' : 'Request a free partner spot.'}</h3>
+    <h3 class="mt-6 font-editorial text-5xl leading-[.9] uppercase">{isVenue ? 'Request a free board.' : 'Sponsor for one year.'}</h3>
     <p class="mt-4 max-w-xl text-sm leading-6 text-[var(--brand-muted)]">
       {isVenue
-        ? 'Tell me about your space. This is an interest form, not a commitment.'
-        : 'Request a complimentary 90-day founding placement. Tell me where you serve customers and where an introduction would be useful.'}
+        ? 'Tell me about your space. Accepted venues host the board for one full year at no cost.'
+        : 'A sponsor placement is $500 for one full year. Tell me where you serve customers and where an introduction would be useful.'}
     </p>
   </div>
 
@@ -69,6 +69,6 @@ const formName = isVenue ? 'community-board-venue' : 'community-board-advertiser
   )}
 
   <label class="intake-label">Additional notes<textarea class="intake-field min-h-28" name="notes" placeholder={isVenue ? 'Anything useful about the space or audience…' : 'Audience, preferred venue types, or placement questions…'}></textarea></label>
-  <button class="brand-button w-full sm:w-fit" type="submit">{isVenue ? 'Request my free board' : 'Request a partner spot'} <span aria-hidden="true">→</span></button>
-  <p class="text-[.65rem] leading-5 text-[var(--brand-muted)]">{isVenue ? 'Submitting this form does not guarantee a board and does not create an agreement.' : 'The founding placement is complimentary for 90 days. Any paid renewal is optional, separately approved, and never automatic.'}</p>
+  <button class="brand-button w-full sm:w-fit" type="submit">{isVenue ? 'Request my free board' : 'Request a sponsor spot'} <span aria-hidden="true">→</span></button>
+  <p class="text-[.65rem] leading-5 text-[var(--brand-muted)]">{isVenue ? 'Submitting this form creates no agreement. Accepted venues commit to hosting the board for one full year.' : 'Submitting this form creates no agreement. Accepted sponsor placements cost $500 and run for one full year.'}</p>
 </form>
