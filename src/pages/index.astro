@@ -1,5 +1,8 @@
 ---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { publishedPosts } from "@/lib/publishing";
 
 const services = [
   {
@@ -29,6 +32,24 @@ const services = [
 ];
 
 const notesUrl = "/blog/";
+const homePostIds = [
+  "small-business-ai-strategy-30-days",
+  "what-raleigh-ai-consultant-does-small-business",
+  "do-i-need-ai",
+];
+const postsById = new Map(
+  publishedPosts(await getCollection("posts")).map((post) => [post.id, post])
+);
+const homePosts = homePostIds.flatMap((id) => {
+  const post = postsById.get(id);
+  return post ? [post] : [];
+});
+const formatPostDate = (date: Date) => date.toLocaleDateString("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+  timeZone: "UTC",
+});
 ---
 
 <BaseLayout
@@ -170,14 +191,44 @@ const notesUrl = "/blog/";
         </div>
       </section>
 
-      <section id="notes" class="notes poster-shell" aria-labelledby="notes-title">
-        <div class="notes-icon" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-        <div>
-          <p class="section-kicker pink">From the field notes</p>
-          <h2 id="notes-title">AI for real work</h2>
-          <p>Notes on practical AI, better workflows, and systems that make businesses easier to run.</p>
+      <section id="notes" class="notes-home poster-shell" aria-labelledby="notes-title">
+        <div class="notes-header">
+          <div class="notes-icon" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          <div>
+            <p class="section-kicker pink">From the field notes</p>
+            <h2 id="notes-title">Useful places to start</h2>
+            <p>Practical guides for choosing better AI opportunities and putting them to work.</p>
+          </div>
+          <a class="poster-button poster-button-yellow" href={notesUrl}>See all writing <span aria-hidden="true">→</span></a>
         </div>
-        <a class="poster-button poster-button-yellow" href={notesUrl}>Read the notes <span aria-hidden="true">→</span></a>
+
+        <div class="notes-grid">
+          {homePosts.map((post, index) => (
+            <article class="note-card">
+              <a href={`/blog/posts/${post.id}`} aria-label={`Read: ${post.data.title}`}>
+                <div class="note-image">
+                  <Image
+                    src={post.data.image.url}
+                    alt={post.data.image.alt}
+                    widths={[480, 720]}
+                    sizes="(min-width: 900px) 24rem, (min-width: 560px) 50vw, 100vw"
+                    loading="lazy"
+                  />
+                  <span aria-hidden="true">0{index + 1}</span>
+                </div>
+                <div class="note-copy">
+                  <div class="note-meta">
+                    <time datetime={post.data.pubDate.toISOString().slice(0, 10)}>{formatPostDate(post.data.pubDate)}</time>
+                    <span>{post.data.tags[0]?.replaceAll("-", " ")}</span>
+                  </div>
+                  <h3>{post.data.title}</h3>
+                  <p>{post.data.description}</p>
+                  <strong>Read the guide <span aria-hidden="true">→</span></strong>
+                </div>
+              </a>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section class="final-cta poster-shell" aria-labelledby="contact-title">
@@ -437,11 +488,26 @@ const notesUrl = "/blog/";
   .case-metric span { justify-self: start; padding: .28rem .6rem .2rem; background: var(--poster-yellow); font-family: "Instrument Sans", sans-serif; font-size: .78rem; font-weight: 850; text-transform: uppercase; transform: rotate(-.6deg); }
   .case-copy > .poster-button { align-self: flex-start; margin-top: 1.6rem; font-size: .7rem; }
 
-  .notes { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.6rem; padding: 1.8rem; border: 2px solid var(--poster-ink); }
+  .notes-home { margin-block: clamp(3.5rem, 6vw, 5.5rem) 1.5rem; }
+  .notes-header { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.6rem; padding: 1.8rem; border: 2px solid var(--poster-ink); }
   .notes-icon { display: grid; width: 4.2rem; gap: .45rem; padding: .8rem; border: 2px solid var(--poster-ink); transform: rotate(-2deg); }
   .notes-icon span { display: block; height: 2px; background: var(--poster-ink); }
-  .notes h2 { font-size: clamp(2.4rem, 4vw, 3.8rem); letter-spacing: -.02em; line-height: .85; }
-  .notes p:not(.section-kicker) { max-width: 39rem; margin-top: .55rem; font-size: .8rem; font-weight: 700; line-height: 1.45; }
+  .notes-home h2 { font-size: clamp(2.4rem, 4vw, 3.8rem); letter-spacing: -.02em; line-height: .85; }
+  .notes-header p:not(.section-kicker) { max-width: 39rem; margin-top: .55rem; font-size: .8rem; font-weight: 700; line-height: 1.45; }
+  .notes-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 2px solid var(--poster-ink); border-top: 0; background: var(--poster-ink); gap: 2px; }
+  .note-card { min-width: 0; background: var(--poster-paper); }
+  .note-card > a { display: flex; height: 100%; min-height: 30rem; flex-direction: column; color: inherit; }
+  .note-image { position: relative; overflow: hidden; padding: .55rem; background: var(--poster-ink); }
+  .note-image :global(img) { display: block; width: 100%; aspect-ratio: 1200 / 630; border: 1px solid rgb(255 255 255 / 35%); object-fit: cover; transition: filter 180ms ease, transform 180ms ease; }
+  .note-image > span { position: absolute; right: 1rem; bottom: .9rem; display: grid; width: 2.7rem; aspect-ratio: 1; place-items: center; border: 2px solid var(--poster-ink); background: var(--poster-yellow); box-shadow: 2px 2px 0 var(--poster-pink); font-family: "League Gothic", sans-serif; font-size: 1.5rem; transform: rotate(3deg); }
+  .note-copy { display: flex; flex: 1; flex-direction: column; padding: 1.35rem 1.3rem 1.25rem; }
+  .note-meta { display: flex; align-items: center; justify-content: space-between; gap: .8rem; color: rgb(23 19 15 / 62%); font-size: .56rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+  .note-meta > span { padding: .2rem .35rem .14rem; background: rgb(244 62 141 / 12%); color: var(--poster-pink); }
+  .note-card h3 { margin-top: 1.15rem; font-family: "Instrument Sans", sans-serif; font-size: clamp(1.05rem, 1.7vw, 1.35rem); font-weight: 850; letter-spacing: -.025em; line-height: 1.06; text-transform: uppercase; transition: color 160ms ease; }
+  .note-card p { margin-top: .9rem; font-size: .72rem; font-weight: 700; line-height: 1.48; }
+  .note-card strong { margin-top: auto; padding-top: 1.2rem; color: var(--poster-pink); font-family: "Instrument Sans", sans-serif; font-size: .65rem; font-weight: 850; text-decoration: underline; text-underline-offset: .28rem; text-transform: uppercase; }
+  .note-card a:hover .note-image :global(img) { filter: saturate(1.05) contrast(1.03); transform: scale(1.012); }
+  .note-card a:hover h3 { color: var(--poster-pink); }
 
   .final-cta { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem; padding-block: clamp(4.5rem, 8vw, 7rem); }
   .final-cta h2 { max-width: 55rem; font-size: clamp(4rem, 7vw, 7rem); letter-spacing: -.025em; line-height: .82; text-decoration: underline; text-decoration-color: var(--poster-pink); text-decoration-thickness: .07em; text-underline-offset: .09em; }
@@ -485,8 +551,11 @@ const notesUrl = "/blog/";
     .case-summary, .case-metric { margin-top: 0; }
     .case-metric { padding-top: 0; border-top: 0; }
     .case-copy > .poster-button { grid-column: 1 / -1; margin-top: 0; }
-    .notes { grid-template-columns: auto 1fr; }
-    .notes .poster-button { grid-column: 1 / -1; }
+    .notes-header { grid-template-columns: auto 1fr; }
+    .notes-header .poster-button { grid-column: 1 / -1; }
+    .notes-grid { grid-template-columns: 1fr 1fr; }
+    .note-card:last-child { grid-column: 1 / -1; }
+    .note-card > a { min-height: 27rem; }
     .final-cta { grid-template-columns: 1fr; align-items: start; }
   }
 
@@ -515,8 +584,11 @@ const notesUrl = "/blog/";
     .case-copy { display: flex; }
     .case-metric { margin-top: 1.4rem; padding-top: 1.4rem; border-top: 1.5px dashed var(--poster-line); }
     .case-metric strong { font-size: 6.2rem; }
-    .notes { grid-template-columns: 1fr; padding: 1.25rem; }
-    .notes .poster-button { grid-column: auto; }
+    .notes-header { grid-template-columns: 1fr; padding: 1.25rem; }
+    .notes-header .poster-button { grid-column: auto; }
+    .notes-grid { grid-template-columns: 1fr; }
+    .note-card:last-child { grid-column: auto; }
+    .note-card > a { min-height: 0; }
     .final-cta h2 { font-size: 4.2rem; }
     .poster-footer { grid-template-columns: 1fr; }
   }
