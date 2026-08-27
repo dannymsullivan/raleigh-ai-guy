@@ -9,6 +9,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "content:generate": "node scripts/generate-scheduled-posts.mjs",
+    "covers:generate": "node scripts/generate-blog-covers.mjs",
     "content:validate": "node scripts/validate-content-engine.mjs",
     "content:check": "node scripts/validate-content-engine.mjs",
     "test:seo": "npm run content:check"
@@ -25,6 +27,7 @@
     "astro": "^6.3.5",
     "posthog-js": "^1.406.2",
     "reading-time": "^1.5.0",
+    "sharp": "^0.34.5",
     "tailwind-scrollbar-hide": "^4.0.0",
     "tailwindcss": "^4.3.0"
   }

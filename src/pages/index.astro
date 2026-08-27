@@ -5,21 +5,27 @@ import profileImage from "../../danny.jpeg";
 
 const services = [
   {
-    title: "AI Concierge",
-    description: "Ongoing, hands-on help choosing where AI belongs and improving how your team uses it.",
-    cta: "Explore concierge",
+    title: "Ongoing Consulting",
+    price: "$2,500 / month",
+    description: "One active business priority at a time, with practical strategy and hands-on implementation—not a pile of recommendations.",
+    cta: "See the partnership",
+    href: "/services/#consulting",
     icon: "headset",
   },
   {
-    title: "In-Person AI",
-    description: "Raleigh workshops and working sessions built around your team’s real work.",
-    cta: "Plan a session",
+    title: "Local Presence Sprint",
+    price: "From $2,500",
+    description: "A focused website, Google Business Profile, local SEO, and measurement foundation for an established local business.",
+    cta: "See the sprint",
+    href: "/small-business-growth/",
     icon: "people",
   },
   {
-    title: "Custom Automations",
-    description: "Done-for-you systems that connect tools, reduce manual work, and keep important work moving.",
-    cta: "See what I build",
+    title: "Custom Systems",
+    price: "From $7,500",
+    description: "Scoped automations, dashboards, and operating tools for valuable work that has outgrown the current process.",
+    cta: "See custom systems",
+    href: "/services/#custom-systems",
     icon: "workflow",
   },
 ];
@@ -30,7 +36,7 @@ const notesUrl = "/blog/";
 <BaseLayout
   minimal
   pageTitle="Practical AI for Raleigh Businesses — Raleigh AI Guy"
-  pageDescription="Danny Sullivan helps Raleigh business owners put AI to work through hands-on guidance, in-person sessions, and custom automations."
+  pageDescription="Danny Sullivan helps Raleigh business owners through ongoing consulting, a focused local-presence sprint, and custom systems built around real work."
 >
   <div class="poster-site">
     <header class="poster-header poster-shell">
@@ -70,6 +76,13 @@ const notesUrl = "/blog/";
             <a class="poster-button poster-button-yellow" href="#services">See ways to work together <span aria-hidden="true">→</span></a>
             <a class="text-link" href="/projects/">See what I’ve built <span aria-hidden="true">→</span></a>
           </div>
+          <div class="jingle-player">
+            <p><span>Press play</span><strong>The Raleigh AI Guy jingle</strong><small>15 seconds · sound on</small></p>
+            <audio controls preload="metadata" aria-label="Play the Raleigh AI Guy jingle">
+              <source src="/audio/raleigh-ai-guy-jingle.mp3" type="audio/mpeg" />
+              Your browser does not support audio playback.
+            </audio>
+          </div>
         </div>
 
         <div class="hero-portrait poster-reveal poster-reveal-delay">
@@ -88,6 +101,33 @@ const notesUrl = "/blog/";
 
       <section class="credential-strip poster-shell" aria-label="Experience">
         <span>AI product engineer</span><i aria-hidden="true"></i><span>Educator</span><i aria-hidden="true"></i><span>Former service-business owner</span>
+      </section>
+
+      <section id="case-study" class="case-study poster-shell" aria-labelledby="case-study-title">
+        <a class="case-visual" href="/projects/zimzoom-photo-booth/" aria-label="View the Zim Zoom operations command center case study">
+          <img
+            src="/case-study/01-owner-overview.png"
+            alt="Zim Zoom operations command center preview using simulated, fictional records and no customer data."
+            width="1440"
+            height="1000"
+            loading="eager"
+            decoding="async"
+          />
+          <span><strong>Inside the build</strong> See the command center in action <i aria-hidden="true">→</i></span>
+        </a>
+        <div class="case-copy">
+          <div class="case-label">
+            <p>Featured case study</p>
+            <h2 id="case-study-title">Zim Zoom</h2>
+          </div>
+          <p class="case-summary">A custom command center turned scattered tools and manual handoffs into one clear operating view.</p>
+          <div class="case-metric">
+            <p>Projected time savings</p>
+            <strong>350–800</strong>
+            <span>hours back per year</span>
+          </div>
+          <a class="poster-button" href="/projects/zimzoom-photo-booth/">View case study <span aria-hidden="true">→</span></a>
+        </div>
       </section>
 
       <section id="about" class="about poster-shell poster-section">
@@ -128,33 +168,11 @@ const notesUrl = "/blog/";
                 )}
               </div>
               <h3><span>{service.title}</span></h3>
+              <strong class="service-price">{service.price}</strong>
               <p>{service.description}</p>
-              <a href="/contact/">{service.cta} <span aria-hidden="true">→</span></a>
+              <a href={service.href}>{service.cta} <span aria-hidden="true">→</span></a>
             </article>
           ))}
-        </div>
-
-        <div class="secondary-offers" aria-label="Additional Raleigh AI Guy services">
-          <p><span>Also in the notebook</span>Focused packages for businesses that need the growth fundamentals or a better way to recover existing demand.</p>
-          <a href="/small-business-growth/"><small>Packaged service / 01</small><strong>Small Business Growth</strong><span>Website, brand, local visibility, Auto SEO, and follow-up. →</span></a>
-          <a href="/lead-recovery/"><small>Revenue recovery / 02</small><strong>Lead Recovery</strong><span>Re-engage old leads and return qualified opportunities to your team. →</span></a>
-        </div>
-      </section>
-
-      <section id="case-study" class="case-study poster-shell" aria-labelledby="case-study-title">
-        <div class="case-label">
-          <p>Case study:</p>
-          <h2 id="case-study-title">Zim Zoom</h2>
-          <div class="pixel-computer" aria-hidden="true"><span>⌣</span></div>
-        </div>
-        <div class="case-metric">
-          <p>Projected time savings</p>
-          <strong>350–800</strong>
-          <span>hours back per year</span>
-        </div>
-        <div class="case-action">
-          <p>A custom command center turned scattered tools and manual handoffs into one clear operating view.</p>
-          <a class="poster-button" href="/projects/zimzoom-photo-booth/">View case study <span aria-hidden="true">→</span></a>
         </div>
       </section>
 
@@ -314,6 +332,12 @@ const notesUrl = "/blog/";
 
   .hero-intro { max-width: 37rem; margin-top: 2.2rem; font-size: clamp(.96rem, 1.55vw, 1.2rem); font-weight: 700; line-height: 1.48; }
   .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem; margin-top: 2rem; }
+  .jingle-player { display: grid; max-width: 36rem; grid-template-columns: minmax(10rem, .72fr) minmax(13rem, 1fr); align-items: center; gap: 1rem; margin-top: 1.75rem; border: 2px solid var(--poster-ink); padding: .75rem .85rem; background: rgb(244 62 141 / 8%); box-shadow: 3px 3px 0 var(--poster-ink); transform: rotate(-.3deg); }
+  .jingle-player p { display: grid; gap: .16rem; line-height: 1; }
+  .jingle-player p span { justify-self: start; padding: .18rem .35rem .13rem; background: var(--poster-pink); color: var(--poster-paper); font-size: .52rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+  .jingle-player p strong { font-family: "Instrument Sans", sans-serif; font-size: .76rem; font-weight: 850; text-transform: uppercase; }
+  .jingle-player p small { font-size: .55rem; font-weight: 700; text-transform: uppercase; }
+  .jingle-player audio { display: block; width: 100%; min-width: 0; height: 2.25rem; accent-color: var(--poster-pink); }
 
   .poster-button {
     display: inline-flex;
@@ -424,32 +448,27 @@ const notesUrl = "/blog/";
   .service-icon svg { width: 6.4rem; fill: none; stroke: var(--poster-ink); stroke-linecap: square; stroke-linejoin: miter; stroke-width: 2.5; }
   .service-card h3 { font-family: "Instrument Sans", sans-serif; font-size: 1rem; font-weight: 850; text-transform: uppercase; }
   .service-card h3 span { display: inline; padding: .26rem .48rem .2rem; background: var(--poster-yellow); box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .service-price { display: block; margin-top: 1.15rem; color: var(--poster-pink); font-family: "League Gothic", sans-serif; font-size: 2rem; font-weight: 400; letter-spacing: .01em; line-height: 1; text-transform: uppercase; }
   .service-card p { margin-top: 1rem; font-size: .86rem; font-weight: 700; line-height: 1.48; }
   .service-card > a { margin-top: auto; padding-top: 1.5rem; color: var(--poster-pink); font-family: "Instrument Sans", sans-serif; font-size: .72rem; font-weight: 850; text-decoration: underline; text-underline-offset: .3rem; text-transform: uppercase; }
 
-  .secondary-offers { display: grid; grid-template-columns: .8fr 1fr 1fr; border: 2px solid var(--poster-ink); margin-top: 2rem; background: var(--poster-ink); gap: 2px; }
-  .secondary-offers > * { min-width: 0; padding: 1.4rem; background: var(--poster-paper); }
-  .secondary-offers > p { margin: 0; font-size: .72rem; font-weight: 700; line-height: 1.55; }
-  .secondary-offers > p span { display: block; margin-bottom: .65rem; color: var(--poster-pink); font-size: .6rem; text-transform: uppercase; }
-  .secondary-offers > a { display: flex; min-height: 10rem; flex-direction: column; transition: background 150ms ease; }
-  .secondary-offers > a:hover { background: var(--poster-yellow); }
-  .secondary-offers small { font-size: .58rem; font-weight: 700; text-transform: uppercase; }
-  .secondary-offers strong { margin-top: 1rem; font-family: "League Gothic", sans-serif; font-size: 2rem; font-weight: 400; line-height: .95; text-transform: uppercase; }
-  .secondary-offers a span { margin-top: auto; padding-top: 1.25rem; font-size: .68rem; font-weight: 700; line-height: 1.4; }
-
-  .case-study { display: grid; grid-template-columns: .6fr 1.25fr .9fr; border: 2px solid var(--poster-ink); margin-block: clamp(4rem, 7vw, 6rem) 1.5rem; box-shadow: 6px 6px 0 var(--poster-ink); }
-  .case-label, .case-metric, .case-action { padding: clamp(1.5rem, 3vw, 2.4rem); }
-  .case-metric, .case-action { border-left: 1.5px dashed var(--poster-line); }
-  .case-label p, .case-label h2 { color: var(--poster-pink); font-family: "Instrument Sans", sans-serif; font-size: 1.1rem; font-weight: 850; line-height: 1; text-transform: uppercase; }
-  .case-label h2 { font-size: 1.6rem; }
-  .pixel-computer { position: relative; display: grid; width: 5.6rem; height: 4.8rem; margin-top: 2rem; place-items: center; border: 4px solid var(--poster-ink); box-shadow: inset 0 0 0 4px var(--poster-paper), 0 6px 0 -2px var(--poster-ink); font-size: 2rem; }
-  .case-metric { display: grid; align-content: center; text-align: center; }
+  .case-study { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(19rem, .72fr); border: 2px solid var(--poster-ink); margin-block: clamp(2.5rem, 5vw, 4.5rem) 1.5rem; background: var(--poster-paper); box-shadow: 6px 6px 0 var(--poster-ink); }
+  .case-visual { position: relative; min-width: 0; overflow: hidden; border-right: 1.5px dashed var(--poster-line); padding: .7rem; background: var(--poster-ink); }
+  .case-visual img { display: block; width: 100%; height: 100%; min-height: 29rem; border: 1px solid rgb(255 255 255 / 35%); object-fit: cover; object-position: left top; transition: filter 180ms ease, transform 180ms ease; }
+  .case-visual > span { position: absolute; right: 1.5rem; bottom: 1.5rem; display: grid; max-width: 15rem; padding: .8rem 1rem .7rem; border: 2px solid var(--poster-ink); background: var(--poster-yellow); box-shadow: 4px 4px 0 var(--poster-ink); color: var(--poster-ink); font-size: .68rem; font-style: normal; font-weight: 700; line-height: 1.35; text-transform: uppercase; transform: rotate(-1deg); }
+  .case-visual > span strong { font-family: "Instrument Sans", sans-serif; font-size: .9rem; font-weight: 850; }
+  .case-visual > span i { position: absolute; right: .65rem; bottom: .4rem; color: var(--poster-pink); font-family: "Instrument Sans", sans-serif; font-size: 1.1rem; font-style: normal; font-weight: 900; }
+  .case-visual:hover img { filter: saturate(1.08) contrast(1.03); transform: scale(1.008); }
+  .case-copy { display: flex; min-width: 0; flex-direction: column; justify-content: center; padding: clamp(1.5rem, 3vw, 2.5rem); }
+  .case-label { padding-bottom: 1.4rem; border-bottom: 1.5px dashed var(--poster-line); }
+  .case-label p, .case-label h2 { color: var(--poster-pink); font-family: "Instrument Sans", sans-serif; font-size: .7rem; font-weight: 850; line-height: 1; text-transform: uppercase; }
+  .case-label h2 { margin-top: .4rem; color: var(--poster-ink); font-family: "League Gothic", sans-serif; font-size: clamp(3.8rem, 6vw, 5.4rem); font-weight: 400; letter-spacing: -.025em; }
+  .case-summary { margin-top: 1.5rem; font-size: .84rem; font-weight: 700; line-height: 1.55; }
+  .case-metric { display: grid; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1.5px dashed var(--poster-line); align-content: center; }
   .case-metric p { font-size: .65rem; font-weight: 700; text-transform: uppercase; }
-  .case-metric strong { font-family: "League Gothic", sans-serif; font-size: clamp(5rem, 9vw, 8.4rem); font-weight: 400; letter-spacing: -.035em; line-height: .77; }
-  .case-metric span { justify-self: center; padding: .28rem .6rem .2rem; background: var(--poster-yellow); font-family: "Instrument Sans", sans-serif; font-size: .9rem; font-weight: 850; text-transform: uppercase; transform: rotate(-.6deg); }
-  .case-action { display: flex; flex-direction: column; justify-content: center; }
-  .case-action p { font-size: .84rem; font-weight: 700; line-height: 1.5; }
-  .case-action .poster-button { margin-top: 1.3rem; font-size: .7rem; }
+  .case-metric strong { font-family: "League Gothic", sans-serif; font-size: clamp(4.8rem, 7vw, 6.8rem); font-weight: 400; letter-spacing: -.035em; line-height: .83; }
+  .case-metric span { justify-self: start; padding: .28rem .6rem .2rem; background: var(--poster-yellow); font-family: "Instrument Sans", sans-serif; font-size: .78rem; font-weight: 850; text-transform: uppercase; transform: rotate(-.6deg); }
+  .case-copy > .poster-button { align-self: flex-start; margin-top: 1.6rem; font-size: .7rem; }
 
   .notes { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.6rem; padding: 1.8rem; border: 2px solid var(--poster-ink); }
   .notes-icon { display: grid; width: 4.2rem; gap: .45rem; padding: .8rem; border: 2px solid var(--poster-ink); transform: rotate(-2deg); }
@@ -492,10 +511,14 @@ const notesUrl = "/blog/";
     .service-grid { grid-template-columns: 1fr; }
     .service-card { min-height: 20rem; }
     .service-card + .service-card { border-top: 1.5px dashed var(--poster-line); border-left: 0; }
-    .secondary-offers { grid-template-columns: 1fr 1fr; }
-    .secondary-offers > p { grid-column: 1 / -1; }
-    .case-study { grid-template-columns: 1fr 1.5fr; }
-    .case-action { grid-column: 1 / -1; border-top: 1.5px dashed var(--poster-line); border-left: 0; }
+    .case-study { grid-template-columns: 1fr; }
+    .case-visual { border-right: 0; border-bottom: 1.5px dashed var(--poster-line); }
+    .case-visual img { min-height: 0; aspect-ratio: 1.44; }
+    .case-copy { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem 2rem; }
+    .case-label { grid-column: 1 / -1; }
+    .case-summary, .case-metric { margin-top: 0; }
+    .case-metric { padding-top: 0; border-top: 0; }
+    .case-copy > .poster-button { grid-column: 1 / -1; margin-top: 0; }
     .notes { grid-template-columns: auto 1fr; }
     .notes .poster-button { grid-column: 1 / -1; }
     .final-cta { grid-template-columns: 1fr; align-items: start; }
@@ -508,6 +531,7 @@ const notesUrl = "/blog/";
     .tape-note { max-width: 7.6rem; padding-inline: .45rem; font-size: .52rem; }
     .hero h1 { font-size: clamp(4rem, 19vw, 5.7rem); }
     .hero-intro { font-size: .9rem; }
+    .jingle-player { grid-template-columns: 1fr; }
     .hero-portrait { min-height: 0; aspect-ratio: 1; margin-top: 1.5rem; border-top: 2px solid var(--poster-ink); }
     .portrait-image {
       inset: 0;
@@ -527,10 +551,12 @@ const notesUrl = "/blog/";
     .section-rule-heading { grid-template-columns: 1fr; }
     .section-rule-heading span { display: none; }
     .service-card { padding-inline: 1.2rem; }
-    .secondary-offers { grid-template-columns: 1fr; }
-    .secondary-offers > p { grid-column: auto; }
     .case-study { grid-template-columns: 1fr; margin-inline: auto; }
-    .case-metric, .case-action { border-top: 1.5px dashed var(--poster-line); border-left: 0; }
+    .case-visual { padding: .4rem; }
+    .case-visual > span { right: .85rem; bottom: .85rem; max-width: 11.5rem; padding: .65rem .75rem .6rem; font-size: .55rem; }
+    .case-visual > span strong { font-size: .72rem; }
+    .case-copy { display: flex; }
+    .case-metric { margin-top: 1.4rem; padding-top: 1.4rem; border-top: 1.5px dashed var(--poster-line); }
     .case-metric strong { font-size: 6.2rem; }
     .notes { grid-template-columns: 1fr; padding: 1.25rem; }
     .notes .poster-button { grid-column: auto; }

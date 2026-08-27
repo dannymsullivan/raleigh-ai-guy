@@ -9,10 +9,12 @@ image:
   alt: "Zim Zoom Photo Booth homepage featuring guests and the headline Extraordinary Photo Booth Experiences."
 caseStudyCover:
   url: "/case-study/01-owner-overview.png"
-  alt: "Demo of the Zim Zoom operations command center owner overview using simulated data."
+  alt: "Zim Zoom operations command center owner overview using simulated, fictional records and no customer data."
 ---
 
 ## From scattered data to one command center
+
+> **Privacy note:** Every command-center screenshot in this case study was captured from a credential-free demo build using fictional fixtures. No Zim Zoom customer, staff, payment, event, or operational record is shown.
 
 [Zim Zoom Photo Booth](https://zimzoomphotobooth.com/) had the information needed to run the business. The problem was that it lived in too many places.
 

@@ -5,7 +5,7 @@ import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 
 <BaseLayout
   pageTitle="Contact Danny Sullivan — Raleigh AI Guy"
-  pageDescription="Get in touch with Danny Sullivan about custom automation, AI concierge support, in-person training, partnerships, speaking, or media."
+  pageDescription="Get in touch with Danny Sullivan about ongoing consulting, a local-presence sprint, custom systems, in-person training, partnerships, speaking, or media."
 >
   <section>
     <Wrapper variant="wide" class="py-14 sm:py-20 lg:py-24">
@@ -13,7 +13,7 @@ import Wrapper from "@/components/fundations/containers/Wrapper.astro";
         <div class="text-center">
           <p class="print-stamp mx-auto">Contact</p>
           <h1 class="font-editorial mt-6 text-6xl font-medium leading-[.9] tracking-[-.045em] sm:text-8xl">Get in touch.</h1>
-          <p class="mx-auto mt-6 max-w-2xl text-base leading-7 text-base-600">Custom automation, AI concierge support, in-person training, partnerships, speaking, or media. If it feels like a strong fit, I’ll reply personally.</p>
+          <p class="mx-auto mt-6 max-w-2xl text-base leading-7 text-base-600">Ongoing consulting, a local-presence sprint, custom systems, in-person training, partnerships, speaking, or media. If it feels like a strong fit, I’ll reply personally.</p>
         </div>
 
         <div class="print-panel mt-10 p-6 sm:p-9">
@@ -30,11 +30,10 @@ import Wrapper from "@/components/fundations/containers/Wrapper.astro";
             <label class="intake-label mt-7">Reason *
               <select class="intake-field" name="reason" required>
                 <option value="" selected disabled>Choose one</option>
-                <option>Custom automation</option>
-                <option>AI concierge support</option>
+                <option>Ongoing consulting — $2,500/month</option>
+                <option>Local Presence Sprint</option>
+                <option>Custom system</option>
                 <option>In-person training or workshop</option>
-                <option>Small Business Growth package</option>
-                <option>Lead recovery</option>
                 <option>Partnership</option>
                 <option>Speaking</option>
                 <option>Media or press</option>
@@ -58,10 +57,12 @@ import Wrapper from "@/components/fundations/containers/Wrapper.astro";
     const requestedService = new URLSearchParams(window.location.search).get("service");
     const reason = document.querySelector<HTMLSelectElement>('select[name="reason"]');
     const requestedOptions: Record<string, string> = {
-      foundation: "Small Business Growth package",
-      visibility: "Small Business Growth package",
-      followup: "Small Business Growth package",
-      "lead-recovery": "Lead recovery",
+      consulting: "Ongoing consulting — $2,500/month",
+      foundation: "Local Presence Sprint",
+      "local-presence": "Local Presence Sprint",
+      visibility: "Ongoing consulting — $2,500/month",
+      followup: "Ongoing consulting — $2,500/month",
+      "custom-system": "Custom system",
     };
     if (reason && requestedService && requestedOptions[requestedService]) {
       reason.value = requestedOptions[requestedService];
