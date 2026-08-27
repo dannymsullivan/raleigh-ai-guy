@@ -54,6 +54,7 @@ const formatPostDate = (date: Date) => date.toLocaleDateString("en-US", {
 
 <BaseLayout
   minimal
+  showFooter
   pageTitle="Practical AI for Raleigh Businesses — Raleigh AI Guy"
   pageDescription="Danny Sullivan helps Raleigh business owners through ongoing consulting, a focused local-presence sprint, and custom systems built around real work."
 >
@@ -90,7 +91,7 @@ const formatPostDate = (date: Date) => date.toLocaleDateString("en-US", {
         <div class="hero-copy poster-reveal">
           <p class="utility-label">Raleigh, North Carolina · Working with real businesses</p>
           <h1 id="hero-title">Practical AI <br />for the people <br /><span>doing the work.</span></h1>
-          <p class="hero-intro">I help Raleigh business owners put AI to work, improve how work gets done, and build useful systems—without becoming technical experts.</p>
+          <p class="hero-intro">I help Raleigh business owners put AI to work through simpler workflows and practical automations—without the technical headaches.</p>
           <div class="hero-actions">
             <a class="poster-button poster-button-yellow" href="#services">See ways to work together <span aria-hidden="true">→</span></a>
             <a class="text-link" href="/projects/">See what I’ve built <span aria-hidden="true">→</span></a>
@@ -231,28 +232,7 @@ const formatPostDate = (date: Date) => date.toLocaleDateString("en-US", {
         </div>
       </section>
 
-      <section class="final-cta poster-shell" aria-labelledby="contact-title">
-        <div>
-          <p class="section-kicker">Start with the work itself</p>
-          <h2 id="contact-title">Tell me what you’re trying to make easier.</h2>
-        </div>
-        <a class="poster-button poster-button-pink" href="/contact/">Work with Danny <span aria-hidden="true">→</span></a>
-      </section>
     </main>
-
-    <footer class="poster-footer poster-shell">
-      <div>
-        <strong>Raleigh AI Guy</strong>
-        <p>Making AI useful for the people who run real businesses.</p>
-      </div>
-      <nav aria-label="Footer navigation">
-        <a href="/contact/">Contact</a>
-        <a href="/about/">About</a>
-        <a href="/projects/">Work</a>
-        <a href="/privacy/">Privacy</a>
-      </nav>
-      <p>© {new Date().getFullYear()} Danny Sullivan · Raleigh, NC</p>
-    </footer>
   </div>
 </BaseLayout>
 
@@ -361,7 +341,7 @@ const formatPostDate = (date: Date) => date.toLocaleDateString("en-US", {
   }
   .utility-label { margin-bottom: 1.4rem; }
 
-  .hero h1, .poster-section h2, .final-cta h2, .notes h2 {
+  .hero h1, .poster-section h2, .notes h2 {
     font-family: "League Gothic", "Instrument Sans", sans-serif;
     font-weight: 400;
     text-transform: uppercase;
@@ -509,17 +489,6 @@ const formatPostDate = (date: Date) => date.toLocaleDateString("en-US", {
   .note-card a:hover .note-image :global(img) { filter: saturate(1.05) contrast(1.03); transform: scale(1.012); }
   .note-card a:hover h3 { color: var(--poster-pink); }
 
-  .final-cta { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem; padding-block: clamp(4.5rem, 8vw, 7rem); }
-  .final-cta h2 { max-width: 55rem; font-size: clamp(4rem, 7vw, 7rem); letter-spacing: -.025em; line-height: .82; text-decoration: underline; text-decoration-color: var(--poster-pink); text-decoration-thickness: .07em; text-underline-offset: .09em; }
-  .final-cta .poster-button { min-width: 16rem; }
-
-  .poster-footer { display: grid; grid-template-columns: 1fr auto; gap: 2rem; padding-block: 2.5rem; border-top: 2px solid var(--poster-ink); }
-  .poster-footer strong { font-family: "Instrument Sans", sans-serif; font-size: 1.2rem; font-weight: 850; text-transform: uppercase; }
-  .poster-footer p { margin-top: .45rem; font-size: .68rem; font-weight: 700; line-height: 1.4; }
-  .poster-footer nav { display: flex; flex-wrap: wrap; gap: 1.2rem; }
-  .poster-footer a { color: inherit; font-size: .68rem; font-weight: 700; text-decoration: underline; text-underline-offset: .25rem; text-transform: uppercase; }
-  .poster-footer > p { grid-column: 1 / -1; margin: 1rem 0 0; text-transform: uppercase; }
-
   @keyframes poster-rise { from { opacity: 0; transform: translateY(18px) rotate(.3deg); } to { opacity: 1; transform: translateY(0) rotate(0); } }
   .poster-reveal { animation: poster-rise 700ms cubic-bezier(.2, .8, .2, 1) both; }
   .poster-reveal-delay { animation-delay: 100ms; }
@@ -556,7 +525,6 @@ const formatPostDate = (date: Date) => date.toLocaleDateString("en-US", {
     .notes-grid { grid-template-columns: 1fr 1fr; }
     .note-card:last-child { grid-column: 1 / -1; }
     .note-card > a { min-height: 27rem; }
-    .final-cta { grid-template-columns: 1fr; align-items: start; }
   }
 
   @media (max-width: 560px) {
@@ -589,8 +557,6 @@ const formatPostDate = (date: Date) => date.toLocaleDateString("en-US", {
     .notes-grid { grid-template-columns: 1fr; }
     .note-card:last-child { grid-column: auto; }
     .note-card > a { min-height: 0; }
-    .final-cta h2 { font-size: 4.2rem; }
-    .poster-footer { grid-template-columns: 1fr; }
   }
 
   @media (prefers-reduced-motion: reduce) {

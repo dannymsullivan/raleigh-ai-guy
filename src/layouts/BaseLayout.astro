@@ -16,6 +16,7 @@ interface Props {
   socialImageHeight?: number;
   noindex?: boolean;
   minimal?: boolean;
+  showFooter?: boolean;
 }
 
 const {
@@ -27,6 +28,7 @@ const {
   socialImageHeight,
   noindex,
   minimal = false,
+  showFooter = !minimal,
 } = Astro.props;
 ---
 
@@ -47,6 +49,6 @@ const {
     <a href="#main-content" class="fixed left-4 top-4 z-50 -translate-y-24 bg-[var(--brand-orange)] px-4 py-3 text-sm font-semibold text-[var(--brand-ink)] transition-transform focus:translate-y-0">Skip to content</a>
     {!minimal && <Navigation />}
     <main id="main-content" class="grow"><slot /></main>
-    {!minimal && <Footer />}
+    {showFooter && <Footer />}
   </body>
 </html>
