@@ -85,6 +85,19 @@ The “Needs CEO” workflow captures urgency, category, requester, due date, ow
 
 ![Demo CEO decision queue showing a structured approval workflow using simulated data.](/case-study/05-ceo-decision-queue.png)
 
+### Slack became an operating interface
+
+I built a custom Slack integration so the team can get useful answers without opening another dashboard or copying sensitive records into chat. Purpose-built slash commands now turn live operational data into concise, permission-aware responses:
+
+- `/today` and `/this-week` summarize booked events, booth requirements, staffing coverage, and gaps.
+- `/late` prioritizes past-due payments and links authorized users back to verified source records.
+- `/needs-ceo` turns a Slack request into a tracked decision record with a direct link to the request page.
+- `/zoomgpt` gives the team one discoverable directory of every available command.
+
+The integration verifies every Slack request, acknowledges commands immediately, and delivers longer results asynchronously using compact Block Kit sections. Responses are private to the person who requested them, and dashboard permissions determine which financial or staffing details they can see.
+
+This case study shows the workflow and architecture—not the underlying records. No customer names, event details, staff assignments, balances, Slack messages, access tokens, or production screenshots are published.
+
 ### Business metrics retain their context
 
 Current bookings, historical pace, prior-year results, targets, and forecasts remain visibly distinct. Every value keeps its source, so incomplete data is not presented as final.
@@ -113,7 +126,7 @@ The resulting application includes:
 - Live Supabase data
 - VSCO synchronization
 - Superhuman Docs/Coda metric imports
-- Slack decision intake
+- Custom Slack commands, decision intake, and permission-aware Block Kit responses
 - Booth-capacity logic
 - Explainable staffing recommendations
 - Payment prioritization
