@@ -24,6 +24,7 @@ export default defineConfig({
   integrations: [
     sitemap({
       filter: (page) =>
+        !["/services/", "/small-business-growth/", "/ai-opportunity-assessment/", "/ai-opportunity-scorecard/"].some((path) => page.endsWith(path)) &&
         !page.endsWith("/404/") &&
         !page.includes("/blog/tags/") &&
         !page.includes("/admin/") &&

@@ -4,31 +4,10 @@ import { getCollection } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { publishedPosts } from "@/lib/publishing";
 
-const services = [
-  {
-    title: "Ongoing Consulting",
-    price: "$2,500 / month",
-    description: "One active business priority at a time, with practical strategy and hands-on implementation—not a pile of recommendations.",
-    cta: "See the partnership",
-    href: "/services/#consulting",
-    icon: "headset",
-  },
-  {
-    title: "Local Presence Sprint",
-    price: "From $2,500",
-    description: "A focused website, Google Business Profile, local SEO, and measurement foundation for an established local business.",
-    cta: "See the sprint",
-    href: "/small-business-growth/",
-    icon: "people",
-  },
-  {
-    title: "Custom Systems",
-    price: "From $7,500",
-    description: "Scoped automations, dashboards, and operating tools for valuable work that has outgrown the current process.",
-    cta: "See custom systems",
-    href: "/services/#custom-systems",
-    icon: "workflow",
-  },
+const steps = [
+  { title: "Tell me what’s stuck", description: "Send me a few lines about your business and the work you want to make easier. You don’t need a technical brief." },
+  { title: "We find the useful next step", description: "I’ll reply personally, ask a few questions, and help you work out where a change could make a difference." },
+  { title: "We make it work", description: "If there’s a fit, we agree on the scope and cost before starting. I work with you to build it and help your team use it." },
 ];
 
 const notesUrl = "/blog/";
@@ -56,7 +35,7 @@ const formatPostDate = (date: Date) => date.toLocaleDateString("en-US", {
   minimal
   showFooter
   pageTitle="Practical AI for Raleigh Businesses — Raleigh AI Guy"
-  pageDescription="Danny Sullivan helps Raleigh business owners through ongoing consulting, a focused local-presence sprint, and custom systems built around real work."
+  pageDescription="Practical, hands-on AI help for Raleigh business owners. Tell Danny Sullivan what you want to make easier and find a useful next step."
 >
   <div class="poster-site">
     <header class="poster-header poster-shell">
@@ -68,20 +47,20 @@ const formatPostDate = (date: Date) => date.toLocaleDateString("en-US", {
 
       <nav class="desktop-nav" aria-label="Homepage navigation">
         <a href="#about">About</a>
-        <a href="#services">Services</a>
+        <a href="#how-it-works">How it works</a>
         <a href="#case-study">Case study</a>
         <a href="#notes">Writing</a>
-        <a href="/contact/">Contact</a>
+        <a href="/contact/">Contact Danny</a>
       </nav>
 
       <details class="mobile-nav">
         <summary>Menu</summary>
         <nav aria-label="Mobile homepage navigation">
           <a href="#about">About</a>
-          <a href="#services">Services</a>
+          <a href="#how-it-works">How it works</a>
           <a href="#case-study">Case study</a>
           <a href="#notes">Writing</a>
-          <a href="/contact/">Contact</a>
+          <a href="/contact/">Contact Danny</a>
         </nav>
       </details>
     </header>
@@ -91,10 +70,9 @@ const formatPostDate = (date: Date) => date.toLocaleDateString("en-US", {
         <div class="hero-copy poster-reveal">
           <p class="utility-label">Raleigh, North Carolina · Working with real businesses</p>
           <h1 id="hero-title">Practical AI <br />for the people <br /><span>doing the work.</span></h1>
-          <p class="hero-intro">I help Raleigh business owners put AI to work through simpler workflows and practical automations—without the technical headaches.</p>
+          <p class="hero-intro">I help Raleigh business owners figure out where AI can help, then work with them to put it to use. Tell me what’s taking too much time. We’ll start there.</p>
           <div class="hero-actions">
-            <a class="poster-button poster-button-yellow" href="#services">See ways to work together <span aria-hidden="true">→</span></a>
-            <a class="text-link" href="/projects/">See what I’ve built <span aria-hidden="true">→</span></a>
+            <a class="poster-button poster-button-yellow" href="/contact/">Contact Danny <span aria-hidden="true">→</span></a>
           </div>
         </div>
 
@@ -162,33 +140,22 @@ const formatPostDate = (date: Date) => date.toLocaleDateString("en-US", {
         </div>
       </section>
 
-      <section id="services" class="services poster-shell poster-section" aria-labelledby="services-title">
+      <section id="how-it-works" class="how-it-works poster-shell poster-section" aria-labelledby="next-step-title">
         <div class="section-rule-heading">
-          <h2 id="services-title">Ways to work with me</h2>
+          <h2 id="next-step-title">Start with a conversation.</h2>
           <span aria-hidden="true"></span>
         </div>
-
-        <div class="service-grid">
-          {services.map((service, index) => (
-            <article class="service-card">
-              <div class="service-number">0{index + 1}</div>
-              <div class="service-icon" aria-hidden="true">
-                {service.icon === "headset" && (
-                  <svg viewBox="0 0 96 72"><path d="M19 41V34a29 29 0 0 1 58 0v7" /><path d="M19 38H9v22h14V38h-4Zm58 0h10v22H73V38h4Z" /><path d="M73 59c-3 8-10 10-21 10" /><circle cx="47" cy="69" r="3" /></svg>
-                )}
-                {service.icon === "people" && (
-                  <svg viewBox="0 0 96 72"><circle cx="29" cy="24" r="10" /><circle cx="67" cy="24" r="10" /><path d="M10 65V52c0-10 8-18 19-18s19 8 19 18v13M48 65V52c0-10 8-18 19-18s19 8 19 18v13" /><path d="M38 50h20" /></svg>
-                )}
-                {service.icon === "workflow" && (
-                  <svg viewBox="0 0 96 72"><rect x="6" y="7" width="27" height="19" /><rect x="63" y="7" width="27" height="19" /><rect x="6" y="46" width="27" height="19" /><rect x="63" y="46" width="27" height="19" /><path d="M33 16h30m-7-6 7 6-7 6M63 56H33m7 6-7-6 7-6" /></svg>
-                )}
-              </div>
-              <h3><span>{service.title}</span></h3>
-              <strong class="service-price">{service.price}</strong>
-              <p>{service.description}</p>
-              <a href={service.href}>{service.cta} <span aria-hidden="true">→</span></a>
-            </article>
+        <ol class="step-grid">
+          {steps.map((step, index) => (
+            <li class="step-card">
+              <span class="step-number" aria-hidden="true">0{index + 1}</span>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </li>
           ))}
+        </ol>
+        <div class="hero-actions">
+          <a class="poster-button poster-button-yellow" href="/contact/">Contact Danny <span aria-hidden="true">→</span></a>
         </div>
       </section>
 
@@ -433,22 +400,16 @@ const formatPostDate = (date: Date) => date.toLocaleDateString("en-US", {
   .about p:not(.section-kicker) { max-width: 46rem; margin-top: 1.5rem; font-size: 1rem; font-weight: 700; line-height: 1.58; }
   .about .text-link { display: inline-flex; margin-top: 1.5rem; }
 
-  .services { border-bottom: 2px solid var(--poster-ink); }
+  .how-it-works { border-bottom: 2px solid var(--poster-ink); }
   .section-rule-heading { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 1.2rem; }
-  .section-rule-heading h2 { font-size: clamp(3rem, 5.5vw, 5rem); letter-spacing: -.02em; line-height: .9; }
+  .section-rule-heading h2 { font-size: clamp(3rem, 5.5vw, 5rem); letter-spacing: -.02em; line-height: .98; }
   .section-rule-heading span { height: 2px; background: var(--poster-ink); }
-
-  .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 2.4rem; border-block: 2px solid var(--poster-ink); }
-  .service-card { position: relative; display: flex; min-height: 27rem; flex-direction: column; padding: 2rem 1.8rem 1.7rem; }
-  .service-card + .service-card { border-left: 1.5px dashed var(--poster-line); }
-  .service-number { position: absolute; top: .8rem; right: 1rem; color: rgb(23 19 15 / 28%); font-family: "League Gothic", sans-serif; font-size: 2.5rem; }
-  .service-icon { display: grid; min-height: 8.5rem; place-items: center; }
-  .service-icon svg { width: 6.4rem; fill: none; stroke: var(--poster-ink); stroke-linecap: square; stroke-linejoin: miter; stroke-width: 2.5; }
-  .service-card h3 { font-family: "Instrument Sans", sans-serif; font-size: 1rem; font-weight: 850; text-transform: uppercase; }
-  .service-card h3 span { display: inline; padding: .26rem .48rem .2rem; background: var(--poster-yellow); box-decoration-break: clone; -webkit-box-decoration-break: clone; }
-  .service-price { display: block; margin-top: 1.15rem; color: var(--poster-pink); font-family: "League Gothic", sans-serif; font-size: 2rem; font-weight: 400; letter-spacing: .01em; line-height: 1; text-transform: uppercase; }
-  .service-card p { margin-top: 1rem; font-size: .86rem; font-weight: 700; line-height: 1.48; }
-  .service-card > a { margin-top: auto; padding-top: 1.5rem; color: var(--poster-pink); font-family: "Instrument Sans", sans-serif; font-size: .72rem; font-weight: 850; text-decoration: underline; text-underline-offset: .3rem; text-transform: uppercase; }
+  .step-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 2.4rem; border-block: 2px solid var(--poster-ink); list-style: none; padding: 0; }
+  .step-card { padding: 1.8rem; }
+  .step-card + .step-card { border-left: 1.5px dashed var(--poster-line); }
+  .step-number { display: block; margin-bottom: 1.4rem; color: var(--poster-pink); font-family: "League Gothic", sans-serif; font-size: 3rem; line-height: 1; }
+  .step-card h3 { font-family: "Instrument Sans", sans-serif; font-size: 1rem; font-weight: 850; text-transform: uppercase; }
+  .step-card p { margin-top: 1rem; font-size: .86rem; font-weight: 700; line-height: 1.6; }
 
   .case-study { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(19rem, .72fr); border: 2px solid var(--poster-ink); margin-block: clamp(2.5rem, 5vw, 4.5rem) 1.5rem; background: var(--poster-paper); box-shadow: 6px 6px 0 var(--poster-ink); }
   .case-visual { position: relative; min-width: 0; overflow: hidden; border-right: 1.5px dashed var(--poster-line); padding: .7rem; background: var(--poster-ink); }
@@ -509,9 +470,8 @@ const formatPostDate = (date: Date) => date.toLocaleDateString("en-US", {
     .about { grid-template-columns: 1fr; }
     .about-mark { min-height: 11rem; border-right: 0; border-bottom: 1.5px dashed var(--poster-line); }
     .about-mark svg { width: 8.5rem; }
-    .service-grid { grid-template-columns: 1fr; }
-    .service-card { min-height: 20rem; }
-    .service-card + .service-card { border-top: 1.5px dashed var(--poster-line); border-left: 0; }
+    .step-grid { grid-template-columns: 1fr; }
+    .step-card + .step-card { border-top: 1.5px dashed var(--poster-line); border-left: 0; }
     .case-study { grid-template-columns: 1fr; }
     .case-visual { border-right: 0; border-bottom: 1.5px dashed var(--poster-line); }
     .case-visual img { min-height: 0; aspect-ratio: 1.44; }
@@ -544,7 +504,7 @@ const formatPostDate = (date: Date) => date.toLocaleDateString("en-US", {
     .about h2 { font-size: 3.5rem; }
     .section-rule-heading { grid-template-columns: 1fr; }
     .section-rule-heading span { display: none; }
-    .service-card { padding-inline: 1.2rem; }
+    .step-card { padding-inline: 1.2rem; }
     .case-study { grid-template-columns: 1fr; margin-inline: auto; }
     .case-visual { padding: .4rem; }
     .case-visual > span { right: .85rem; bottom: .85rem; max-width: 11.5rem; padding: .65rem .75rem .6rem; font-size: .55rem; }

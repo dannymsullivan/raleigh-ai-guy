@@ -1,7 +1,4 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import StatusPage from "@/components/global/StatusPage.astro";
+// Keep old links working through the single contact path.
+return Astro.redirect("/contact/", 301);
 ---
-<BaseLayout pageTitle="Scorecard Received" pageDescription="Your AI opportunity scorecard has been received." noindex>
-  <StatusPage eyebrow="AIQ received" title="Your answers were saved." description="Your browser could not display the instant result. Return to the quiz to calculate your AIQ again." primaryHref="/ai-opportunity-scorecard/#quiz" primaryLabel="Return to the quiz" secondaryHref="/" secondaryLabel="Back home" />
-</BaseLayout>

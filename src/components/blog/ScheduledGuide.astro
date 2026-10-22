@@ -8,36 +8,32 @@ const profile = plan ? seoGuideProfiles[plan.keyword] : undefined;
 
 if (!plan || !profile) throw new Error(`Missing scheduled guide profile for ${slug}`);
 
-const calendly = "/contact/";
-const ctaHref = profile.ctaHref
-  || (/scorecard|opportunity/i.test(plan.cta) ? "/ai-opportunity-scorecard/" : null)
-  || (plan.cluster === "Real estate" ? "/contact/" : calendly);
-const isWorkflowCall = ctaHref === "/contact/";
+const ctaHref = "/contact/";
 const relatedByCluster = {
   "Local AI consulting": [
     ["Test whether your business actually needs AI", "/blog/posts/do-i-need-ai/"],
-    ["Take the AI opportunity scorecard", "/ai-opportunity-scorecard/"],
-    ["See practical AI services", "/services/"],
+    ["Contact Danny about your business", "/contact/"],
+    ["See practical AI projects", "/projects/"],
   ],
   "Small-business workflows": [
     ["See an inbox-triage workflow", "/projects/inbox-triage-workflow/"],
-    ["Take the AI opportunity scorecard", "/ai-opportunity-scorecard/"],
+    ["Contact Danny about your business", "/contact/"],
     ["Compare ChatGPT and Claude for business", "/blog/posts/chatgpt-vs-claude-which-should-you-use/"],
   ],
   "Real estate": [
     ["See practical AI tools for real estate agents", "/blog/posts/ai-tools-for-real-estate-agents-2026/"],
     ["Write better listing descriptions with AI", "/blog/posts/write-real-estate-listing-descriptions-with-ai/"],
-    ["Ask about a free office lunch and learn", "/contact/"],
+    ["Contact Danny", "/contact/"],
   ],
   Contractors: [
     ["Explore AI workflows for specialty contractors", "/for/specialty-contractors/"],
-    ["See practical AI services", "/services/"],
-    ["Take the AI opportunity scorecard", "/ai-opportunity-scorecard/"],
+    ["See practical AI projects", "/projects/"],
+    ["Contact Danny about your business", "/contact/"],
   ],
   "AI tools and education": [
     ["Test whether your business actually needs AI", "/blog/posts/do-i-need-ai/"],
     ["Compare ChatGPT and Claude for business", "/blog/posts/chatgpt-vs-claude-which-should-you-use/"],
-    ["Take the AI opportunity scorecard", "/ai-opportunity-scorecard/"],
+    ["Contact Danny about your business", "/contact/"],
   ],
 } as const;
 const related = relatedByCluster[plan.cluster];
@@ -117,20 +113,16 @@ const sources = officialReferences[plan.keyword] || [];
 </ul>
 
 <div class="guide-cta">
-  <p><strong>{plan.cta}</strong></p>
-  <p>{profile.ctaCopy}</p>
-  <a href={ctaHref} data-seo-content-cta>{profile.ctaLabel || plan.cta} →</a>
+  <p><strong>What would you like to make easier?</strong></p>
+  <p>Tell me a little about your business and where you’re getting stuck. I’ll reply personally with a useful next step.</p>
+  <a href={ctaHref} data-seo-content-cta>Contact Danny →</a>
 </div>
 
-<script is:inline define:vars={{ targetKeyword: plan.keyword, articleSlug: plan.slug, destination: ctaHref, isWorkflowCall }}>
+<script is:inline define:vars={{ targetKeyword: plan.keyword, articleSlug: plan.slug, destination: ctaHref }}>
   document.querySelector('[data-seo-content-cta]')?.addEventListener('click', function () {
     const properties = { target_keyword: targetKeyword, article_slug: articleSlug, destination };
     window.posthog?.capture('seo_content_cta_clicked', properties);
     window.gtag?.('event', 'seo_content_cta_clicked', properties);
-    if (isWorkflowCall) {
-      window.posthog?.capture('workflow_call_clicked', properties);
-      window.gtag?.('event', 'workflow_call_clicked', properties);
-    }
   });
 </script>
 

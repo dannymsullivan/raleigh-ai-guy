@@ -5,7 +5,6 @@ const currentPath = Astro.url.pathname;
 const links = [
   { text: "About", href: "/about/" },
   { text: "Work", href: "/projects/" },
-  { text: "Services", href: "/services/" },
   { text: "Writing", href: "/blog/" },
 ];
 ---
@@ -22,7 +21,7 @@ const links = [
         {links.map((link) => (
           <a href={link.href} aria-current={currentPath.startsWith(link.href) ? "page" : undefined}>{link.text}</a>
         ))}
-        <a href="/contact/" aria-current={currentPath.startsWith("/contact/") ? "page" : undefined} class="print-contact">Work with Danny →</a>
+        <a href="/contact/" aria-current={currentPath.startsWith("/contact/") ? "page" : undefined} class="print-contact">Contact Danny →</a>
       </nav>
 
       <details class="print-menu">
@@ -31,7 +30,7 @@ const links = [
           {links.map((link) => (
             <a href={link.href} aria-current={currentPath.startsWith(link.href) ? "page" : undefined}>{link.text}</a>
           ))}
-          <a href="/contact/" aria-current={currentPath.startsWith("/contact/") ? "page" : undefined}>Work with Danny</a>
+          <a href="/contact/" aria-current={currentPath.startsWith("/contact/") ? "page" : undefined}>Contact Danny</a>
         </nav>
       </details>
     </div>
