@@ -1,15 +1,15 @@
-export const leakAuditHref = "/contact/?package=leak-audit#request";
+export const systemsAuditHref = "/contact/?package=systems-audit#request";
 
 /**
  * General 30-minute workflow call from seo/content-engine.json.
- * TODO: Replace with a dedicated Leak Audit booking link when that event exists.
+ * TODO: Point this at a dedicated Systems Audit event when that URL exists.
  */
 export const workflowCallHref = "https://calendly.com/hello-raleighaiguy/30min";
 
 export const primaryNav = [
   { text: "About", href: "/#about" },
   { text: "How it works", href: "/#how-it-works" },
-  { text: "Services", href: "/services/" },
+  { text: "Systems", href: "/systems/" },
   { text: "Work", href: "/projects/" },
   { text: "Case study", href: "/#case-study" },
   { text: "Writing", href: "/blog/" },

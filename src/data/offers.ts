@@ -1,71 +1,86 @@
-export type PackageId = "leak-audit" | "fix-launch" | "growth" | "workshop" | "not-sure";
+export type PackageId = "systems-audit" | "operating-system" | "partner" | "workshop" | "not-sure";
 
-export interface ServicePackage {
-  id: Exclude<PackageId, "not-sure">;
+export interface Offer {
+  id: Exclude<PackageId, "not-sure" | "workshop">;
+  kicker: string;
   name: string;
   price: string;
   cadence: string;
   summary: string;
   includes: string[];
   note?: string;
+  cta: string;
   featured?: boolean;
 }
 
-export const servicePackages: ServicePackage[] = [
+export const offerLadder: Offer[] = [
   {
-    id: "leak-audit",
-    name: "Leak Audit",
-    price: "Starting at $500",
-    cadence: "$500–$1,500",
-    summary: "The entry offer. I look for the leads that slip away, then hand you a fix plan ranked by revenue impact.",
+    id: "systems-audit",
+    kicker: "Start here",
+    name: "Systems Audit",
+    price: "$750–$1,500",
+    cadence: "Credited toward the build",
+    summary: "I watch the real work, name the platforms that need an agent, and write down one bottleneck worth fixing first.",
     includes: [
-      "A review of your website, Google Business Profile, reviews, missed calls, and lead follow-up.",
-      "A prioritized fix plan, ranked by revenue impact.",
-      "One or two quick fixes done on the spot, such as a Google Business Profile cleanup or a missed-call text-back.",
+      "A shadow session: screen-share the inbox, the phone, the calendar, and the follow-up you actually do.",
+      "A map of one agent per platform, only for the jobs your business really has.",
+      "One measured target, agreed before any build starts.",
     ],
-    note: "The audit fee is credited toward a bigger package if you sign within 30 days.",
+    note: "The audit fee comes off the build if you go ahead.",
+    cta: "Book a Systems Audit",
     featured: true,
   },
   {
-    id: "fix-launch",
-    name: "Fix & Launch",
-    price: "Starting at $2,500",
-    cadence: "$2,500–$7,500, one time",
-    summary: "A fast build for a business that needs to look current and catch the leads it already earns.",
+    id: "operating-system",
+    kicker: "The build",
+    name: "Custom operating system",
+    price: "From $7,500",
+    cadence: "Larger businesses usually $15,000–$25,000",
+    summary: "About 30 days. A branded system with an agent for each platform, plus a redesigned website. You keep it.",
     includes: [
-      "A fast, modern website.",
-      "An optimized Google Business Profile.",
-      "Branding or a logo, if you need it.",
-      "Lead capture that reaches a real person.",
+      "One agent per platform: phone, text, email, calendar, website chat, reviews, social, follow-up, billing, and a weekly owner report.",
+      "A redesigned website, included.",
+      "50% at kickoff, 50% at launch. Handoff and training are part of the build.",
     ],
+    note: "You own the system. Nothing here requires a monthly plan.",
+    cta: "Request a build",
   },
   {
-    id: "growth",
-    name: "Growth on Autopilot",
-    price: "Starting at $500/month",
-    cadence: "$500–$2,000 a month",
-    summary: "The ongoing work: publishing, follow-up, reviews, and a monthly report you can actually read.",
+    id: "partner",
+    kicker: "Optional",
+    name: "Partner plan",
+    price: "$1,500–$3,000/mo",
+    cadence: "Only if you want someone watching it",
+    summary: "Monitoring, changes, and new automations after launch. Useful. Not a lock-in.",
     includes: [
-      "An SEO blog that keeps publishing.",
-      "Automations for the follow-up you keep meaning to do.",
-      "Review requests after the job is done.",
-      "Monthly reporting on what moved.",
+      "Someone watching the agents and fixing what drifts.",
+      "Small changes as the business changes.",
+      "New automations when a job is ready for one.",
     ],
+    note: "Cancel it and you still own what we built.",
+    cta: "Ask about Partner",
   },
 ];
 
 export const workshopOffer = {
   id: "workshop" as const,
-  name: "AI training workshop",
-  price: "Starting at $1,500",
-  cadence: "$1,500–$3,000 for a half-day",
-  summary: "A half-day workshop for your team on the AI work you actually do, not a generic tool tour.",
+  name: "Team workshop",
+  price: "$1,500–$3,000",
+  cadence: "Half day",
+  summary: "A half-day with your team on the work you actually do, for owners who want the practice before a build.",
 };
 
 export const packageChoices: Array<{ id: PackageId; label: string }> = [
-  { id: "leak-audit", label: "Leak Audit" },
-  { id: "fix-launch", label: "Fix & Launch" },
-  { id: "growth", label: "Growth on Autopilot" },
+  { id: "systems-audit", label: "Systems Audit ($750–$1,500)" },
+  { id: "operating-system", label: "Custom operating system (from $7,500)" },
+  { id: "partner", label: "Partner plan (optional, $1,500–$3,000/mo)" },
   { id: "workshop", label: "Team workshop" },
   { id: "not-sure", label: "Not sure yet" },
 ];
+
+/** Old homepage package ids still select a current offer. */
+export const packageAliases: Record<string, PackageId> = {
+  "leak-audit": "systems-audit",
+  "fix-launch": "operating-system",
+  growth: "partner",
+};

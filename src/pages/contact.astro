@@ -1,49 +1,49 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
-import { packageChoices } from "@/data/offers";
+import { packageAliases, packageChoices } from "@/data/offers";
 import { workflowCallHref } from "@/data/site";
 
 const email = "danny@raleighaiguy.com";
-const emailHref = `mailto:${email}?subject=${encodeURIComponent("Leak Audit request")}`;
+const emailHref = `mailto:${email}?subject=${encodeURIComponent("Systems Audit request")}`;
 const configuredEndpoint = import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT;
 const formAction = configuredEndpoint || "/thank-you/";
 const useNetlify = !configuredEndpoint;
 ---
 
 <BaseLayout
-  pageTitle="Book a Leak Audit — Raleigh AI Guy"
-  pageDescription="Request a Leak Audit with Danny Sullivan. Tell him about your website, Google listing, reviews, missed calls, or follow-up."
+  pageTitle="Book a Systems Audit"
+  pageDescription="Request a Systems Audit with Danny Sullivan. Tell him which jobs you want an agent to take: calls, texts, inbox, calendar, reviews, follow-up, or billing."
 >
   <section>
     <Wrapper variant="wide" class="py-14 sm:py-20 lg:py-24">
       <div class="mx-auto max-w-3xl">
-        <p class="print-stamp">Leak Audit</p>
-        <h1 class="font-editorial mt-6 text-6xl font-medium leading-[1.02] tracking-[-.025em] sm:text-8xl">Tell me where the leads slip.</h1>
-        <p class="mt-6 max-w-2xl text-lg leading-8 text-base-600">A few sentences is enough. I’ll look at the website, Google Business Profile, reviews, missed calls, and follow-up, then reply with a useful next step.</p>
+        <p class="print-stamp">Systems Audit</p>
+        <h1 class="font-editorial mt-6 text-6xl font-medium leading-[1.02] tracking-[-.025em] sm:text-8xl">Tell me which jobs to hand off.</h1>
+        <p class="mt-6 max-w-2xl text-lg leading-8 text-base-600">A few sentences is enough. I’ll reply about a Systems Audit: a shadow session on the real work, then a build with one agent per platform if you want to go ahead.</p>
 
         <!--
-          TODO: Dedicated Leak Audit booking link.
+          TODO: Dedicated Systems Audit booking link.
           The only scheduler in the repo is the general 30-minute workflow call
           (seo/content-engine.json → content.primaryCtas.workflowCall).
-          Point the “pick a time” link at a Leak Audit event when that URL exists.
+          Point the “pick a time” link at a Systems Audit event when that URL exists.
         -->
         <form
           id="request"
           class="print-panel mt-10 grid gap-5 p-6 sm:p-9"
-          name="leak-audit"
+          name="systems-audit"
           method="POST"
           action={formAction}
           data-netlify={useNetlify ? "true" : undefined}
           netlify-honeypot={useNetlify ? "bot-field" : undefined}
         >
-          <input type="hidden" name="form-name" value="leak-audit" />
+          <input type="hidden" name="form-name" value="systems-audit" />
           <p class="hidden">
             <label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
           </p>
           <div>
-            <h2 class="text-3xl">Request a Leak Audit.</h2>
-            <p class="mt-3 text-base leading-7 text-base-600">Starting at $500. If you sign a bigger package within 30 days, the audit fee comes off the price.</p>
+            <h2 class="text-3xl">Request a Systems Audit.</h2>
+            <p class="mt-3 text-base leading-7 text-base-600">$750–$1,500. If you go ahead with the build, the audit fee comes off the price.</p>
           </div>
 
           <div class="grid gap-5 sm:grid-cols-2">
@@ -70,7 +70,7 @@ const useNetlify = !configuredEndpoint;
             <div class="mt-3 grid gap-2">
               {packageChoices.map((choice) => (
                 <label class="intake-choice">
-                  <input class="peer sr-only" type="radio" name="package" value={choice.id} checked={choice.id === "leak-audit"} required />
+                  <input class="peer sr-only" type="radio" name="package" value={choice.id} checked={choice.id === "systems-audit"} required />
                   <span>{choice.label}</span>
                 </label>
               ))}
@@ -78,21 +78,21 @@ const useNetlify = !configuredEndpoint;
           </fieldset>
 
           <label class="intake-label">What’s slipping?
-            <textarea class="intake-field intake-textarea" name="message" required placeholder="Website, Google listing, reviews, missed calls, follow-up — whatever is on your mind."></textarea>
+            <textarea class="intake-field intake-textarea" name="message" required placeholder="Missed calls, a crowded inbox, reviews, follow-up, invoices — whatever is eating the week."></textarea>
           </label>
 
-          <button class="site-cta w-fit" type="submit">Book a Leak Audit →</button>
+          <button class="site-cta w-fit" type="submit">Book a Systems Audit →</button>
           <p class="text-sm leading-6 text-base-600">This form sends the request{useNetlify ? " through the site" : ""}. If it doesn’t go through, email <a class="font-bold underline decoration-[var(--brand-pink-text)] underline-offset-4" href={emailHref}>{email}</a>.</p>
           <p class="text-sm leading-6 text-base-700">
             Prefer to pick a time? The general 30-minute workflow call is
             <a class="font-bold underline decoration-[var(--brand-pink-text)] underline-offset-4" href={workflowCallHref}>on the calendar</a>.
-            A Leak Audit-specific booking link is not set up yet.
+            A Systems Audit booking link is not set up yet.
           </p>
         </form>
 
         <div class="mt-10 max-w-2xl">
           <h2 class="text-3xl">What happens next?</h2>
-          <p class="mt-3 text-base leading-7 text-base-600">I’ll read what you sent and reply personally. If a Leak Audit is the right next step, we’ll agree on the scope and price before any paid work begins.</p>
+          <p class="mt-3 text-base leading-7 text-base-600">I’ll read what you sent and reply personally. If a Systems Audit is the right next step, we’ll agree on the scope and price before any paid work begins.</p>
         </div>
       </div>
     </Wrapper>
@@ -100,11 +100,12 @@ const useNetlify = !configuredEndpoint;
 </BaseLayout>
 
 <script>
+  import { packageAliases } from "@/data/offers";
+
   const params = new URLSearchParams(window.location.search);
-  const selected = params.get("package");
-  if (!selected) {
-    // Keep the default Leak Audit choice.
-  } else {
+  const requested = params.get("package");
+  const selected = requested ? packageAliases[requested] ?? requested : "";
+  if (selected) {
     const match = document.querySelector(`input[name="package"][value="${CSS.escape(selected)}"]`);
     if (match instanceof HTMLInputElement) match.checked = true;
   }

@@ -31,7 +31,7 @@
     "primaryCtas": {
       "workflowCall": "https://calendly.com/hello-raleighaiguy/30min",
       "scorecard": "/ai-opportunity-scorecard/",
-      "services": "/services/",
+      "services": "/systems/",
       "realtorWorkshop": "/contact/"
     },
     "defaultImages": {
