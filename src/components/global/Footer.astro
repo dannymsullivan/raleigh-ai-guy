@@ -3,8 +3,9 @@ import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 
 const year = new Date().getFullYear();
 const links = [
-  { text: "Contact", href: "/contact/" },
-  { text: "About", href: "/about/" },
+  { text: "Services", href: "/services/" },
+  { text: "About", href: "/#about" },
+  { text: "Writing", href: "/blog/" },
   { text: "Privacy", href: "/privacy/" },
 ];
 
@@ -17,17 +18,17 @@ const socialLinks = [
   <Wrapper variant="wide">
     {Astro.url.pathname !== "/contact/" && <div class="print-footer-cta">
       <div>
-        <p class="print-kicker">Start with the work itself</p>
-        <h2>Tell me what you’re trying to make easier.</h2>
+        <p class="print-kicker">Start with the leaks</p>
+        <h2>Book a Leak Audit and see what is slipping.</h2>
       </div>
-      <a href="/contact/">Contact Danny <span aria-hidden="true">→</span></a>
+      <a href="/contact/?package=leak-audit#request">Book a Leak Audit <span aria-hidden="true">→</span></a>
     </div>}
 
     <div class="print-footer-bottom">
       <div>
         <strong>Raleigh AI Guy</strong>
         <p>Making AI useful for the people who run real businesses.</p>
-        <a class="email" href="/contact/">Start a conversation →</a>
+        <a class="email" href="/contact/?package=leak-audit#request">Book a Leak Audit →</a>
         <nav class="social-links" aria-label="Social media">
           {socialLinks.map((link) => (
             <a href={link.href} target="_blank" rel="noreferrer" aria-label={`Connect with Danny Sullivan on ${link.name}`} title={link.name}>
@@ -51,16 +52,16 @@ const socialLinks = [
 <style>
   .print-footer { position: relative; z-index: 1; color: var(--brand-ink); background: var(--brand-paper); }
   .print-footer-cta { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem; padding-block: clamp(4rem, 7vw, 6.5rem); border-top: 2px solid var(--brand-ink); }
-  .print-kicker { margin-bottom: .7rem; font-size: .62rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .print-kicker { margin-bottom: .7rem; color: var(--brand-ink); font-size: .8125rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
   .print-footer h2 { max-width: 50rem; font-family: "League Gothic", sans-serif; font-size: clamp(3.7rem, 7vw, 6.7rem); font-weight: 400; letter-spacing: -.025em; line-height: 1.05; text-decoration: underline; text-decoration-color: var(--brand-orange); text-decoration-thickness: .07em; text-underline-offset: .09em; text-transform: uppercase; }
-  .print-footer-cta > a { display: inline-flex; min-width: 14rem; min-height: 3.3rem; align-items: center; justify-content: space-between; gap: 1.5rem; border: 2px solid var(--brand-ink); padding: .75rem 1rem .62rem; color: var(--brand-ink); background: var(--brand-orange); box-shadow: 4px 4px 0 var(--brand-ink); font-family: "Instrument Sans", sans-serif; font-size: .76rem; font-weight: 850; text-transform: uppercase; transition: transform 130ms ease, box-shadow 130ms ease; }
+  .print-footer-cta > a { display: inline-flex; min-width: 14rem; min-height: 3.3rem; align-items: center; justify-content: space-between; gap: 1.5rem; border: 2px solid var(--brand-ink); padding: .75rem 1rem .62rem; color: var(--brand-ink); background: var(--brand-yellow); box-shadow: 4px 4px 0 var(--brand-ink); font-family: "Instrument Sans", sans-serif; font-size: .76rem; font-weight: 850; text-transform: uppercase; transition: transform 130ms ease, box-shadow 130ms ease; }
   .print-footer-cta > a:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--brand-ink); }
   .print-footer-bottom { display: grid; grid-template-columns: 1fr auto; gap: 2rem; padding-block: 2.5rem; border-top: 2px solid var(--brand-ink); }
   .print-footer strong { font-family: "Instrument Sans", sans-serif; font-size: 1.15rem; font-weight: 850; text-transform: uppercase; }
   .print-footer-bottom p { margin-top: .45rem; font-size: .7rem; font-weight: 700; line-height: 1.45; }
   .email { display: inline-flex; margin-top: 1rem; color: inherit; font-size: .72rem; font-weight: 700; text-decoration: underline; text-decoration-color: var(--brand-orange); text-underline-offset: .3rem; }
   .print-footer nav { display: grid; grid-template-columns: repeat(2, auto); align-content: start; gap: .55rem 1.4rem; }
-  .print-footer nav a { color: inherit; font-family: "Instrument Sans", sans-serif; font-size: .64rem; font-weight: 800; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: .25rem; text-transform: uppercase; }
+  .print-footer nav a { color: inherit; font-family: "Instrument Sans", sans-serif; font-size: .75rem; font-weight: 800; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: .25rem; text-transform: uppercase; }
   .print-footer nav a:hover { text-decoration-color: var(--brand-orange); }
   .print-footer .social-links { display: flex; grid-template-columns: none; align-items: center; gap: .65rem; margin-top: 1.25rem; }
   .print-footer .social-links a { display: inline-flex; width: 2.35rem; height: 2.35rem; align-items: center; justify-content: center; border: 2px solid var(--brand-ink); color: var(--brand-ink); background: var(--brand-surface); box-shadow: 3px 3px 0 var(--brand-ink); text-decoration: none; transition: transform 130ms ease, background-color 130ms ease, box-shadow 130ms ease; }

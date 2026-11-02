@@ -14,7 +14,7 @@
   --color-base-200: #e3dcc9;
   --color-base-300: #cfc5af;
   --color-base-400: #a99d88;
-  --color-base-500: #776d5e;
+  --color-base-500: #6e665e;
   --color-base-600: #594f43;
   --color-base-700: #433a31;
   --color-base-800: #302922;
@@ -39,6 +39,7 @@
   --brand-yellow: #f0df55;
   --brand-acid: #f0df55;
   --brand-pink: #f43e8d;
+  --brand-pink-text: #9d0e56;
   --brand-blue: #f0df55;
   --focus-ring: #f43e8d;
   --site-shell: 72rem;
@@ -84,13 +85,17 @@ h1, h2 { font-family: "League Gothic", "Instrument Sans", sans-serif; font-weigh
 .font-utility { font-family: "Courier Prime", monospace; }
 
 .field-label {
-  color: var(--brand-muted);
+  color: #3c342b;
   font-family: "Courier Prime", monospace;
-  font-size: .67rem;
-  font-weight: 500;
-  letter-spacing: .1em;
-  line-height: 1.5;
+  font-size: .8125rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  line-height: 1.45;
   text-transform: uppercase;
+}
+
+.field-label[class*="brand-orange"] {
+  color: var(--brand-pink-text);
 }
 
 .field-grid {
@@ -176,11 +181,11 @@ textarea:focus-visible {
 
   .site-eyebrow,
   .brand-eyebrow {
-    color: var(--brand-muted);
+    color: #3c342b;
     font-family: "Courier Prime", monospace;
-    font-size: .68rem;
-    font-weight: 500;
-    letter-spacing: .1em;
+    font-size: .8125rem;
+    font-weight: 700;
+    letter-spacing: .08em;
     text-transform: uppercase;
   }
 
@@ -204,8 +209,8 @@ textarea:focus-visible {
     background: var(--brand-yellow);
     box-shadow: 2px 2px 0 var(--brand-ink);
     font-family: "Courier Prime", monospace;
-    font-size: .65rem;
-    font-weight: 700;
+    font-size: .8125rem;
+    font-weight: 800;
     letter-spacing: .08em;
     line-height: 1;
     text-transform: uppercase;
