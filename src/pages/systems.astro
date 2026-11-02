@@ -1,0 +1,74 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Wrapper from "@/components/fundations/containers/Wrapper.astro";
+import { offerLadder, workshopOffer } from "@/data/offers";
+import { systemsAuditHref } from "@/data/site";
+import { teamAgents } from "@/data/agents";
+---
+
+<BaseLayout
+  pageTitle="Systems for Raleigh businesses"
+  pageDescription="A Systems Audit, a custom operating system with one agent per platform, and an optional Partner plan. Built in Raleigh. You keep it."
+>
+  <section>
+    <Wrapper variant="wide" class="py-14 sm:py-20">
+      <div class="grid gap-7 border-t-[3px] border-black pt-6 lg:grid-cols-12 lg:items-end lg:gap-14">
+        <div class="lg:col-span-8">
+          <p class="print-stamp">Systems · Raleigh</p>
+          <h1 class="font-editorial mt-5 max-w-4xl text-6xl leading-[.88] sm:text-8xl">One agent per platform. Yours to keep.</h1>
+        </div>
+        <div class="border-l-2 border-black pl-5 lg:col-span-4">
+          <p class="text-base leading-7 text-base-600">The audit is the way in. The build is a branded system, including a redesigned website. The monthly plan is optional.</p>
+          <a class="site-cta mt-6" href={systemsAuditHref}>Book a Systems Audit →</a>
+        </div>
+      </div>
+    </Wrapper>
+  </section>
+
+  <section class="border-y-2 border-black">
+    <Wrapper variant="wide" class="grid lg:grid-cols-3">
+      {offerLadder.map((offer, index) => (
+        <article class:list={["flex flex-col border-black p-6 sm:p-8", index < offerLadder.length - 1 && "border-b-2 lg:border-b-0 lg:border-r-2", offer.featured && "bg-[var(--brand-yellow)]"]}>
+          <p class="field-label">{offer.kicker}</p>
+          <h2 class="font-editorial mt-4 text-5xl leading-[.9]">{offer.name}</h2>
+          <p class="mt-4 font-['Instrument_Sans'] text-sm font-extrabold uppercase tracking-wide">{offer.price}</p>
+          <p class="mt-1 text-sm font-bold text-base-700">{offer.cadence}</p>
+          <p class="mt-5 text-base leading-7">{offer.summary}</p>
+          <ul class="mt-5 grid list-disc gap-3 pl-5 text-sm leading-6 text-base-700">
+            {offer.includes.map((item) => <li>{item}</li>)}
+          </ul>
+          {offer.note && <p class="mt-5 border-t-2 border-black pt-4 text-sm font-bold leading-6">{offer.note}</p>}
+          <a class="site-cta mt-8 w-fit" href={`/contact/?package=${offer.id}#request`}>{offer.cta} →</a>
+        </article>
+      ))}
+    </Wrapper>
+  </section>
+
+  <section>
+    <Wrapper variant="wide" class="py-14 sm:py-16">
+      <p class="field-label">The team inside the build</p>
+      <h2 class="font-editorial mt-3 max-w-3xl text-5xl leading-[.9] sm:text-6xl">Nine jobs. Nine agents.</h2>
+      <ul class="mt-8 grid gap-px border-2 border-black bg-black sm:grid-cols-2 lg:grid-cols-3">
+        {teamAgents.map((agent) => (
+          <li class="bg-[var(--brand-paper)] p-4">
+            <p class="font-['Instrument_Sans'] text-sm font-extrabold uppercase">{agent.name}</p>
+            <p class="mt-1 text-sm font-bold text-[var(--brand-pink-text)]">{agent.platform}</p>
+            <p class="mt-2 text-sm leading-6">{agent.summary}</p>
+          </li>
+        ))}
+      </ul>
+      <a class="mt-6 inline-block font-bold underline decoration-[var(--brand-pink-text)] underline-offset-4" href="/#team">See the examples on the homepage →</a>
+    </Wrapper>
+  </section>
+
+  <section class="border-t-2 border-black">
+    <Wrapper variant="wide" class="grid gap-6 py-14 sm:grid-cols-[1fr_auto] sm:items-center sm:py-16">
+      <div>
+        <p class="field-label">Also, for teams</p>
+        <h2 class="font-editorial mt-3 text-5xl leading-[.92]">{workshopOffer.name}</h2>
+        <p class="mt-4 max-w-2xl text-base leading-7 text-base-600">{workshopOffer.summary} {workshopOffer.price} for a {workshopOffer.cadence.toLowerCase()}.</p>
+      </div>
+      <a class="site-cta" href="/contact/?package=workshop#request">Ask about a workshop →</a>
+    </Wrapper>
+  </section>
+</BaseLayout>

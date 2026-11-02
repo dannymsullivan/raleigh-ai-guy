@@ -1,0 +1,231 @@
+---
+import { teamAgents, type AgentIcon } from "@/data/agents";
+
+const icons: Record<AgentIcon, string> = {
+  mail: "M3 6h18v12H3z M3 7l9 7 9-7",
+  phone: "M8 4h3l1 4-2 1a12 12 0 0 0 5 5l1-2 4 1v3c-8 1-13-4-14-12z",
+  calendar: "M5 5h14v14H5z M5 9h14 M8 3v4 M16 3v4",
+  chat: "M4 5h16v10H8l-4 4z",
+  star: "m12 3 2.2 6.4H21l-5.4 4 2 6.6L12 16.8 6.4 20l2-6.6L3 9.4h6.8z",
+  social: "M5 8h6v5H5z M13 5h6v4h-6z M13 12h6v7h-6z M5 16h6v3H5z",
+  crm: "M4 18V8l8-4 8 4v10 M8 18v-5h8v5",
+  invoice: "M7 3h8l3 3v15H7z M10 11h6 M10 15h6 M15 3v4h4",
+  report: "M5 19V5h10l4 4v10z M8 15v-3 M12 15V8 M16 15v-5",
+};
+---
+
+<section class="team poster-shell" id="team" aria-labelledby="team-title">
+  <div class="section-heading reveal">
+    <p class="kicker">One agent per platform</p>
+    <h2 id="team-title">Meet your AI team.</h2>
+    <p class="section-lead">Each one has a single job and a single place it lives. Open a card for examples an owner can picture. Nothing here posts, invoices, or replies until you say so.</p>
+  </div>
+
+  <div class="org reveal">
+    <div class="owner">
+      <span class="kicker">Reports to</span>
+      <strong>You</strong>
+      <p>You approve the work. The team handles the repeat jobs.</p>
+    </div>
+    <div class="org-stem" aria-hidden="true"></div>
+    <ul class="agent-grid" data-agent-team>
+      {teamAgents.map((agent, index) => (
+        <li class:list={["agent-card", index < 3 && "is-linked"]} style={`--d:${index * 50}ms`}>
+          <button type="button" aria-expanded="false" aria-controls={`examples-${agent.id}`}>
+            <span class="agent-top">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d={icons[agent.icon]} />
+              </svg>
+              <span class="shift-dot" aria-hidden="true"></span>
+            </span>
+            <span class="agent-name">{agent.name}</span>
+            <span class="platform">{agent.platform}</span>
+            <span class="agent-summary">{agent.summary}</span>
+            <span class="examples-toggle">Examples</span>
+          </button>
+          <div class="agent-examples" id={`examples-${agent.id}`}>
+            <div class="agent-examples-inner">
+              <p>Examples</p>
+              <ul>
+                {agent.examples.map((example) => <li>{example}</li>)}
+              </ul>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<script>
+  const team = document.querySelector("[data-agent-team]");
+  if (team) {
+    const cards = [...team.querySelectorAll(".agent-card")];
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let index = 0;
+    let timer = 0;
+
+    const mark = () => {
+      cards.forEach((card, cardIndex) => card.classList.toggle("is-working", cardIndex === index));
+    };
+
+    const stop = () => {
+      window.clearInterval(timer);
+      timer = 0;
+      cards.forEach((card) => card.classList.remove("is-working"));
+    };
+
+    const start = () => {
+      if (motion.matches || timer) return;
+      mark();
+      timer = window.setInterval(() => {
+        index = (index + 1) % cards.length;
+        mark();
+      }, 2400);
+    };
+
+    cards.forEach((card) => {
+      const button = card.querySelector("button");
+      button?.addEventListener("click", () => {
+        const open = !card.classList.contains("is-open");
+        card.classList.toggle("is-open", open);
+        button.setAttribute("aria-expanded", open ? "true" : "false");
+        const toggle = button.querySelector(".examples-toggle");
+        if (toggle) toggle.textContent = open ? "Hide examples" : "Examples";
+      });
+      card.addEventListener("pointerenter", stop);
+      card.addEventListener("focusin", stop);
+    });
+
+    team.addEventListener("pointerleave", start);
+    team.addEventListener("focusout", (event) => {
+      if (!team.contains(event.relatedTarget as Node | null)) start();
+    });
+    motion.addEventListener("change", () => (motion.matches ? stop() : start()));
+    start();
+  }
+</script>
+
+<style>
+  .team { padding-block: clamp(3.5rem, 7vw, 6rem); border-bottom: 2px solid var(--poster-ink); }
+  .org { margin-top: 2rem; }
+  .owner {
+    width: min(100%, 28rem);
+    margin-inline: auto;
+    padding: 1.1rem 1.2rem 1.2rem;
+    border: 2px solid var(--poster-ink);
+    background: var(--poster-yellow);
+    box-shadow: 6px 6px 0 var(--poster-ink);
+    text-align: center;
+  }
+  .owner strong {
+    display: block;
+    margin-top: .2rem;
+    font-family: "League Gothic", sans-serif;
+    font-size: clamp(3.4rem, 8vw, 5.5rem);
+    font-weight: 400;
+    letter-spacing: -.03em;
+    line-height: .85;
+    text-transform: uppercase;
+  }
+  .owner p { margin: .45rem 0 0; font-size: .95rem; line-height: 1.45; }
+  .org-stem { width: 2px; height: 1.4rem; margin: 0 auto; background: var(--poster-ink); }
+  .agent-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 0;
+    padding: 0;
+    border: 2px solid var(--poster-ink);
+    list-style: none;
+    background: var(--poster-ink);
+    gap: 2px;
+  }
+  .agent-card { position: relative; min-width: 0; background: var(--poster-paper); }
+  .agent-card.is-linked::before {
+    position: absolute;
+    top: -1.4rem;
+    left: calc(50% - 1px);
+    width: 2px;
+    height: 1.4rem;
+    background: var(--poster-ink);
+    content: "";
+  }
+  .agent-card button {
+    display: grid;
+    width: 100%;
+    gap: .35rem;
+    padding: 1rem 1rem .9rem;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .agent-card button:focus-visible { outline: 3px solid var(--poster-pink); outline-offset: -5px; }
+  .agent-top { display: flex; align-items: center; justify-content: space-between; }
+  .agent-top svg { width: 1.7rem; height: 1.7rem; fill: none; stroke: var(--poster-ink); stroke-width: 1.7; stroke-linejoin: bevel; stroke-linecap: square; }
+  .shift-dot { width: .55rem; height: .55rem; border: 2px solid var(--poster-ink); background: transparent; }
+  .agent-card.is-working { background: #f7efc0; }
+  .agent-card.is-working .shift-dot { background: var(--poster-pink); }
+  .agent-name {
+    font-family: "League Gothic", sans-serif;
+    font-size: 2rem;
+    line-height: .9;
+    letter-spacing: -.02em;
+    text-transform: uppercase;
+  }
+  .platform {
+    justify-self: start;
+    padding: .15rem .4rem;
+    background: var(--poster-yellow);
+    color: var(--poster-ink);
+    font-family: "Instrument Sans", sans-serif;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .agent-summary { color: #2a241d; font-size: .92rem; line-height: 1.45; }
+  .examples-toggle {
+    color: var(--brand-pink-text);
+    font-family: "Instrument Sans", sans-serif;
+    font-size: .75rem;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .agent-examples { display: grid; grid-template-rows: 0fr; }
+  .agent-examples-inner { overflow: hidden; }
+  .agent-examples p {
+    margin: 0 1rem;
+    color: var(--brand-pink-text);
+    font-family: "Instrument Sans", sans-serif;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .agent-examples ul { margin: .4rem 0 1rem; padding: 0 1rem 0 1.9rem; }
+  .agent-examples li { margin-top: .45rem; font-size: .9rem; line-height: 1.45; }
+  .agent-card.is-open .agent-examples { grid-template-rows: 1fr; }
+  @media (hover: hover) and (pointer: fine) {
+    .agent-card:hover .agent-examples { grid-template-rows: 1fr; }
+    .agent-card:hover { background: #f7efc0; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .agent-examples { transition: grid-template-rows 220ms ease; }
+    .agent-card.is-working .shift-dot { animation: shift-pulse 1.2s ease-in-out infinite; }
+  }
+  @keyframes shift-pulse {
+    50% { transform: scale(1.35); }
+  }
+  @media (max-width: 980px) {
+    .agent-grid { grid-template-columns: 1fr 1fr; }
+    .agent-card.is-linked::before { display: none; }
+  }
+  @media (max-width: 640px) {
+    .agent-grid { grid-template-columns: 1fr; }
+    .org-stem { height: 1rem; }
+  }
+</style>

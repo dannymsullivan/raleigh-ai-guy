@@ -1,6 +1,6 @@
 ---
 import Wrapper from "@/components/fundations/containers/Wrapper.astro";
-import { leakAuditHref, primaryNav } from "@/data/site";
+import { primaryNav, systemsAuditHref } from "@/data/site";
 
 const currentPath = Astro.url.pathname;
 const isCurrent = (href: string) => !href.startsWith("/#") && (currentPath === href || currentPath.startsWith(href));
@@ -18,7 +18,7 @@ const isCurrent = (href: string) => !href.startsWith("/#") && (currentPath === h
         {primaryNav.map((link) => (
           <a href={link.href} aria-current={isCurrent(link.href) ? "page" : undefined}>{link.text}</a>
         ))}
-        <a href={leakAuditHref} aria-current={currentPath.startsWith("/contact/") ? "page" : undefined} class="print-contact">Book a Leak Audit →</a>
+        <a href={systemsAuditHref} aria-current={currentPath.startsWith("/contact/") ? "page" : undefined} class="print-contact">Book a Systems Audit →</a>
       </nav>
 
       <details class="print-menu">
@@ -27,7 +27,7 @@ const isCurrent = (href: string) => !href.startsWith("/#") && (currentPath === h
           {primaryNav.map((link) => (
             <a href={link.href} aria-current={isCurrent(link.href) ? "page" : undefined}>{link.text}</a>
           ))}
-          <a href={leakAuditHref} aria-current={currentPath.startsWith("/contact/") ? "page" : undefined}>Book a Leak Audit</a>
+          <a href={systemsAuditHref} aria-current={currentPath.startsWith("/contact/") ? "page" : undefined}>Book a Systems Audit</a>
         </nav>
       </details>
     </div>

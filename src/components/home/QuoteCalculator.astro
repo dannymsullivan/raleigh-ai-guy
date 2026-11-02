@@ -1,0 +1,100 @@
+---
+import { teamAgents } from "@/data/agents";
+import { systemsAuditHref } from "@/data/site";
+---
+
+<section class="calculator poster-shell" id="calculator" aria-labelledby="calculator-title">
+  <div class="reveal">
+    <p class="kicker">A straight price, before the sales call</p>
+    <h2 id="calculator-title">What would this cover?</h2>
+    <p class="section-lead">Check the jobs you want an agent for. The figure is the published starting range for the whole system, not a fee per agent and not a savings claim.</p>
+  </div>
+
+  <form class="calc-grid reveal" data-quote>
+    <fieldset>
+      <legend class="kicker">Jobs</legend>
+      <div class="calc-jobs">
+        {teamAgents.map((agent) => (
+          <label>
+            <input type="checkbox" name="agent" value={agent.id} />
+            <span>
+              <strong>{agent.name}</strong>
+              {agent.platform}
+            </span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+    <div class="calc-result">
+      <label class="calc-size">
+        <input type="checkbox" name="larger" />
+        <span>More than one location, or a bigger team</span>
+      </label>
+      <p data-quote-count>No jobs selected yet.</p>
+      <p class="calc-price" data-quote-price>Pick at least one job.</p>
+      <p data-quote-note>The Systems Audit is $750–$1,500 and is credited toward the build. The Partner plan is optional.</p>
+      <a class="poster-button poster-button-yellow" href={systemsAuditHref}>Book a Systems Audit</a>
+    </div>
+  </form>
+</section>
+
+<script>
+  const form = document.querySelector("[data-quote]");
+  if (form instanceof HTMLFormElement) {
+    const count = form.querySelector("[data-quote-count]");
+    const price = form.querySelector("[data-quote-price]");
+    const paint = () => {
+      const jobs = form.querySelectorAll('input[name="agent"]:checked').length;
+      const larger = form.querySelector('input[name="larger"]') instanceof HTMLInputElement
+        && (form.querySelector('input[name="larger"]') as HTMLInputElement).checked;
+      if (count) {
+        count.textContent = jobs === 0
+          ? "No jobs selected yet."
+          : `${jobs} ${jobs === 1 ? "platform" : "platforms"}. Each one gets its own agent. One system price, not nine retainers.`;
+      }
+      if (price) {
+        price.textContent = jobs === 0
+          ? "Pick at least one job."
+          : larger
+            ? "Larger or multi-location builds are usually quoted from $15,000 to $25,000."
+            : "A custom operating system starts at $7,500.";
+      }
+    };
+    form.addEventListener("change", paint);
+  }
+</script>
+
+<style>
+  .calculator { padding-block: clamp(3.5rem, 7vw, 6rem); border-bottom: 2px solid var(--poster-ink); }
+  .calc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(16rem, .8fr);
+    gap: 1rem;
+    margin-top: 1.6rem;
+  }
+  .calc-grid fieldset { margin: 0; padding: 1rem; border: 2px solid var(--poster-ink); }
+  .calc-jobs { display: grid; gap: .45rem; margin-top: .8rem; }
+  .calc-jobs label, .calc-size {
+    display: flex;
+    gap: .7rem;
+    align-items: flex-start;
+    font-size: .95rem;
+    line-height: 1.35;
+  }
+  .calc-jobs span, .calc-size span { display: grid; }
+  .calc-jobs strong { font-family: "Instrument Sans", sans-serif; font-size: .92rem; }
+  .calc-result {
+    display: grid;
+    align-content: start;
+    gap: .8rem;
+    padding: 1rem;
+    border: 2px solid var(--poster-ink);
+    background: var(--poster-yellow);
+  }
+  .calc-result p { margin: 0; line-height: 1.45; }
+  .calc-price { font-family: "League Gothic", sans-serif; font-size: clamp(2.2rem, 4vw, 3.2rem); line-height: .92; text-transform: uppercase; }
+  .calc-grid input { accent-color: var(--poster-ink); width: 1rem; height: 1rem; margin-top: .2rem; }
+  @media (max-width: 860px) {
+    .calc-grid { grid-template-columns: 1fr; }
+  }
+</style>

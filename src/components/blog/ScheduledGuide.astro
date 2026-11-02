@@ -8,32 +8,32 @@ const profile = plan ? seoGuideProfiles[plan.keyword] : undefined;
 
 if (!plan || !profile) throw new Error(`Missing scheduled guide profile for ${slug}`);
 
-const ctaHref = "/contact/?package=leak-audit#request";
+const ctaHref = "/contact/?package=systems-audit#request";
 const relatedByCluster = {
   "Local AI consulting": [
     ["Test whether your business actually needs AI", "/blog/posts/do-i-need-ai/"],
-    ["Book a Leak Audit", "/contact/?package=leak-audit#request"],
+    ["Book a Systems Audit", "/contact/?package=systems-audit#request"],
     ["See practical AI projects", "/projects/"],
   ],
   "Small-business workflows": [
     ["See an inbox-triage workflow", "/projects/inbox-triage-workflow/"],
-    ["Book a Leak Audit", "/contact/?package=leak-audit#request"],
+    ["Book a Systems Audit", "/contact/?package=systems-audit#request"],
     ["Compare ChatGPT and Claude for business", "/blog/posts/chatgpt-vs-claude-which-should-you-use/"],
   ],
   "Real estate": [
     ["See practical AI tools for real estate agents", "/blog/posts/ai-tools-for-real-estate-agents-2026/"],
     ["Write better listing descriptions with AI", "/blog/posts/write-real-estate-listing-descriptions-with-ai/"],
-    ["Book a Leak Audit", "/contact/?package=leak-audit#request"],
+    ["Book a Systems Audit", "/contact/?package=systems-audit#request"],
   ],
   Contractors: [
     ["Explore AI workflows for specialty contractors", "/for/specialty-contractors/"],
     ["See practical AI projects", "/projects/"],
-    ["Book a Leak Audit", "/contact/?package=leak-audit#request"],
+    ["Book a Systems Audit", "/contact/?package=systems-audit#request"],
   ],
   "AI tools and education": [
     ["Test whether your business actually needs AI", "/blog/posts/do-i-need-ai/"],
     ["Compare ChatGPT and Claude for business", "/blog/posts/chatgpt-vs-claude-which-should-you-use/"],
-    ["Book a Leak Audit", "/contact/?package=leak-audit#request"],
+    ["Book a Systems Audit", "/contact/?package=systems-audit#request"],
   ],
 } as const;
 const related = relatedByCluster[plan.cluster];
@@ -115,7 +115,7 @@ const sources = officialReferences[plan.keyword] || [];
 <div class="guide-cta">
   <p><strong>What would you like to make easier?</strong></p>
   <p>Tell me a little about your business and where you’re getting stuck. I’ll reply personally with a useful next step.</p>
-  <a href={ctaHref} data-seo-content-cta>Book a Leak Audit →</a>
+  <a href={ctaHref} data-seo-content-cta>Book a Systems Audit →</a>
 </div>
 
 <script is:inline define:vars={{ targetKeyword: plan.keyword, articleSlug: plan.slug, destination: ctaHref }}>

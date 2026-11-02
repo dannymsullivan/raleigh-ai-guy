@@ -18,6 +18,9 @@ export default defineConfig({
     drafts: true,
   },
   site: "https://raleighaiguy.com",
+  redirects: {
+    "/services": "/systems",
+  },
   image: {
     dangerouslyProcessSVG: true,
   },

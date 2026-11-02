@@ -16,6 +16,19 @@ npm install
 npm run dev
 ```
 
+## Homepage demo receptionist
+
+The homepage “Talk to it” section uses the Vapi Web SDK (`@vapi-ai/web`). The SDK loads only after a visitor presses Talk or sends a chat line. Paste the assistant prompt from `docs/demo-assistant-prompt.md`.
+
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `PUBLIC_VAPI_PUBLIC_KEY` | For the live demo | Vapi public key. Safe to expose. Never put a private key in a `PUBLIC_` variable. |
+| `PUBLIC_VAPI_ASSISTANT_ID` | For the live demo | Assistant the button starts |
+| `PUBLIC_DEMO_PHONE_NUMBER` | No | Optional tap-to-call number next to the browser demo |
+| `PUBLIC_CONTACT_FORM_ENDPOINT` | No | Overrides the contact form action. Leave empty to use Netlify Forms and `/thank-you/`. |
+
+If the public key or assistant id is missing, the page shows “Demo coming soon” and links to the Systems Audit form. It does not try to start a call.
+
 ## Build
 
 ```bash

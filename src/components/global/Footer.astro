@@ -3,7 +3,7 @@ import Wrapper from "@/components/fundations/containers/Wrapper.astro";
 
 const year = new Date().getFullYear();
 const links = [
-  { text: "Services", href: "/services/" },
+  { text: "Systems", href: "/systems/" },
   { text: "About", href: "/#about" },
   { text: "Writing", href: "/blog/" },
   { text: "Privacy", href: "/privacy/" },
@@ -18,17 +18,17 @@ const socialLinks = [
   <Wrapper variant="wide">
     {Astro.url.pathname !== "/contact/" && <div class="print-footer-cta">
       <div>
-        <p class="print-kicker">Start with the leaks</p>
-        <h2>Book a Leak Audit and see what is slipping.</h2>
+        <p class="print-kicker">One agent per platform</p>
+        <h2>Book a Systems Audit and see which jobs to hand off.</h2>
       </div>
-      <a href="/contact/?package=leak-audit#request">Book a Leak Audit <span aria-hidden="true">→</span></a>
+      <a href="/contact/?package=systems-audit#request">Book a Systems Audit <span aria-hidden="true">→</span></a>
     </div>}
 
     <div class="print-footer-bottom">
       <div>
         <strong>Raleigh AI Guy</strong>
         <p>Making AI useful for the people who run real businesses.</p>
-        <a class="email" href="/contact/?package=leak-audit#request">Book a Leak Audit →</a>
+        <a class="email" href="/contact/?package=systems-audit#request">Book a Systems Audit →</a>
         <nav class="social-links" aria-label="Social media">
           {socialLinks.map((link) => (
             <a href={link.href} target="_blank" rel="noreferrer" aria-label={`Connect with Danny Sullivan on ${link.name}`} title={link.name}>

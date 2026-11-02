@@ -1,0 +1,239 @@
+---
+import { systemsAuditHref } from "@/data/site";
+
+const publicKey = import.meta.env.PUBLIC_VAPI_PUBLIC_KEY ?? "";
+const assistantId = import.meta.env.PUBLIC_VAPI_ASSISTANT_ID ?? "";
+const phone = import.meta.env.PUBLIC_DEMO_PHONE_NUMBER ?? "";
+const ready = publicKey.length > 0 && assistantId.length > 0;
+const phoneHref = phone.replace(/[^\d+]/g, "");
+---
+
+<section class="demo poster-shell" id="demo" aria-labelledby="demo-title">
+  <div class="demo-copy reveal">
+    <p class="kicker">Talk to one of them</p>
+    <h2 id="demo-title">Talk to it.</h2>
+    <p class="section-lead">This is the phone and text agent, as a receptionist. Ask what a missed call at 7pm sounds like. It is a demo. It is not connected to your business.</p>
+    {phoneHref && (
+      <a class="poster-button" href={`tel:${phoneHref}`}>Call {phone}</a>
+    )}
+  </div>
+
+  <div class="demo-panel reveal">
+    {ready ? (
+      <div
+        data-live-demo
+        data-public-key={publicKey}
+        data-assistant-id={assistantId}
+      >
+        <p class="demo-status" role="status">Ready when you are. Sound stays off until you press Talk.</p>
+        <div class="demo-actions">
+          <button class="poster-button poster-button-yellow" type="button" data-demo-talk>Talk</button>
+          <button class="poster-button" type="button" data-demo-end hidden>End</button>
+        </div>
+        <form class="demo-chat" data-demo-chat>
+          <label for="demo-message">Or type</label>
+          <div>
+            <input id="demo-message" name="message" type="text" maxlength="400" autocomplete="off" placeholder="What happens if I miss a call?" />
+            <button class="poster-button" type="submit">Send</button>
+          </div>
+        </form>
+        <p class="demo-live" data-demo-live aria-live="polite"></p>
+        <ol class="demo-log" data-demo-log aria-live="polite"></ol>
+      </div>
+    ) : (
+      <div class="demo-soon">
+        <p class="kicker">Demo coming soon</p>
+        <p>The browser receptionist turns on when the demo assistant is connected. Until then, book a live one and I’ll show you the same conversation.</p>
+        <a class="poster-button poster-button-yellow" href={systemsAuditHref}>Book a live demo</a>
+      </div>
+    )}
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector("[data-live-demo]");
+  if (root instanceof HTMLElement) {
+    const publicKey = root.dataset.publicKey ?? "";
+    const assistantId = root.dataset.assistantId ?? "";
+    const status = root.querySelector(".demo-status");
+    const live = root.querySelector("[data-demo-live]");
+    const log = root.querySelector("[data-demo-log]");
+    const talk = root.querySelector("[data-demo-talk]");
+    const end = root.querySelector("[data-demo-end]");
+    const form = root.querySelector("[data-demo-chat]");
+    const input = form?.querySelector("input");
+    let client: { start: (id: string) => Promise<unknown>; stop: () => Promise<unknown>; send: (message: unknown) => void; setMuted: (muted: boolean) => void; on: (event: string, handler: (payload: unknown) => void) => void } | null = null;
+    let phase: "idle" | "connecting" | "live" = "idle";
+    let queued = "";
+
+    const say = (text: string) => {
+      if (status) status.textContent = text;
+    };
+
+    const addLine = (who: string, text: string) => {
+      if (!(log instanceof HTMLOListElement)) return;
+      const item = document.createElement("li");
+      const whoNode = document.createElement("strong");
+      whoNode.textContent = who;
+      item.append(whoNode, document.createTextNode(` ${text}`));
+      log.append(item);
+      log.scrollTop = log.scrollHeight;
+    };
+
+    const plainError = (error: unknown) => {
+      const message = error instanceof Error ? error.message : String(error ?? "");
+      if (/permission|notallowed|microphone|audio/i.test(message)) {
+        return "The browser blocked the microphone. Allow it to talk, or book a live demo.";
+      }
+      return "The demo couldn’t connect. Book a live demo and we’ll do it together.";
+    };
+
+    const bind = (vapi: NonNullable<typeof client>) => {
+      vapi.on("call-start", () => {
+        phase = "live";
+        say("You’re connected. Talk, or type a line.");
+        if (talk instanceof HTMLButtonElement) talk.hidden = true;
+        if (end instanceof HTMLButtonElement) end.hidden = false;
+        if (queued) {
+          vapi.send({ type: "add-message", message: { role: "user", content: queued }, triggerResponseEnabled: true });
+          addLine("You", queued);
+          queued = "";
+        }
+      });
+      vapi.on("call-end", () => {
+        phase = "idle";
+        say("Call ended. Press Talk to start again.");
+        if (live) live.textContent = "";
+        if (talk instanceof HTMLButtonElement) {
+          talk.hidden = false;
+          talk.disabled = false;
+          talk.textContent = "Talk";
+        }
+        if (end instanceof HTMLButtonElement) end.hidden = true;
+      });
+      vapi.on("speech-start", () => say("The receptionist is talking."));
+      vapi.on("speech-end", () => {
+        if (phase === "live") say("Listening.");
+      });
+      vapi.on("message", (message: unknown) => {
+        if (!message || typeof message !== "object") return;
+        const record = message as { type?: string; transcript?: string; transcriptType?: string; role?: string };
+        if (record.type !== "transcript" || !record.transcript) return;
+        const who = record.role === "assistant" ? "Receptionist" : "You";
+        if (record.transcriptType === "partial") {
+          if (live) live.textContent = `${who}: ${record.transcript}`;
+          return;
+        }
+        if (live) live.textContent = "";
+        addLine(who, record.transcript);
+      });
+      vapi.on("error", (error: unknown) => {
+        phase = "idle";
+        say(plainError(error));
+        if (talk instanceof HTMLButtonElement) {
+          talk.hidden = false;
+          talk.disabled = false;
+          talk.textContent = "Talk";
+        }
+      });
+    };
+
+    const ensure = async () => {
+      if (client) return client;
+      const { default: Vapi } = await import("@vapi-ai/web");
+      client = new Vapi(publicKey);
+      bind(client);
+      return client;
+    };
+
+    const begin = async (muted: boolean) => {
+      if (phase !== "idle") return;
+      phase = "connecting";
+      if (talk instanceof HTMLButtonElement) {
+        talk.disabled = true;
+        talk.textContent = "Connecting…";
+      }
+      say(muted ? "Opening a text line…" : "Asking for the microphone…");
+      try {
+        const vapi = await ensure();
+        await vapi.start(assistantId);
+        if (muted) vapi.setMuted(true);
+      } catch (error) {
+        phase = "idle";
+        say(plainError(error));
+        if (talk instanceof HTMLButtonElement) {
+          talk.disabled = false;
+          talk.textContent = "Talk";
+        }
+      }
+    };
+
+    talk?.addEventListener("click", () => begin(false));
+    end?.addEventListener("click", () => {
+      client?.stop();
+    });
+    form?.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!(input instanceof HTMLInputElement)) return;
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = "";
+      if (phase === "live" && client) {
+        client.send({ type: "add-message", message: { role: "user", content: text }, triggerResponseEnabled: true });
+        addLine("You", text);
+        return;
+      }
+      queued = text;
+      begin(true);
+    });
+  }
+</script>
+
+<style>
+  .demo {
+    display: grid;
+    grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: start;
+    padding-block: clamp(3.5rem, 7vw, 6rem);
+    border-bottom: 2px solid var(--poster-ink);
+  }
+  .demo-panel {
+    padding: 1.1rem;
+    border: 2px solid var(--poster-ink);
+    background: var(--poster-paper);
+    box-shadow: 8px 8px 0 var(--poster-pink);
+  }
+  .demo-status, .demo-soon p { margin: 0; font-size: 1rem; line-height: 1.5; }
+  .demo-actions, .demo-soon { display: flex; flex-wrap: wrap; gap: .7rem; align-items: center; }
+  .demo-actions { margin-top: 1rem; }
+  .demo-soon { display: grid; justify-items: start; gap: .8rem; }
+  .demo-chat { display: grid; gap: .4rem; margin-top: 1rem; }
+  .demo-chat label {
+    color: var(--brand-pink-text);
+    font-family: "Instrument Sans", sans-serif;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .demo-chat div { display: flex; gap: .5rem; }
+  .demo-chat input {
+    min-width: 0;
+    flex: 1;
+    border: 2px solid var(--poster-ink);
+    background: #fffaf0;
+    color: var(--poster-ink);
+    font: inherit;
+    padding: .65rem .7rem;
+  }
+  .demo-chat input:focus-visible, .demo-panel button:focus-visible, .demo-panel a:focus-visible { outline: 3px solid var(--poster-ink); outline-offset: 2px; }
+  .demo-live { min-height: 1.2rem; margin: .8rem 0 0; color: #433a31; font-size: .9rem; }
+  .demo-log { max-height: 16rem; margin: .4rem 0 0; padding: 0; overflow: auto; list-style: none; }
+  .demo-log li { margin-top: .55rem; font-size: .92rem; line-height: 1.4; }
+  .demo-log strong { font-family: "Instrument Sans", sans-serif; font-size: .72rem; letter-spacing: .04em; text-transform: uppercase; }
+  @media (max-width: 860px) {
+    .demo { grid-template-columns: 1fr; }
+    .demo-chat div { flex-direction: column; }
+  }
+</style>
