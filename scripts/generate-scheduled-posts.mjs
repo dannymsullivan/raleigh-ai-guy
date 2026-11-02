@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { chooseCoverMotif, fieldNoteCategory, renderFieldNoteCover } from "./blog-cover-template.mjs";
+import { cardBlurbs, fallbackBlurb } from "../src/data/cardBlurbs.mjs";
 
 const root = process.cwd();
 const queue = JSON.parse(await readFile(path.join(root, "seo/keyword-seeds.json"), "utf8"));
@@ -29,7 +30,7 @@ for (const item of items) {
   const mdx = `---
 title: ${JSON.stringify(item.title)}
 pubDate: ${JSON.stringify(scheduledTimestamp(item.publishDate))}
-description: ${JSON.stringify(`Practical guidance on ${item.keyword}: useful workflows, human safeguards, and a two-week test for ${item.audience.toLowerCase()}.`)}
+description: ${JSON.stringify(cardBlurbs[item.slug] || fallbackBlurb(item.title))}
 image:
   url: ${JSON.stringify(`/src/images/posts/field-notes/${item.slug}.png`)}
   alt: ${JSON.stringify(`Raleigh AI Guy field-note cover for ${item.title}`)}

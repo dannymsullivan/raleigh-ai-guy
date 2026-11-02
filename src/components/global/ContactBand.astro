@@ -13,8 +13,8 @@ const {
   eyebrow = "Ready when you are",
   title,
   description,
-  ctaLabel = "Contact Danny",
-  ctaHref = "/contact/",
+  ctaLabel = "Book a Leak Audit",
+  ctaHref = "/contact/?package=leak-audit#request",
 } = Astro.props;
 ---
 
@@ -23,7 +23,7 @@ const {
     <div>
       <p class="print-stamp bg-[var(--brand-yellow)]">{eyebrow}</p>
       <h2 class="font-editorial mt-3 max-w-3xl text-4xl leading-[.98] tracking-[-.035em] sm:text-5xl">{title}</h2>
-      {description && <p class="mt-4 max-w-2xl text-sm leading-6 text-black/65">{description}</p>}
+      {description && <p class="mt-4 max-w-2xl text-sm font-bold leading-6 text-black">{description}</p>}
     </div>
     <a href={ctaHref} class="inline-flex min-h-12 items-center justify-center border-2 border-black bg-[var(--brand-yellow)] px-5 text-sm font-bold uppercase text-black shadow-[4px_4px_0_var(--brand-ink)] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0_var(--brand-ink)]">{ctaLabel} →</a>
   </Wrapper>
